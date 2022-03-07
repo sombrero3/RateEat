@@ -50,8 +50,7 @@ public class LoginFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
 
         signUpBtn.setOnClickListener((v)->{
-
-          //  Navigation.findNavController(v).navigate();
+            Navigation.findNavController(v).navigate(LoginFragmentDirections.actionLoginFragmentToSignUpFragment());
         });
 
         loginBtn.setOnClickListener((v)->{
@@ -63,7 +62,7 @@ public class LoginFragment extends Fragment {
             if(email.isEmpty()){
                 email = "";
             }
-         //   Navigation.findNavController(v).navigate(RegisteredUserFragmentDirections.actionRegisteredUserFragmentToForgotPasswordFragment(email));
+            Navigation.findNavController(v).navigate(LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment(email));
         });
         return view;
     }
