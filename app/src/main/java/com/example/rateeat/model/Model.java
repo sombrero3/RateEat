@@ -6,7 +6,11 @@ import android.os.Looper;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.MutableLiveData;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -17,12 +21,17 @@ public class Model {
     public Executor executor = Executors.newFixedThreadPool(1);
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
     public MutableLiveData<List<Review>> ReviewsList = new MutableLiveData<>();
-    public MutableLiveData<ReviewListLoadingState> ListLoadingState = new MutableLiveData<>();
+    public MutableLiveData<ReviewListLoadingState> reviewListLoadingState = new MutableLiveData<>();
     public User signedUser;
+
+    public enum ReviewListLoadingState {
+        loading,
+        loaded
+    }
 
 
     private Model() {
-        ListLoadingState.setValue(ReviewListLoadingState.loaded);
+        reviewListLoadingState.setValue(ReviewListLoadingState.loaded);
     }
 
     public boolean isSignedIn() {
@@ -46,11 +55,6 @@ public class Model {
         });
     }
 
-    public enum ReviewListLoadingState {
-        loading,
-        loaded
-    }
-
     public interface getUserByIdListener{
         void onComplete(User user);
     }
@@ -58,5 +62,13 @@ public class Model {
         modelFireBase.getUserById(id,listener);
 
     }
+    public interface AddUserListener{
+        void onComplete();
+    }
+    public void addUser(User user,AddUserListener listener) throws JsonProcessingException {
+        reviewListLoadingState.setValue(ReviewListLoadingState.loaded);
+        modelFireBase.addUser(user,listener);
+    }
+
 
 }

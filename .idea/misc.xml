@@ -3,11 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Owner/AndroidStudioProjects/RateEat/app/src/main/res/layout/activity_feed.xml" value="0.24954710144927536" />
         <entry key="..\:/Users/Owner/AndroidStudioProjects/RateEat/app/src/main/res/layout/activity_login.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Owner/AndroidStudioProjects/RateEat/app/src/main/res/layout/fragment_add_review.xml" value="0.1" />
         <entry key="..\:/Users/Owner/AndroidStudioProjects/RateEat/app/src/main/res/layout/fragment_forgot_password.xml" value="0.24010416666666667" />
+        <entry key="..\:/Users/Owner/AndroidStudioProjects/RateEat/app/src/main/res/layout/fragment_general_list.xml" value="0.24954710144927536" />
         <entry key="..\:/Users/Owner/AndroidStudioProjects/RateEat/app/src/main/res/layout/fragment_login.xml" value="0.24010416666666667" />
+        <entry key="..\:/Users/Owner/AndroidStudioProjects/RateEat/app/src/main/res/layout/fragment_my_list.xml" value="0.24954710144927536" />
         <entry key="..\:/Users/Owner/AndroidStudioProjects/RateEat/app/src/main/res/layout/fragment_sign_up.xml" value="0.24010416666666667" />
+        <entry key="..\:/Users/Owner/AndroidStudioProjects/RateEat/app/src/main/res/menu/feed_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Owner/AndroidStudioProjects/RateEat/app/src/main/res/menu/not_home_menu.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

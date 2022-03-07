@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/feed_menu_profile"
+        android:title="My profile" />
+<!--        android:icon="@drawable/ic_baseline_person_24"-->
+
+    <item
+        android:id="@+id/feed_menu_add_review"
+        android:title="Post new review" />
+<!--    android:icon="@drawable/ic_baseline_post_add_24"-->
+    <item
+        android:id="@+id/feed_menu_my_reviews"
+        android:title="My reviews" />
+<!--    android:icon="@drawable/ic_baseline_reviews_24"-->
+
+    <item
+        android:id="@+id/feed_menu_logout"
+        android:title="Logout" />
+<!--    android:icon="@drawable/ic_baseline_run_circle_24"-->
+</menu>

@@ -1,5 +1,8 @@
 package com.example.rateeat.model;
 
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.Timestamp;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,40 +16,12 @@ public class User {
     boolean isDeleted = false;
     Long lastUpdated = new Long(0);
 
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("id", id);
-        result.put("email", email);
-        result.put("firstName",firstName);
-        result.put("lastName", lastName);
-        result.put("password", password);
-        result.put("imageUrl", imageUrl);
-        result.put("isDeleted", isDeleted);
-        //result.put("lastUpdated", FieldValue.serverTimestamp());
-
-        return result;
-    }
-
-    public void fromMap(Map<String, Object> map){
-        id = (String)map.get("id");
-        email = (String)map.get("email");
-        firstName = (String)map.get("firstName");
-        lastName = (String) map.get("lastName");
-        password = (String) map.get("password");
-        imageUrl = (String)map.get("imageUrl");
-        isDeleted = (Boolean) map.get("isDeleted");
-        //----------------
-        //Timestamp ts = (Timestamp)map.get("lastUpdated");
-        //lastUpdated = ts.getSeconds();
-        //--------
-
-    }
-
     public User(String email, String firstName, String lastName, String password) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+        imageUrl = "";
     }
 
     public String getEmail() {
@@ -101,8 +76,8 @@ public class User {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public Long getLastUpdated() {
@@ -111,5 +86,34 @@ public class User {
 
     public void setLastUpdated(Long lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", id);
+        result.put("email", email);
+        result.put("firstName",firstName);
+        result.put("lastName", lastName);
+        result.put("password", password);
+        result.put("imageUrl", imageUrl);
+        result.put("deleted", isDeleted);
+        result.put("lastUpdated", FieldValue.serverTimestamp());
+
+        return result;
+    }
+
+    public void fromMap(Map<String, Object> map){
+        id = (String)map.get("id");
+        email = (String)map.get("email");
+        firstName = (String)map.get("firstName");
+        lastName = (String) map.get("lastName");
+        password = (String) map.get("password");
+        imageUrl = (String)map.get("imageUrl");
+        isDeleted = (Boolean)map.get("deleted");
+        lastUpdated = (Long)map.get("lastUpdated");
+        //       Timestamp ts = (Timestamp)map.get("lastUpdated");
+//        lastUpdated = ts.getSeconds();
+
+
     }
 }
