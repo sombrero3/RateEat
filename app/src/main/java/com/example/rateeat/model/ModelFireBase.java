@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -16,6 +18,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 import org.json.JSONException;
+
+import java.util.Map;
 
 public class ModelFireBase {
 
@@ -73,7 +77,34 @@ public class ModelFireBase {
 
 
 
+    /**
+     * User CRUD + Dao
+     */
+    //Create
+    public void addUser(User user, Model.AddUserListener listener) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userString = objectMapper.writeValueAsString(user);
+        Map<String, Object> json = objectMapper.readValue(userString, Map.class);
+        db.collection("users")
+                .document(user.getId())
+                .set(json)
+                .addOnSuccessListener(unused -> {
+                    listener.onComplete();
+                })
+                .addOnFailureListener(e -> {
+                    listener.onComplete();
+                });
+    }
 
+    //Update
+    public void updateUser(User user, Model.AddUserListener listener) throws JsonProcessingException {
+        addUser(user, new Model.AddUserListener() {
+            @Override
+            public void onComplete() {
+                listener.onComplete();
+            }
+        });
+    }
 
     public void getUserById(String id, Model.getUserByIdListener listener) {
         db.collection("users")

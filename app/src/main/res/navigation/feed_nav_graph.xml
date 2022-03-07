@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feed_nav_graph"
+    app:startDestination="@id/generalListFragment">
+
+    <fragment
+        android:id="@+id/generalListFragment"
+        android:name="com.example.rateeat.feed.GeneralListFragment"
+        android:label="fragment_general_list"
+        tools:layout="@layout/fragment_general_list" />
+</navigation>
