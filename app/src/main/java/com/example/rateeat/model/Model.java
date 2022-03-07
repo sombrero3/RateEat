@@ -13,32 +13,12 @@ import java.util.concurrent.Executors;
 public class Model {
 
     public static final Model instance = new Model();
-    public ModelFirebase modelFirebase = new ModelFirebase();
+    public ModelFireBase modelFireBase = new ModelFireBase();
     public Executor executor = Executors.newFixedThreadPool(1);
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
     public MutableLiveData<List<Review>> ReviewsList = new MutableLiveData<>();
     public MutableLiveData<ReviewListLoadingState> ListLoadingState = new MutableLiveData<>();
     public User signedUser;
-    public boolean isSignedIn() {
-        return true;
-        //return modelFireBase.isSignedIn();
-    }
-    public User getSignedUser() {
-
-        return signedUser;
-    }
-    public interface setCurrentUserListener {
-        void onComplete(User user);
-    }
-    public void setCurrentUser(setCurrentUserListener listener) {
-//        modelFireBase.setCurrentUser(new setCurrentUserListener() {
-//            @Override
-//            public void onComplete(User user) {
-//                signedUser = user;
-//                listener.onComplete(user);
-//            }
-//        });
-    }
 
     public enum ReviewListLoadingState {
         loading,
@@ -49,5 +29,26 @@ public class Model {
         ListLoadingState.setValue(ReviewListLoadingState.loaded);
 
     }
+
+    public boolean isSignedIn() {
+        return modelFireBase.isSignedIn();
+    }
+    public User getSignedUser() {
+        return signedUser;
+    }
+    public interface setCurrentUserListener {
+        void onComplete(User user);
+    }
+    public void setCurrentUser(setCurrentUserListener listener) {
+        modelFireBase.setCurrentUser(new setCurrentUserListener() {
+            @Override
+            public void onComplete(User user) {
+                signedUser = user;
+                listener.onComplete(user);
+            }
+        });
+    }
+
+
 
 }
