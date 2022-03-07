@@ -64,7 +64,7 @@
                 android:layout_margin="4dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registered_user_email_et"
+                    android:id="@+id/login_email_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

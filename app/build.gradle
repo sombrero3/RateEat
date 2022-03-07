@@ -1,5 +1,7 @@
 plugins {
-    id 'com.android.application'
+        id 'com.android.application'
+        id 'androidx.navigation.safeargs'
+        id 'com.google.gms.google-services'
 }
 
 android {
@@ -62,4 +64,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-database:19.2.1'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.1'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
 }
