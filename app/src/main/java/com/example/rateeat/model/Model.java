@@ -13,31 +13,37 @@ import java.util.concurrent.Executors;
 public class Model {
 
     public static final Model instance = new Model();
-    public ModelFirebase modelFirebase = new ModelFirebase();
+    public ModelFireBase modelFireBase = new ModelFireBase();
     public Executor executor = Executors.newFixedThreadPool(1);
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
     public MutableLiveData<List<Review>> ReviewsList = new MutableLiveData<>();
     public MutableLiveData<ReviewListLoadingState> ListLoadingState = new MutableLiveData<>();
     public User signedUser;
+
+
+    private Model() {
+        ListLoadingState.setValue(ReviewListLoadingState.loaded);
+    }
+
     public boolean isSignedIn() {
-        return true;
-        //return modelFireBase.isSignedIn();
+        return modelFireBase.isSignedIn();
     }
     public User getSignedUser() {
 
         return signedUser;
     }
-    public interface setCurrentUserListener {
+    public interface SetCurrentUserListener {
         void onComplete(User user);
     }
-    public void setCurrentUser(setCurrentUserListener listener) {
-//        modelFireBase.setCurrentUser(new setCurrentUserListener() {
-//            @Override
-//            public void onComplete(User user) {
-//                signedUser = user;
-//                listener.onComplete(user);
-//            }
-//        });
+    public void setCurrentUser(SetCurrentUserListener listener) {
+        modelFireBase.setCurrentUser(new SetCurrentUserListener() {
+
+            @Override
+            public void onComplete(User user) {
+                signedUser = user;
+                listener.onComplete(user);
+            }
+        });
     }
 
     public enum ReviewListLoadingState {
@@ -45,8 +51,11 @@ public class Model {
         loaded
     }
 
-    private Model() {
-        ListLoadingState.setValue(ReviewListLoadingState.loaded);
+    public interface getUserByIdListener{
+        void onComplete(User user);
+    }
+    public void getUserById(String id,getUserByIdListener listener){
+        modelFireBase.getUserById(id,listener);
 
     }
 

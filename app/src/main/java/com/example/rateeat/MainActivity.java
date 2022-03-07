@@ -9,6 +9,7 @@ import com.example.rateeat.feed.FeedActivity;
 import com.example.rateeat.login.LoginActivity;
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.User;
+import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseApp.initializeApp(this);
 
         Model.instance.executor.execute(()->{
             try {
@@ -25,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if(Model.instance.isSignedIn()){
                 Model.instance.mainThread.post(()->{
-                    Model.instance.setCurrentUser(new Model.setCurrentUserListener() {
+                    Model.instance.setCurrentUser(new Model.SetCurrentUserListener() {
                         @Override
                         public void onComplete(User user) {
                             toFeedActivity();
