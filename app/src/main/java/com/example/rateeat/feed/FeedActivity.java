@@ -40,12 +40,12 @@ public class FeedActivity extends AppCompatActivity {
         if(!super.onOptionsItemSelected(item)){
             Bundle args = new Bundle();
             switch (item.getItemId()){
-//                case android.R.id.home:
-//                    navCtl.navigateUp();
-//                    return true;
+                case android.R.id.home:
+                    navCtl.navigateUp();
+                    return true;
                 case R.id.not_home_menu_home:
                     Toast.makeText(this,"Home",Toast.LENGTH_SHORT).show();
-                  //  navCtl.navigate(R.id.action_global_homeRestaurantListRvFragment);
+                    navCtl.navigate(R.id.action_global_generalListFragment);
                     return true;
                 case R.id.feed_menu_profile:
                     Toast.makeText(this,"My Profile",Toast.LENGTH_SHORT).show();
@@ -54,8 +54,8 @@ public class FeedActivity extends AppCompatActivity {
                     return true;
                 case R.id.feed_menu_add_review:
                     Toast.makeText(this,"New Review",Toast.LENGTH_SHORT).show();
-                    args.putString("edit_space_reviewId", "");
-                    //navCtl.navigate(R.id.action_global_newReviewFragment,args);
+//                    args.putString("edit_space_reviewId", "");
+                    navCtl.navigate(R.id.action_global_addReviewFragment);
                     return true;
                 case R.id.feed_menu_my_reviews:
                     Toast.makeText(this,"My Reviews",Toast.LENGTH_SHORT).show();

@@ -1,5 +1,7 @@
 package com.example.rateeat.model;
 
+import com.google.firebase.firestore.FieldValue;
+
 import java.util.HashMap;
 import java.util.Map;
 //import com.google.firebase.firestore.FieldValue;
@@ -7,20 +9,38 @@ import java.util.Map;
 public class Review {
     String id;
     String userId;
+    String userName;
     String restaurantName;
     String dishName;
     String description;
     String rating;
     String imageUrl;
     boolean isDeleted = false;
-    Long lastUpdated = new Long(0);
+    Long updateDate = new Long(0);
 
-    public Review(String userId, String restaurantName, String dishName, String rating, String description) {
+    public Review(String userId,String userName, String restaurantName, String dishName, String rating, String description) {
         this.userId = userId;
+        this.userName = userName;
         this.restaurantName = restaurantName;
         this.dishName = dishName;
         this.rating = rating;
         this.description = description;
+        imageUrl="";
+    }
+
+    public Review(){}
+
+    public Review(Review rev) {
+        this.id = rev.id;
+         this.userId = rev.userId;
+        this.userName = rev.userName;
+        this.restaurantName = rev.restaurantName;
+        this.dishName = rev.dishName;
+        this.description = rev.description;
+        this.rating = rev.rating;
+        this.imageUrl = rev.imageUrl;
+        this.isDeleted = rev.isDeleted;
+        this.updateDate = rev.updateDate;
     }
 
     public String getId() {
@@ -87,25 +107,34 @@ public class Review {
         this.isDeleted = deleted;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public Long getUpdateDate() {
-        return lastUpdated;
+        return updateDate;
     }
 
     public void setUpdateDate(Long updateDate) {
-        this.lastUpdated = updateDate;
+        this.updateDate = updateDate;
     }
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
         result.put("userId", userId);
+        result.put("userName", userName);
         result.put("restaurantName",restaurantName);
         result.put("dishName", dishName);
         result.put("description", description);
         result.put("rating",rating);
         result.put("imageUrl", imageUrl);
-        result.put("isDeleted", isDeleted);
-//        result.put("lastUpdated", FieldValue.serverTimestamp());
+        result.put("deleted", isDeleted);
+        result.put("updateDate", FieldValue.serverTimestamp());
 
         return result;
     }
@@ -113,12 +142,14 @@ public class Review {
     public void fromMap(Map<String, Object> map){
         id = (String)map.get("id");
         userId = (String)map.get("userId");
+        userName = (String)map.get("userName");
         restaurantName = (String)map.get("restaurantName");
         dishName = (String) map.get("dishName");
         description = (String) map.get("description");
         rating= (String) map.get("rating");
         imageUrl = (String)map.get("imageUrl");
-        isDeleted = (Boolean) map.get("isDeleted");
+        isDeleted = (Boolean) map.get("deleted");
+        updateDate = (Long)map.get("updateDate");
         //----------------
         //Timestamp ts = (Timestamp)map.get("lastUpdated");
         //lastUpdated = ts.getSeconds();

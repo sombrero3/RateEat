@@ -8,7 +8,7 @@
     tools:context=".feed.MyListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/userlist_rv"
+        android:id="@+id/general_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="1dp"
