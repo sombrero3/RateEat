@@ -7,12 +7,15 @@ import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.MutableLiveData;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class Model {
+
     public static final Model instance = new Model();
     public ModelFireBase modelFireBase = new ModelFireBase();
     public Executor executor = Executors.newFixedThreadPool(1);
@@ -20,12 +23,6 @@ public class Model {
     public MutableLiveData<List<Review>> ReviewsList = new MutableLiveData<>();
     public MutableLiveData<ReviewListLoadingState> reviewListLoadingState = new MutableLiveData<>();
     public User signedUser;
-
-
-
-    public void getAllReviews() {
-        //   modelFireBase.getAllReviews();
-    }
 
     public enum ReviewListLoadingState {
         loading,
@@ -72,5 +69,6 @@ public class Model {
         reviewListLoadingState.setValue(ReviewListLoadingState.loaded);
         modelFireBase.addUser(user,listener);
     }
+
 
 }
