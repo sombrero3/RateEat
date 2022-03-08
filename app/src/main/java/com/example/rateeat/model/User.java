@@ -13,6 +13,7 @@ public class User {
     String lastName;
     String password;
     String imageUrl;
+    String numOfReview;
     boolean isDeleted = false;
     Long lastUpdated = new Long(0);
 
@@ -22,7 +23,10 @@ public class User {
         this.lastName = lastName;
         this.password = password;
         imageUrl = "";
+        numOfReview = "0";
     }
+
+    public User(){}
 
     public String getEmail() {
         return email;
@@ -88,6 +92,14 @@ public class User {
         this.lastUpdated = lastUpdated;
     }
 
+    public String getNumOfReview() {
+        return numOfReview;
+    }
+
+    public void setNumOfReview(String numOfReview) {
+        this.numOfReview = numOfReview;
+    }
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
@@ -96,6 +108,7 @@ public class User {
         result.put("lastName", lastName);
         result.put("password", password);
         result.put("imageUrl", imageUrl);
+        result.put("numOfReview", numOfReview);
         result.put("deleted", isDeleted);
         result.put("lastUpdated", FieldValue.serverTimestamp());
 
@@ -109,6 +122,7 @@ public class User {
         lastName = (String) map.get("lastName");
         password = (String) map.get("password");
         imageUrl = (String)map.get("imageUrl");
+        numOfReview = (String)map.get("numOfReview");
         isDeleted = (Boolean)map.get("deleted");
         lastUpdated = (Long)map.get("lastUpdated");
         //       Timestamp ts = (Timestamp)map.get("lastUpdated");
