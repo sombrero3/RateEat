@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "221410515138",
+    "project_id": "rateeate-c1b7b",
+    "storage_bucket": "rateeate-c1b7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221410515138:android:5778359c915da369d3435b",
+        "android_client_info": {
+          "package_name": "com.example.rateeat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "221410515138-s6dkbdp4vhljdeu50hfc8gt13op8b0g0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWn-yq9YEyYvJH37Wm7pkWnZzN_XE1Fdc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "221410515138-s6dkbdp4vhljdeu50hfc8gt13op8b0g0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

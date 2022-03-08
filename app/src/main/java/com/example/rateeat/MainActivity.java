@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if(Model.instance.isSignedIn()){
                 Model.instance.mainThread.post(()->{
-                    Model.instance.setCurrentUser(new Model.setCurrentUserListener() {
+                    Model.instance.setCurrentUser(new Model.SetCurrentUserListener() {
                         @Override
                         public void onComplete(User user) {
                             toFeedActivity();
