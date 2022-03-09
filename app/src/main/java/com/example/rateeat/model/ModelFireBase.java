@@ -20,8 +20,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import org.json.JSONException;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -94,10 +92,18 @@ public class ModelFireBase {
                 .document(user.getId())
                 .set(json)
                 .addOnSuccessListener(unused -> {
-                    listener.onComplete();
+                    try {
+                        listener.onComplete();
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 })
                 .addOnFailureListener(e -> {
-                    listener.onComplete();
+                    try {
+                        listener.onComplete();
+                    } catch (JsonProcessingException jsonProcessingException) {
+                        jsonProcessingException.printStackTrace();
+                    }
                 });
     }
 
@@ -105,7 +111,7 @@ public class ModelFireBase {
     public void updateUser(User user, Model.AddUserListener listener) throws JsonProcessingException {
         addUser(user, new Model.AddUserListener() {
             @Override
-            public void onComplete() {
+            public void onComplete() throws JsonProcessingException {
                 listener.onComplete();
             }
         });
@@ -146,7 +152,7 @@ public class ModelFireBase {
                     listener.onComplete(list);
                 });
     }
-    public void getAllReviews(Model.GetAllReviewsListListener listener) {
+    public void getAllReviews(Model.GetReviewsListListener listener) {
         db.collection("reviews")
                 .whereEqualTo("deleted",false)
                 //  .whereGreaterThanOrEqualTo("updateDate", new Timestamp(lastUpdateDate,0))
@@ -182,10 +188,18 @@ public class ModelFireBase {
                 .document(review.getId())
                 .set(json)
                 .addOnSuccessListener(unused -> {
-                    listener.onComplete();
+                    try {
+                        listener.onComplete();
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 })
                 .addOnFailureListener(e -> {
-                    listener.onComplete();
+                    try {
+                        listener.onComplete();
+                    } catch (JsonProcessingException jsonProcessingException) {
+                        jsonProcessingException.printStackTrace();
+                    }
                 });
     }
 
@@ -214,10 +228,126 @@ public class ModelFireBase {
                 .document(review.getId())
                 .set(json)
                 .addOnSuccessListener(unused -> {
-                    listener.onComplete();
+                    try {
+                        listener.onComplete();
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 })
                 .addOnFailureListener(e -> {
-                    listener.onComplete();
+                    try {
+                        listener.onComplete();
+                    } catch (JsonProcessingException jsonProcessingException) {
+                        jsonProcessingException.printStackTrace();
+                    }
                 });
     }
+
+    public void getMyReviews(Model.GetReviewsListListener listener) {
+        String userId = Model.instance.getSignedUser().getId();
+        db.collection("reviews")
+                .whereEqualTo("deleted",false)
+                .whereEqualTo("userId",userId)
+                //  .whereGreaterThanOrEqualTo("updateDate", new Timestamp(lastUpdateDate,0))
+                .get()
+                .addOnCompleteListener(task -> {
+                    List<Review> list = new LinkedList<>();
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Review review = new Review();
+                            review.fromMap(doc.getData());
+                            if (review != null) {
+                                list.add(review);
+                            }
+                        }
+                    }
+                    //       Log.d("TAG","Last update date = "+ lastUpdateDate);
+                    listener.onComplete(list);
+                });
+    }
+
+    public void getUserReviews(String userId, Model.GetReviewsListListener listener) {
+        db.collection("reviews")
+                .whereEqualTo("deleted",false)
+                .whereEqualTo("userId",userId)
+                //  .whereGreaterThanOrEqualTo("updateDate", new Timestamp(lastUpdateDate,0))
+                .get()
+                .addOnCompleteListener(task -> {
+                    List<Review> list = new LinkedList<>();
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Review review = new Review();
+                            review.fromMap(doc.getData());
+                            if (review != null) {
+                                list.add(review);
+                            }
+                        }
+                    }
+                    //       Log.d("TAG","Last update date = "+ lastUpdateDate);
+                    listener.onComplete(list);
+                });
+    }
+
+    public void changeUserNameToReviews(User user,String userNewName, Model.AddUserListener listener) {
+        String userId = user.getId();
+        db.collection("reviews")
+                .whereEqualTo("deleted",false)
+                .whereEqualTo("userId",userId)
+                //  .whereGreaterThanOrEqualTo("updateDate", new Timestamp(lastUpdateDate,0))
+                .get()
+                .addOnCompleteListener(task -> {
+                    List<Review> list = new LinkedList<>();
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Review review = new Review();
+                            review.fromMap(doc.getData());
+                            if (review != null) {
+                                review.setUserName(userNewName);
+                                list.add(review);
+                            }
+                        }
+                    }
+                    //       Log.d("TAG","Last update date = "+ lastUpdateDate);
+
+                    updateAllUserReview(list, new Model.AddUserListener() {
+                        @Override
+                        public void onComplete() throws JsonProcessingException {
+                            listener.onComplete();
+                        }
+                    });
+
+
+                });
+    }
+
+    private void updateAllUserReview(List<Review> list,Model.AddUserListener listener) {
+                        for (int i=0;i< list.size();i++) {
+                            if(i== list.size()-1) {
+                                try {
+                                    updateReview(list.get(i), new Model.AddReviewListener() {
+                                        @Override
+                                        public void onComplete() throws JsonProcessingException {
+                                            listener.onComplete();
+                                        }
+                                    });
+                                } catch (JsonProcessingException e) {
+                                    e.printStackTrace();
+                                }
+                            }else{
+                                try {
+                                    updateReview(list.get(i), new Model.AddReviewListener() {
+                                        @Override
+                                        public void onComplete() {
+
+                                        }
+                                    });
+                                } catch (JsonProcessingException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+
+    }
+
 }

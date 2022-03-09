@@ -1,134 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     android:clickable="true"
-    app:cardCornerRadius="10dp">
+    app:cardBackgroundColor="#363C2E05"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="4dp"
+    app:cardPreventCornerOverlap="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-
-
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/general_list_dish_tv"
-        app:srcCompat="@drawable/pizza" />
-
-    <TextView
-        android:id="@+id/general_list_restaurant_tv"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="16dp"
-        android:text="Restaurant Name"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp">
 
-    <TextView
-        android:id="@+id/general_list_dish_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Dish Name"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView3"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/general_list_restaurant_tv"
-        app:layout_constraintTop_toBottomOf="@+id/general_list_restaurant_tv" />
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/general_list_dish_tv"
+            app:srcCompat="@drawable/pizza" />
 
-    <TextView
-        android:id="@+id/general_list_user_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="User Name"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/general_list_dish_tv"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/general_list_restaurant_tv"
-        app:layout_constraintTop_toBottomOf="@+id/general_list_dish_tv" />
+        <TextView
+            android:id="@+id/general_list_restaurant_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:text="Restaurant Name"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/general_list_rating_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="No rating givven"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/general_list_dish_tv"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/general_list_restaurant_tv"
-        app:layout_constraintTop_toTopOf="@+id/general_list_star1_iv" />
+        <TextView
+            android:id="@+id/general_list_dish_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Dish Name"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/imageView3"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="@+id/general_list_restaurant_tv"
+            app:layout_constraintTop_toBottomOf="@+id/general_list_restaurant_tv" />
 
-    <ImageView
-        android:id="@+id/general_list_star1_iv"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/general_list_user_tv"
-        app:layout_constraintTop_toBottomOf="@+id/general_list_user_tv"
-        app:srcCompat="@drawable/star" />
+        <TextView
+            android:id="@+id/general_list_user_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="User Name"
+            android:textColor="@color/purple_500"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/general_list_dish_tv"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="@+id/general_list_restaurant_tv"
+            app:layout_constraintTop_toBottomOf="@+id/general_list_dish_tv" />
 
-    <ImageView
-        android:id="@+id/general_list_star2_iv"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/general_list_star1_iv"
-        app:layout_constraintStart_toEndOf="@+id/general_list_star1_iv"
-        app:layout_constraintTop_toTopOf="@+id/general_list_star1_iv"
-        app:srcCompat="@drawable/star" />
+        <TextView
+            android:id="@+id/general_list_rating_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="No rating givven"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/general_list_dish_tv"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="@+id/general_list_restaurant_tv"
+            app:layout_constraintTop_toTopOf="@+id/general_list_star1_iv" />
 
-    <ImageView
-        android:id="@+id/general_list_star3_iv"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/general_list_star2_iv"
-        app:layout_constraintStart_toEndOf="@+id/general_list_star2_iv"
-        app:layout_constraintTop_toTopOf="@+id/general_list_star2_iv"
-        app:srcCompat="@drawable/star" />
+        <ImageView
+            android:id="@+id/general_list_star1_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/general_list_user_tv"
+            app:layout_constraintTop_toBottomOf="@+id/general_list_user_tv"
+            app:srcCompat="@drawable/star" />
 
-    <ImageView
-        android:id="@+id/general_list_star4_iv"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/general_list_star3_iv"
-        app:layout_constraintStart_toEndOf="@+id/general_list_star3_iv"
-        app:layout_constraintTop_toTopOf="@+id/general_list_star3_iv"
-        app:srcCompat="@drawable/star" />
+        <ImageView
+            android:id="@+id/general_list_star2_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/general_list_star1_iv"
+            app:layout_constraintStart_toEndOf="@+id/general_list_star1_iv"
+            app:layout_constraintTop_toTopOf="@+id/general_list_star1_iv"
+            app:srcCompat="@drawable/star" />
 
-    <ImageView
-        android:id="@+id/general_list_star5_iv"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/general_list_star4_iv"
-        app:layout_constraintStart_toEndOf="@+id/general_list_star4_iv"
-        app:layout_constraintTop_toTopOf="@+id/general_list_star4_iv"
-        app:srcCompat="@drawable/star" />
+        <ImageView
+            android:id="@+id/general_list_star3_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/general_list_star2_iv"
+            app:layout_constraintStart_toEndOf="@+id/general_list_star2_iv"
+            app:layout_constraintTop_toTopOf="@+id/general_list_star2_iv"
+            app:srcCompat="@drawable/star" />
 
+        <ImageView
+            android:id="@+id/general_list_star4_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/general_list_star3_iv"
+            app:layout_constraintStart_toEndOf="@+id/general_list_star3_iv"
+            app:layout_constraintTop_toTopOf="@+id/general_list_star3_iv"
+            app:srcCompat="@drawable/star" />
+
+        <ImageView
+            android:id="@+id/general_list_star5_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/general_list_star4_iv"
+            app:layout_constraintStart_toEndOf="@+id/general_list_star4_iv"
+            app:layout_constraintTop_toTopOf="@+id/general_list_star4_iv"
+            app:srcCompat="@drawable/star" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

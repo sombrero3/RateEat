@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,10 +19,9 @@ import android.widget.ProgressBar;
 
 import com.example.rateeat.R;
 import com.example.rateeat.adapters.OnItemClickListener;
-import com.example.rateeat.adapters.ReviewWithUserNameAdapter;
+import com.example.rateeat.adapters.ReviewAdapter;
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
-import com.example.rateeat.view_holders.ReviewWithUserNameViewHolder;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +29,7 @@ import java.util.List;
 
 public class GeneralListFragment extends Fragment {
     List<Review> reviewList;
-    ReviewWithUserNameAdapter adapter;
+    ReviewAdapter adapter;
     ProgressBar prog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,7 +43,7 @@ public class GeneralListFragment extends Fragment {
         RecyclerView list = view.findViewById(R.id.general_rv);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ReviewWithUserNameAdapter(reviewList);
+        adapter = new ReviewAdapter(reviewList);
         list.setAdapter(adapter);
 
         setReviewList();
@@ -55,7 +53,7 @@ public class GeneralListFragment extends Fragment {
             public void onItemClick(View v, int position) {
                 String reviewId = reviewList.get(position).getId();
                 Log.d("TAG","review clicked id: " + reviewId);
-                Navigation.findNavController(v).navigate(GeneralListFragmentDirections.actionGeneralListFragmentToDetailsReviewFragment(reviewId));
+                Navigation.findNavController(v).navigate(GeneralListFragmentDirections.actionGlobalDetailsReviewFragment(reviewId));
 
             }
         });
@@ -64,7 +62,7 @@ public class GeneralListFragment extends Fragment {
     }
     private void setReviewList() {
         prog.setVisibility(View.VISIBLE);
-        Model.instance.getAllReviews(new Model.GetAllReviewsListListener() {
+        Model.instance.getAllReviews(new Model.GetReviewsListListener() {
             @Override
             public void onComplete(List<Review> reviews) {
                 reviewList.clear();
