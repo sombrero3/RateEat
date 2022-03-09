@@ -9,5 +9,46 @@
         android:id="@+id/generalListFragment"
         android:name="com.example.rateeat.feed.GeneralListFragment"
         android:label="fragment_general_list"
-        tools:layout="@layout/fragment_general_list" />
+        tools:layout="@layout/fragment_general_list" >
+        <action
+            android:id="@+id/action_generalListFragment_to_detailsReviewFragment"
+            app:destination="@id/detailsReviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addReviewFragment"
+        android:name="com.example.rateeat.feed.AddReviewFragment"
+        android:label="AddReviewFragment" >
+        <action
+            android:id="@+id/action_addReviewFragment_to_generalListFragment"
+            app:destination="@id/generalListFragment"
+            app:popUpTo="@id/addReviewFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsReviewFragment"
+        android:name="com.example.rateeat.feed.DetailsReviewFragment"
+        android:label="DetailsReviewFragment" >
+        <action
+            android:id="@+id/action_detailsReviewFragment_to_generalListFragment"
+            app:destination="@id/generalListFragment" />
+        <argument
+            android:name="reviewId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_detailsReviewFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment" />
+    </fragment>
+    <action android:id="@+id/action_global_addReviewFragment" app:destination="@id/addReviewFragment" />
+    <action android:id="@+id/action_global_generalListFragment" app:destination="@id/generalListFragment" />
+    <fragment
+        android:id="@+id/editReviewFragment"
+        android:name="com.example.rateeat.feed.EditReviewFragment"
+        android:label="EditReviewFragment" >
+        <argument
+            android:name="reviewId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_editReviewFragment_to_generalListFragment"
+            app:destination="@id/generalListFragment" />
+    </fragment>
 </navigation>
