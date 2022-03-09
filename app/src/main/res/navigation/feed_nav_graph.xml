@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/generalListFragment"
         android:name="com.example.rateeat.feed.GeneralListFragment"
-        android:label="fragment_general_list"
+        android:label="HOME all reviews"
         tools:layout="@layout/fragment_general_list" />
     <fragment
         android:id="@+id/addReviewFragment"
