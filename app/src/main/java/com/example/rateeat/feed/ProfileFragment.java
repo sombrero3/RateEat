@@ -28,7 +28,6 @@ public class ProfileFragment extends Fragment {
     ImageView imageIv,editIv,uploadImageIv,confirmNameIv;
     String userId;
     User user;
-    Boolean flagEdit;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
