@@ -20,8 +20,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import org.json.JSONException;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -146,7 +144,7 @@ public class ModelFireBase {
                     listener.onComplete(list);
                 });
     }
-    public void getAllReviews(Model.GetAllReviewsListListener listener) {
+    public void getAllReviews(Model.GetReviewsListListener listener) {
         db.collection("reviews")
                 .whereEqualTo("deleted",false)
                 //  .whereGreaterThanOrEqualTo("updateDate", new Timestamp(lastUpdateDate,0))
@@ -218,6 +216,51 @@ public class ModelFireBase {
                 })
                 .addOnFailureListener(e -> {
                     listener.onComplete();
+                });
+    }
+
+    public void getMyReviews(Model.GetReviewsListListener listener) {
+        String userId = Model.instance.getSignedUser().getId();
+        db.collection("reviews")
+                .whereEqualTo("deleted",false)
+                .whereEqualTo("userId",userId)
+                //  .whereGreaterThanOrEqualTo("updateDate", new Timestamp(lastUpdateDate,0))
+                .get()
+                .addOnCompleteListener(task -> {
+                    List<Review> list = new LinkedList<>();
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Review review = new Review();
+                            review.fromMap(doc.getData());
+                            if (review != null) {
+                                list.add(review);
+                            }
+                        }
+                    }
+                    //       Log.d("TAG","Last update date = "+ lastUpdateDate);
+                    listener.onComplete(list);
+                });
+    }
+
+    public void getUserReviews(String userId, Model.GetReviewsListListener listener) {
+        db.collection("reviews")
+                .whereEqualTo("deleted",false)
+                .whereEqualTo("userId",userId)
+                //  .whereGreaterThanOrEqualTo("updateDate", new Timestamp(lastUpdateDate,0))
+                .get()
+                .addOnCompleteListener(task -> {
+                    List<Review> list = new LinkedList<>();
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Review review = new Review();
+                            review.fromMap(doc.getData());
+                            if (review != null) {
+                                list.add(review);
+                            }
+                        }
+                    }
+                    //       Log.d("TAG","Last update date = "+ lastUpdateDate);
+                    listener.onComplete(list);
                 });
     }
 }

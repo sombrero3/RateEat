@@ -92,7 +92,7 @@ public class DetailsReviewFragment extends Fragment {
         Model.instance.updateReview(review, new Model.AddReviewListener() {
             @Override
             public void onComplete() {
-                Navigation.findNavController(restaurantTv).navigate(DetailsReviewFragmentDirections.actionDetailsReviewFragmentToGeneralListFragment());
+                Navigation.findNavController(restaurantTv).navigateUp();
             }
         });
     }

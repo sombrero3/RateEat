@@ -12,21 +12,21 @@ import com.example.rateeat.adapters.OnItemClickListener;
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
 
-public class MyReviewViewHolder extends RecyclerView.ViewHolder{
+public class UserReviewViewHolder extends RecyclerView.ViewHolder{
     TextView restaurantTv, dishTv,ratingTv;
     ImageView star1,star2,star3,star4,star5;
 
 
-    public MyReviewViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+    public UserReviewViewHolder(@NonNull View itemView, OnItemClickListener listener) {
         super(itemView);
-        restaurantTv = itemView.findViewById(R.id.my_list_restaurant_name_tv);
-        dishTv = itemView.findViewById(R.id.my_list_dish_name_tv);
-        ratingTv = itemView.findViewById(R.id.my_list_rating_tv);
-        star1 = itemView.findViewById(R.id.my_list_star1_iv);
-        star2 = itemView.findViewById(R.id.my_list_star2_iv);
-        star3 = itemView.findViewById(R.id.my_list_star3_iv);
-        star4 = itemView.findViewById(R.id.my_list_star4_iv);
-        star5 = itemView.findViewById(R.id.my_list_star5_iv);
+        restaurantTv = itemView.findViewById(R.id.my_list_row_restaurant_name_tv);
+        dishTv = itemView.findViewById(R.id.my_list_row_dish_name_tv);
+        ratingTv = itemView.findViewById(R.id.my_list_row_rating_tv);
+        star1 = itemView.findViewById(R.id.my_list_row_star1_iv);
+        star2 = itemView.findViewById(R.id.my_list_row_star2_iv);
+        star3 = itemView.findViewById(R.id.my_list_row_star3_iv);
+        star4 = itemView.findViewById(R.id.my_list_row_star4_iv);
+        star5 = itemView.findViewById(R.id.my_list_row_star5_iv);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

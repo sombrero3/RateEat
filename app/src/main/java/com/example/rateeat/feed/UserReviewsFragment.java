@@ -15,54 +15,66 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.rateeat.R;
+import com.example.rateeat.adapters.UserReviewAdapter;
 import com.example.rateeat.adapters.OnItemClickListener;
-import com.example.rateeat.adapters.ReviewAdapter;
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
+import com.example.rateeat.model.User;
 
 import java.util.LinkedList;
 import java.util.List;
 
-
-public class GeneralListFragment extends Fragment {
+public class UserReviewsFragment extends Fragment {
     List<Review> reviewList;
-    ReviewAdapter adapter;
+    UserReviewAdapter adapter;
+    TextView nameTv, emailTv;
+    ImageView image;
+    User user;
     ProgressBar prog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_general_list, container, false);
+        View view =  inflater.inflate(R.layout.fragment_my_list, container, false);
+        prog = view.findViewById(R.id.my_list_prog);
 
+        String userId = UserReviewsFragmentArgs.fromBundle(getArguments()).getUserId();
 
-        prog = view.findViewById(R.id.general_list_prog);
         reviewList = new LinkedList<>();
-        RecyclerView list = view.findViewById(R.id.general_rv);
+        RecyclerView list = view.findViewById(R.id.my_list_rv);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ReviewAdapter(reviewList);
+        adapter = new UserReviewAdapter(reviewList);
         list.setAdapter(adapter);
+        nameTv = view.findViewById(R.id.my_list_name_tv);
+        emailTv = view.findViewById(R.id.my_list_email_tv);
+        image = view.findViewById(R.id.my_list_row_img);
 
-        setReviewList();
+
+        setUI(userId);
+
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
                 String reviewId = reviewList.get(position).getId();
                 Log.d("TAG","review clicked id: " + reviewId);
-                Navigation.findNavController(v).navigate(GeneralListFragmentDirections.actionGlobalDetailsReviewFragment(reviewId));
-
+                Navigation.findNavController(v).navigate(UserReviewsFragmentDirections.actionGlobalDetailsReviewFragment(reviewId));
             }
         });
         setHasOptionsMenu(true);
         return view;
     }
-    private void setReviewList() {
+
+    private void setReviewList(String userId) {
         prog.setVisibility(View.VISIBLE);
-        Model.instance.getAllReviews(new Model.GetReviewsListListener() {
+        Model.instance.getUserReviews(userId,new Model.GetReviewsListListener() {
             @Override
             public void onComplete(List<Review> reviews) {
                 reviewList.clear();
@@ -71,11 +83,38 @@ public class GeneralListFragment extends Fragment {
                 prog.setVisibility(View.GONE);
             }
         });
+
     }
-    @Override
+
+    public void setUI(String userId){
+
+        String signedUserId = Model.instance.getSignedUser().getId();
+        if(userId.equals(signedUserId)){
+            user = Model.instance.getSignedUser();
+            setUserUi(user);
+        }else{
+            Model.instance.getUserById(userId, new Model.getUserByIdListener() {
+                @Override
+                public void onComplete(User u) {
+                    user = new User(u);
+                    setUserUi(user);
+                }
+            });
+        }
+    }
+
+    private void setUserUi(User user) {
+        nameTv.setText(user.getFirstName() + " " + user.getLastName());
+        emailTv.setText(user.getEmail());
+        setReviewList(user.getId());
+    }
+
+    public void onPrepareOptionsMenu (Menu menu) {
+        menu.findItem(R.id.feed_menu_my_reviews).setEnabled(false);
+    }
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.home_menu,menu);
+        inflater.inflate(R.menu.not_home_menu,menu);
 
     }
     @Override

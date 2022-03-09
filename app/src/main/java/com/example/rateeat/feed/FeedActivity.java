@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.rateeat.R;
 import com.example.rateeat.login.LoginActivity;
+import com.example.rateeat.model.Model;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class FeedActivity extends AppCompatActivity {
@@ -59,8 +60,8 @@ public class FeedActivity extends AppCompatActivity {
                     return true;
                 case R.id.feed_menu_my_reviews:
                     Toast.makeText(this,"My Reviews",Toast.LENGTH_SHORT).show();
-//                    args.putString("userId", Model.instance.getSignedUser().getId());
-//                    navCtl.navigate(R.id.action_global_userRestaurantListRvFragment,args);
+                    args.putString("userId", Model.instance.getSignedUser().getId());
+                    navCtl.navigate(R.id.action_global_myListFragment,args);
                     return true;
                 case R.id.feed_menu_logout:
                     Toast.makeText(this,"Logging Out",Toast.LENGTH_SHORT).show();

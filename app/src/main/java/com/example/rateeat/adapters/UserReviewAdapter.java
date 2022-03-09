@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rateeat.R;
 import com.example.rateeat.model.Review;
-import com.example.rateeat.view_holders.MyReviewViewHolder;
-import com.example.rateeat.view_holders.ReviewViewHolder;
+import com.example.rateeat.view_holders.UserReviewViewHolder;
 
 import java.util.List;
 
-public class MyReviewAdapter extends RecyclerView.Adapter<MyReviewViewHolder>{
+public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewViewHolder>{
     List<Review> reviewList;
     OnItemClickListener listener;
 
@@ -22,20 +21,20 @@ public class MyReviewAdapter extends RecyclerView.Adapter<MyReviewViewHolder>{
         this.listener = listener;
     }
 
-    public MyReviewAdapter(List<Review> reviewList){
+    public UserReviewAdapter(List<Review> reviewList){
         this.reviewList = reviewList;
     }
     @NonNull
     @Override
-    public MyReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_list_row,parent,false);
-        MyReviewViewHolder holder = new MyReviewViewHolder(view,listener);
+        UserReviewViewHolder holder = new UserReviewViewHolder(view,listener);
         return holder;
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull MyReviewViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserReviewViewHolder holder, int position) {
         Review review = reviewList.get(position);
         holder.bind(review);
     }

@@ -28,6 +28,17 @@ public class User {
 
     public User(){}
 
+    public User(User user){
+        this.email = user.getEmail();
+        this.id = user.getId();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.password = user.getPassword();
+        this.imageUrl = user.getImageUrl();
+        this.numOfReview = user.getNumOfReview();
+        isDeleted = user.isDeleted();
+        this.lastUpdated = user.getLastUpdated();
+    }
     public String getEmail() {
         return email;
     }

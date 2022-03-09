@@ -80,7 +80,7 @@ public class AddReviewFragment extends Fragment {
                 @Override
                 public void onComplete() {
                     prog.setVisibility(View.GONE);
-                    Navigation.findNavController(prog).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToGeneralListFragment());
+                    Navigation.findNavController(prog).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToMyListFragment(user.getId()));
                 }
             });
         }
