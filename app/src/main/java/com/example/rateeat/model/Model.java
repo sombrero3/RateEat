@@ -11,10 +11,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.rateeat.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -30,6 +28,19 @@ public class Model {
 
     public void updateReview(Review review, AddReviewListener listener) throws JsonProcessingException {
         modelFireBase.updateReview(review,listener);
+    }
+
+    public void getUserReviews(String userId, GetReviewsListListener listener) {
+        modelFireBase.getUserReviews(userId,listener);
+    }
+
+    public void updateUser(User user,AddUserListener listener) throws JsonProcessingException {
+        modelFireBase.updateUser(user,listener);
+    }
+
+
+    public void changeUserNameToReviews(User user,String userNewName,AddUserListener listener) {
+        modelFireBase.changeUserNameToReviews(user,userNewName,listener);
     }
 
 
@@ -75,13 +86,13 @@ public class Model {
 
     }
     public interface AddUserListener{
-        void onComplete();
+        void onComplete() throws JsonProcessingException;
     }
     public void addUser(User user,AddUserListener listener) throws JsonProcessingException {
         modelFireBase.addUser(user,listener);
     }
     public interface AddReviewListener{
-        void onComplete();
+        void onComplete() throws JsonProcessingException;
     }
     public void addReview(Review review,AddReviewListener listener) throws JsonProcessingException {
         reviewListLoadingState.setValue(ReviewListLoadingState.loading);
@@ -89,10 +100,10 @@ public class Model {
     }
 
 
-    public interface GetAllReviewsListListener {
+    public interface GetReviewsListListener {
         void onComplete(List<Review> reviewList);
     }
-    public void getAllReviews(GetAllReviewsListListener listener) {
+    public void getAllReviews(GetReviewsListListener listener) {
         modelFireBase.getAllReviews(listener);
     }
 
@@ -195,4 +206,10 @@ public class Model {
     public void getReviewById(String id,GetReviewByIdListener listener){
         modelFireBase.getReviewById(id,listener);
     }
+
+
+    public void getMyReviews(GetReviewsListListener listener) {
+        modelFireBase.getMyReviews(listener);
+    }
+
 }
