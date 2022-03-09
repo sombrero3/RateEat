@@ -1,113 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:clickable="true"
+    app:cardBackgroundColor="#363C2E05"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="4dp"
+    app:cardPreventCornerOverlap="true">
 
-    <TextView
-        android:id="@+id/my_list_row_restaurant_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Restaurant name"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/my_list_row_img"
-        app:layout_constraintStart_toStartOf="@+id/my_list_row_img"
-        app:layout_constraintTop_toBottomOf="@+id/my_list_row_img" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/my_list_row_img"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pizza" />
+        <TextView
+            android:id="@+id/my_list_row_restaurant_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Restaurant name"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/my_list_row_img"
+            app:layout_constraintStart_toStartOf="@+id/my_list_row_img"
+            app:layout_constraintTop_toBottomOf="@+id/my_list_row_img" />
 
-    <TextView
-        android:id="@+id/my_list_row_dish_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Dish name"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/my_list_row_restaurant_name_tv"
-        app:layout_constraintStart_toStartOf="@+id/my_list_row_restaurant_name_tv"
-        app:layout_constraintTop_toBottomOf="@+id/my_list_row_restaurant_name_tv" />
+        <ImageView
+            android:id="@+id/my_list_row_img"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/pizza" />
 
-    <TextView
-        android:id="@+id/my_list_row_rating_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No rating given"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/my_list_row_star5_iv"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/my_list_row_star1_iv"
-        app:layout_constraintTop_toTopOf="@+id/my_list_row_star1_iv" />
+        <TextView
+            android:id="@+id/my_list_row_dish_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Dish name"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/my_list_row_restaurant_name_tv"
+            app:layout_constraintStart_toStartOf="@+id/my_list_row_restaurant_name_tv"
+            app:layout_constraintTop_toBottomOf="@+id/my_list_row_restaurant_name_tv" />
 
-    <ImageView
-        android:id="@+id/my_list_row_star1_iv"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/my_list_row_star2_iv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_list_row_dish_name_tv"
-        app:srcCompat="@drawable/star" />
+        <TextView
+            android:id="@+id/my_list_row_rating_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No rating given"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/my_list_row_star5_iv"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="@+id/my_list_row_star1_iv"
+            app:layout_constraintTop_toTopOf="@+id/my_list_row_star1_iv" />
 
-    <ImageView
-        android:id="@+id/my_list_row_star2_iv"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:layout_constraintBottom_toBottomOf="@+id/my_list_row_star1_iv"
-        app:layout_constraintEnd_toStartOf="@+id/my_list_row_star3_iv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/my_list_row_star1_iv"
-        app:layout_constraintTop_toTopOf="@+id/my_list_row_star1_iv"
-        app:srcCompat="@drawable/star" />
+        <ImageView
+            android:id="@+id/my_list_row_star1_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/my_list_row_star2_iv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_list_row_dish_name_tv"
+            app:srcCompat="@drawable/star" />
 
-    <ImageView
-        android:id="@+id/my_list_row_star3_iv"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:layout_constraintBottom_toBottomOf="@+id/my_list_row_star2_iv"
-        app:layout_constraintEnd_toStartOf="@+id/my_list_row_star4_iv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/my_list_row_star2_iv"
-        app:layout_constraintTop_toTopOf="@+id/my_list_row_star2_iv"
-        app:srcCompat="@drawable/star" />
+        <ImageView
+            android:id="@+id/my_list_row_star2_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toBottomOf="@+id/my_list_row_star1_iv"
+            app:layout_constraintEnd_toStartOf="@+id/my_list_row_star3_iv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/my_list_row_star1_iv"
+            app:layout_constraintTop_toTopOf="@+id/my_list_row_star1_iv"
+            app:srcCompat="@drawable/star" />
 
-    <ImageView
-        android:id="@+id/my_list_row_star4_iv"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:layout_constraintBottom_toBottomOf="@+id/my_list_row_star3_iv"
-        app:layout_constraintEnd_toStartOf="@+id/my_list_row_star5_iv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/my_list_row_star3_iv"
-        app:layout_constraintTop_toTopOf="@+id/my_list_row_star3_iv"
-        app:srcCompat="@drawable/star" />
+        <ImageView
+            android:id="@+id/my_list_row_star3_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toBottomOf="@+id/my_list_row_star2_iv"
+            app:layout_constraintEnd_toStartOf="@+id/my_list_row_star4_iv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/my_list_row_star2_iv"
+            app:layout_constraintTop_toTopOf="@+id/my_list_row_star2_iv"
+            app:srcCompat="@drawable/star" />
 
-    <ImageView
-        android:id="@+id/my_list_row_star5_iv"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:layout_constraintBottom_toBottomOf="@+id/my_list_row_star4_iv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/my_list_row_star4_iv"
-        app:layout_constraintTop_toTopOf="@+id/my_list_row_star4_iv"
-        app:srcCompat="@drawable/star" />
+        <ImageView
+            android:id="@+id/my_list_row_star4_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toBottomOf="@+id/my_list_row_star3_iv"
+            app:layout_constraintEnd_toStartOf="@+id/my_list_row_star5_iv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/my_list_row_star3_iv"
+            app:layout_constraintTop_toTopOf="@+id/my_list_row_star3_iv"
+            app:srcCompat="@drawable/star" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/my_list_row_star5_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toBottomOf="@+id/my_list_row_star4_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/my_list_row_star4_iv"
+            app:layout_constraintTop_toTopOf="@+id/my_list_row_star4_iv"
+            app:srcCompat="@drawable/star" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

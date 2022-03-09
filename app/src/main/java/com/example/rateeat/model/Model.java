@@ -34,6 +34,15 @@ public class Model {
         modelFireBase.getUserReviews(userId,listener);
     }
 
+    public void updateUser(User user,AddUserListener listener) throws JsonProcessingException {
+        modelFireBase.updateUser(user,listener);
+    }
+
+
+    public void changeUserNameToReviews(User user,String userNewName,AddUserListener listener) {
+        modelFireBase.changeUserNameToReviews(user,userNewName,listener);
+    }
+
 
     public enum ReviewListLoadingState {
         loading,
@@ -77,13 +86,13 @@ public class Model {
 
     }
     public interface AddUserListener{
-        void onComplete();
+        void onComplete() throws JsonProcessingException;
     }
     public void addUser(User user,AddUserListener listener) throws JsonProcessingException {
         modelFireBase.addUser(user,listener);
     }
     public interface AddReviewListener{
-        void onComplete();
+        void onComplete() throws JsonProcessingException;
     }
     public void addReview(Review review,AddReviewListener listener) throws JsonProcessingException {
         reviewListLoadingState.setValue(ReviewListLoadingState.loading);

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,15 +37,15 @@ public class UserReviewsFragment extends Fragment {
     ImageView image;
     User user;
     ProgressBar prog;
-
+    String userId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_my_list, container, false);
         prog = view.findViewById(R.id.my_list_prog);
-
-        String userId = UserReviewsFragmentArgs.fromBundle(getArguments()).getUserId();
+        userId="";
+        userId = UserReviewsFragmentArgs.fromBundle(getArguments()).getUserId();
 
         reviewList = new LinkedList<>();
         RecyclerView list = view.findViewById(R.id.my_list_rv);
@@ -59,7 +60,9 @@ public class UserReviewsFragment extends Fragment {
 
         setUI(userId);
 
-
+        nameTv.setOnClickListener((v)->{
+            Navigation.findNavController(v).navigate(UserReviewsFragmentDirections.actionGlobalProfileFragment(userId));
+        });
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -110,7 +113,9 @@ public class UserReviewsFragment extends Fragment {
     }
 
     public void onPrepareOptionsMenu (Menu menu) {
-        menu.findItem(R.id.feed_menu_my_reviews).setEnabled(false);
+        if(userId.equals(Model.instance.getSignedUser().getId())) {
+            menu.findItem(R.id.feed_menu_my_reviews).setEnabled(false);
+        }
     }
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);

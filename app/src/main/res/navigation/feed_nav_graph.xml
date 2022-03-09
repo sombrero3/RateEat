@@ -55,4 +55,13 @@
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_myListFragment" app:destination="@id/myListFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.rateeat.feed.ProfileFragment"
+        android:label="ProfileFragment" >
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
+    <action android:id="@+id/action_global_profileFragment" app:destination="@id/profileFragment" />
 </navigation>

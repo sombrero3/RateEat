@@ -76,6 +76,8 @@ public class DetailsReviewFragment extends Fragment {
                 if(!review.getUserId().equals(Model.instance.getSignedUser().getId())){
                     deleteIv.setEnabled(false);
                     deleteIv.setVisibility(View.GONE);
+                    editIv.setEnabled(false);
+                    editIv.setVisibility(View.GONE);
                 }
                 Model.instance.setStarByRating(review.getRating(),star1,star2,star3,star4,star5,ratingTv);
                 restaurantTv.setText(review.getRestaurantName());

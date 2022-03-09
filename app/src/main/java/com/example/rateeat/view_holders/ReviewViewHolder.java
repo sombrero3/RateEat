@@ -50,7 +50,6 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder{
             }
         });
 
-
         userTv.setOnClickListener((v)->{
             int pos = getAdapterPosition();
             String userId = reviewList.get(pos).getUserId();

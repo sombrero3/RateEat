@@ -50,8 +50,8 @@ public class FeedActivity extends AppCompatActivity {
                     return true;
                 case R.id.feed_menu_profile:
                     Toast.makeText(this,"My Profile",Toast.LENGTH_SHORT).show();
-//                    args.putString("userId", Model.instance.getSignedUser().getId());
-//                    navCtl.navigate(R.id.action_global_userProfileFragment,args);
+                    args.putString("userId", Model.instance.getSignedUser().getId());
+                    navCtl.navigate(R.id.action_global_profileFragment,args);
                     return true;
                 case R.id.feed_menu_add_review:
                     Toast.makeText(this,"New Review",Toast.LENGTH_SHORT).show();
