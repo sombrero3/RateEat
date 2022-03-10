@@ -158,4 +158,8 @@ public class Review {
     }
 
 
+    public void setAvatarUrl(String url) {
+
+
+    }
 }

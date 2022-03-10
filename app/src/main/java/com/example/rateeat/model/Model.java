@@ -1,5 +1,6 @@
 package com.example.rateeat.model;
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -41,6 +42,18 @@ public class Model {
 
     public void changeUserNameToReviews(User user,String userNewName,AddUserListener listener) {
         modelFireBase.changeUserNameToReviews(user,userNewName,listener);
+    }
+
+
+    public interface SaveImageListener{
+                 void onComplete(String url);
+    }
+
+    public void saveImage(Bitmap imageBitmap, String imageName,SaveImageListener listener) {
+
+        modelFireBase.saveImage(imageBitmap,imageName,listener);
+
+
     }
 
 

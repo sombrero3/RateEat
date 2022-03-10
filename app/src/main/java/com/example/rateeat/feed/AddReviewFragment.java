@@ -37,7 +37,6 @@ public class AddReviewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_add_review, container, false);
         postReviewBtn = view.findViewById(R.id.add_review_postReview_btn);
-        uploadImgBtn = view.findViewById(R.id.add_review_uploadImg_btn);
         restaurantEt = view.findViewById(R.id.add_review_restaurant_et);
         dishEt = view.findViewById(R.id.add_review_dish_et);
         descriptionEt = view.findViewById(R.id.add_review_description_et);
@@ -52,6 +51,11 @@ public class AddReviewFragment extends Fragment {
         star4 = view.findViewById(R.id.add_review_star4_iv);
         star5 = view.findViewById(R.id.add_review_star5_iv);
         prog.setVisibility(View.GONE);
+
+
+
+
+
 
         postReviewBtn.setOnClickListener((v)->{
             try {

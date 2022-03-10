@@ -1,5 +1,6 @@
 package com.example.rateeat.model;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -19,10 +20,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import io.grpc.Context;
 
 public class ModelFireBase {
 
@@ -350,4 +355,16 @@ public class ModelFireBase {
 
     }
 
+    public void saveImage(Bitmap imageBitmap, String imageName, Model.SaveImageListener listener) {
+
+        //Create a storage reference from our app
+
+      // StorageReference storageRef = db.getReference();   //db or storage
+
+        //Create  reference to "mountains.jpg"
+
+      //  StorageReference imgRef = storageRef.child("/user_avatars/" +imageName);
+
+
+    }
 }
