@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -27,8 +29,8 @@ public class ProfileFragment extends Fragment {
     ProgressBar prog;
     ImageView imageIv,editIv,uploadImageIv,confirmNameIv;
     String userId;
+    Button reviewsBtn;
     User user;
-    Boolean flagEdit;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,12 +45,14 @@ public class ProfileFragment extends Fragment {
         prog = view.findViewById(R.id.user_profile_prog);
         imageIv = view.findViewById(R.id.user_profile_imge_iv);
         editIv = view.findViewById(R.id.user_profile_edit_iv);
+        reviewsBtn = view.findViewById(R.id.user_profile_all_reviews_btn);
         uploadImageIv = view.findViewById(R.id.user_profile_change_image_iv);
         confirmNameIv = view.findViewById(R.id.user_profile_confirm_name_iv);
         confirmNameIv.setEnabled(false);
         confirmNameIv.setVisibility(View.GONE);
         nameEditEt.setVisibility(View.GONE);
         nameEditEt.setEnabled(false);
+        reviewsBtn.setEnabled(false);
 
 
         editIv.setOnClickListener((v)->{
@@ -63,6 +67,11 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        reviewsBtn.setOnClickListener((v)->{
+            Bundle args = new Bundle();
+            args.putString("userId", userId);
+            Navigation.findNavController(v).navigate(R.id.action_global_myListFragment,args);
+        });
         setUI(userId);
         setHasOptionsMenu(true);
         return view;
@@ -95,6 +104,7 @@ public class ProfileFragment extends Fragment {
                             confirmNameIv.setEnabled(false);
                             editIv.setVisibility(View.VISIBLE);
                             editIv.setEnabled(true);
+                            reviewsBtn.setEnabled(true);
                         }
                     });
                 }
@@ -132,16 +142,14 @@ public class ProfileFragment extends Fragment {
                 user = new User(u);
                 nameTv.setText(user.getFirstName() + " " + user.getLastName());
                 emailTv.setText(user.getEmail());
-                setFavoriteDishes();
+                reviewsBtn.setText("To "+user.getFirstName()+"'s Reviews");
+                reviewsBtn.setEnabled(true);
+                prog.setVisibility(View.GONE);
             }
         });
 
     }
 
-    private void setFavoriteDishes() {
-        prog.setVisibility(View.GONE);
-
-    }
     public void onPrepareOptionsMenu (Menu menu) {
         if(userId.equals(Model.instance.getSignedUser().getId())) {
             menu.findItem(R.id.feed_menu_profile).setEnabled(false);

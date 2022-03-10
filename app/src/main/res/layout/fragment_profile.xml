@@ -16,9 +16,9 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_profile_imge_iv"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="64dp"
             android:layout_marginEnd="32dp"
             android:src="@drawable/user"
             app:layout_constraintDimensionRatio="w,1:1"
@@ -30,7 +30,7 @@
             android:id="@+id/user_profile_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="32dp"
             android:text="user name"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -42,57 +42,14 @@
             android:id="@+id/user_profile_email_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="100dp"
             android:text="user email"
             android:textColor="@color/grey_1"
             android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_profile_imge_iv" />
 
-        <TextView
-            android:id="@+id/textView26"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:text="Favorite Dishes :"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_profile_email_tv" />
-
-        <View
-            android:id="@+id/add_friend_line"
-            style="@style/line"
-            android:layout_width="match_parent"
-            android:layout_marginTop="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_profile_all_reviews_btn" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/user_profile_favorit_dishes_rv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_friend_line" />
-
-
-        <Button
-            android:id="@+id/user_profile_all_reviews_btn"
-            android:layout_width="136dp"
-            android:layout_height="38dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/teal_700"
-            android:backgroundTint="@color/teal_700"
-            android:text="All Reviews"
-            android:textColor="@color/orange_1"
-            app:layout_constraintBottom_toBottomOf="@+id/textView26"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView26" />
 
         <ProgressBar
             android:id="@+id/user_profile_prog"
@@ -111,13 +68,13 @@
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/user_profile_name_tv"
             app:layout_constraintStart_toEndOf="@+id/user_profile_name_tv"
-            app:layout_constraintTop_toBottomOf="@+id/user_profile_imge_iv"
+            app:layout_constraintTop_toTopOf="@+id/user_profile_name_tv"
             app:srcCompat="@drawable/edit" />
 
         <ImageView
             android:id="@+id/user_profile_change_image_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             app:layout_constraintBottom_toBottomOf="@+id/user_profile_imge_iv"
             app:layout_constraintEnd_toEndOf="@+id/user_profile_imge_iv"
             app:srcCompat="@drawable/camera" />
@@ -141,11 +98,24 @@
             android:id="@+id/user_profile_confirm_name_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/user_profile_name_tv"
+            app:layout_constraintBottom_toBottomOf="@+id/user_profile_edit_name_et"
             app:layout_constraintStart_toEndOf="@+id/user_profile_edit_name_et"
-            app:layout_constraintTop_toBottomOf="@+id/user_profile_imge_iv"
+            app:layout_constraintTop_toTopOf="@+id/user_profile_name_tv"
             app:srcCompat="@drawable/confirm" />
+
+        <Button
+            android:id="@+id/user_profile_all_reviews_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:layout_marginBottom="32dp"
+            android:backgroundTint="@color/orange_1"
+            android:text="All reviews"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_profile_email_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
