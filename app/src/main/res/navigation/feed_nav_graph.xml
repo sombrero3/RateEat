@@ -49,7 +49,7 @@
         android:id="@+id/myListFragment"
         android:name="com.example.rateeat.feed.UserReviewsFragment"
         android:label="fragment_my_list"
-        tools:layout="@layout/fragment_my_list" >
+        tools:layout="@layout/fragment_user_list" >
         <argument
             android:name="userId"
             app:argType="string" />

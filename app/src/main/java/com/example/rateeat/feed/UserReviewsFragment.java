@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,19 +41,19 @@ public class UserReviewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_my_list, container, false);
-        prog = view.findViewById(R.id.my_list_prog);
+        View view =  inflater.inflate(R.layout.fragment_user_list, container, false);
+        prog = view.findViewById(R.id.user_list_prog);
         userId="";
         userId = UserReviewsFragmentArgs.fromBundle(getArguments()).getUserId();
 
         reviewList = new LinkedList<>();
-        RecyclerView list = view.findViewById(R.id.my_list_rv);
+        RecyclerView list = view.findViewById(R.id.user_list_rv);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new UserReviewAdapter(reviewList);
         list.setAdapter(adapter);
-        nameTv = view.findViewById(R.id.my_list_name_tv);
-        emailTv = view.findViewById(R.id.my_list_email_tv);
+        nameTv = view.findViewById(R.id.user_list_name_tv);
+        emailTv = view.findViewById(R.id.user_list_email_tv);
         image = view.findViewById(R.id.my_list_row_img);
 
 

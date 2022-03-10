@@ -1,9 +1,11 @@
 package com.example.rateeat.feed;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,15 +24,24 @@ import com.example.rateeat.adapters.OnItemClickListener;
 import com.example.rateeat.adapters.ReviewAdapter;
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
+import com.example.rateeat.view_models.GeneralListViewModel;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 
 public class GeneralListFragment extends Fragment {
-    List<Review> reviewList;
+    GeneralListViewModel viewModel;
     ReviewAdapter adapter;
     ProgressBar prog;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(GeneralListViewModel.class);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,11 +50,11 @@ public class GeneralListFragment extends Fragment {
 
 
         prog = view.findViewById(R.id.general_list_prog);
-        reviewList = new LinkedList<>();
+
         RecyclerView list = view.findViewById(R.id.general_rv);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ReviewAdapter(reviewList);
+        adapter = new ReviewAdapter(viewModel.getReviewList());
         list.setAdapter(adapter);
 
         setReviewList();
@@ -51,7 +62,7 @@ public class GeneralListFragment extends Fragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                String reviewId = reviewList.get(position).getId();
+                String reviewId = viewModel.getReviewList().get(position).getId();
                 Log.d("TAG","review clicked id: " + reviewId);
                 Navigation.findNavController(v).navigate(GeneralListFragmentDirections.actionGlobalDetailsReviewFragment(reviewId));
 
@@ -65,8 +76,8 @@ public class GeneralListFragment extends Fragment {
         Model.instance.getAllReviews(new Model.GetReviewsListListener() {
             @Override
             public void onComplete(List<Review> reviews) {
-                reviewList.clear();
-                reviewList.addAll(reviews);
+                viewModel.getReviewList().clear();
+                viewModel.getReviewList().addAll(reviews);
                 adapter.notifyDataSetChanged();
                 prog.setVisibility(View.GONE);
             }
