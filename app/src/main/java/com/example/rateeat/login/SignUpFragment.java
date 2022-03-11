@@ -132,7 +132,7 @@ public class SignUpFragment extends Fragment {
     }
 
     private void addUserToFireStore(User user) throws JsonProcessingException {
-        Model.instance.addUser(user, new Model.AddUserListener() {
+        Model.instance.addUser(user, new Model.VoidListener() {
             @Override
             public void onComplete() {
                 Toast.makeText(getActivity(), "Successfully Registered.", Toast.LENGTH_LONG).show();
@@ -158,7 +158,7 @@ public class SignUpFragment extends Fragment {
     }
 
     public void goToFeedActivity(){
-        Model.instance.setCurrentUser(new Model.SetCurrentUserListener() {
+        Model.instance.setCurrentUser(new Model.UserListener() {
             @Override
             public void onComplete(User user) {
                 progressBar.setVisibility(View.INVISIBLE);

@@ -76,7 +76,7 @@ public class AddReviewFragment extends Fragment {
             disableButtons();
             User user = Model.instance.getSignedUser();
             Review review = new Review(user.getId(), user.getFirstName()+ " " + user.getLastName(), restaurant, dish, rating, description );
-            Model.instance.addReview(review, new Model.AddReviewListener() {
+            Model.instance.addReview(review, new Model.VoidListener() {
                 @Override
                 public void onComplete() {
                     prog.setVisibility(View.GONE);

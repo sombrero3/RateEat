@@ -41,7 +41,7 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder{
             }
         });
 
-        Model.instance.getAllReviews(new Model.GetReviewsListListener() {
+        Model.instance.getAllReviews(new Model.ReviewsListListener() {
             @Override
             public void onComplete(List<Review> reviews) {
                 reviewList = new ArrayList<>();

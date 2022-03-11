@@ -26,8 +26,6 @@ import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
 import com.example.rateeat.view_models.GeneralListViewModel;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -73,7 +71,7 @@ public class GeneralListFragment extends Fragment {
     }
     private void setReviewList() {
         prog.setVisibility(View.VISIBLE);
-        Model.instance.getAllReviews(new Model.GetReviewsListListener() {
+        Model.instance.getAllReviews(new Model.ReviewsListListener() {
             @Override
             public void onComplete(List<Review> reviews) {
                 viewModel.getReviewList().clear();

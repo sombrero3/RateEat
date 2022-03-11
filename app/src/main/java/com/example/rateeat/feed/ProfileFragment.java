@@ -87,12 +87,12 @@ public class ProfileFragment extends Fragment {
             }
             user.setLastName(lastName);
 
-            Model.instance.changeUserNameToReviews(user,user.getFirstName()+ " "+ user.getLastName(), new Model.AddUserListener() {
+            Model.instance.changeUserNameToReviews(user,user.getFirstName()+ " "+ user.getLastName(), new Model.VoidListener() {
                 @Override
                 public void onComplete() throws JsonProcessingException {
 
 
-                    Model.instance.updateUser(user, new Model.AddUserListener() {
+                    Model.instance.updateUser(user, new Model.VoidListener() {
                         @Override
                         public void onComplete() {
                             nameTv.setVisibility(View.VISIBLE);
@@ -136,7 +136,7 @@ public class ProfileFragment extends Fragment {
             uploadImageIv.setVisibility(View.GONE);
         }
 
-        Model.instance.getUserById(userId, new Model.getUserByIdListener() {
+        Model.instance.getUserById(userId, new Model.UserListener() {
             @Override
             public void onComplete(User u) {
                 user = new User(u);

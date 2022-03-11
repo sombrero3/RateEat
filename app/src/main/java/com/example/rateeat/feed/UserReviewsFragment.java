@@ -76,7 +76,7 @@ public class UserReviewsFragment extends Fragment {
 
     private void setReviewList(String userId) {
         prog.setVisibility(View.VISIBLE);
-        Model.instance.getUserReviews(userId,new Model.GetReviewsListListener() {
+        Model.instance.getUserReviews(userId,new Model.ReviewsListListener() {
             @Override
             public void onComplete(List<Review> reviews) {
                 reviewList.clear();
@@ -95,7 +95,7 @@ public class UserReviewsFragment extends Fragment {
             user = Model.instance.getSignedUser();
             setUserUi(user);
         }else{
-            Model.instance.getUserById(userId, new Model.getUserByIdListener() {
+            Model.instance.getUserById(userId, new Model.UserListener() {
                 @Override
                 public void onComplete(User u) {
                     user = new User(u);

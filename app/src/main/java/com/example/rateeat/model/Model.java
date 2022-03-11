@@ -26,49 +26,26 @@ public class Model {
     public MutableLiveData<ReviewListLoadingState> reviewListLoadingState = new MutableLiveData<>();
     public User signedUser;
 
-    public void updateReview(Review review, AddReviewListener listener) throws JsonProcessingException {
-        modelFireBase.updateReview(review,listener);
-    }
-
-    public void getUserReviews(String userId, GetReviewsListListener listener) {
-        modelFireBase.getUserReviews(userId,listener);
-    }
-
-    public void updateUser(User user,AddUserListener listener) throws JsonProcessingException {
-        modelFireBase.updateUser(user,listener);
-    }
-
-
-    public void changeUserNameToReviews(User user,String userNewName,AddUserListener listener) {
-        modelFireBase.changeUserNameToReviews(user,userNewName,listener);
-    }
-
-
     public enum ReviewListLoadingState {
         loading,
         loaded
     }
 
-
     private Model() {
         reviewListLoadingState.setValue(ReviewListLoadingState.loaded);
     }
 
+    /**
+     * Authentication
+     */
     public boolean isSignedIn() {
         return modelFireBase.isSignedIn();
     }
     public User getSignedUser() {
-
         return signedUser;
     }
-
-
-
-    public interface SetCurrentUserListener {
-        void onComplete(User user);
-    }
-    public void setCurrentUser(SetCurrentUserListener listener) {
-        modelFireBase.setCurrentUser(new SetCurrentUserListener() {
+    public void setCurrentUser(UserListener listener) {
+        modelFireBase.setCurrentUser(new UserListener() {
 
             @Override
             public void onComplete(User user) {
@@ -78,35 +55,81 @@ public class Model {
         });
     }
 
-    public interface getUserByIdListener{
+    /**
+     * Listeners Interfaces
+     */
+    public interface VoidListener {
+        void onComplete() throws JsonProcessingException;
+    }
+    public interface UserListener {
         void onComplete(User user);
     }
-    public void getUserById(String id,getUserByIdListener listener){
+    public interface UsersListListener {
+        void onComplete(List<User> userList);
+    }
+    public interface ReviewListener {
+        void onComplete(Review review);
+    }
+    public interface ReviewsListListener {
+        void onComplete(List<Review> reviewList);
+    }
+
+    /**
+     *User Methods
+     */
+    //Read
+    public void getAllUsers(UsersListListener listener){
+        modelFireBase.getAllUsers(listener);
+    }
+    public void getUserById(String id, UserListener listener){
         modelFireBase.getUserById(id,listener);
 
     }
-    public interface AddUserListener{
-        void onComplete() throws JsonProcessingException;
-    }
-    public void addUser(User user,AddUserListener listener) throws JsonProcessingException {
+    //Create
+    public void addUser(User user, VoidListener listener) throws JsonProcessingException {
         modelFireBase.addUser(user,listener);
     }
-    public interface AddReviewListener{
-        void onComplete() throws JsonProcessingException;
+    //Update
+    public void updateUser(User user, VoidListener listener) throws JsonProcessingException {
+        modelFireBase.updateUser(user,listener);
     }
-    public void addReview(Review review,AddReviewListener listener) throws JsonProcessingException {
+
+    /**
+     *Review Methods
+     */
+    //Read
+    public void getAllReviews(ReviewsListListener listener) {
+        modelFireBase.getAllReviews(listener);
+    }
+    public void getReviewById(String id, ReviewListener listener){
+        modelFireBase.getReviewById(id,listener);
+    }
+    public void getMyReviews(ReviewsListListener listener) {
+        modelFireBase.getMyReviews(listener);
+    }
+    //Create
+    public void addReview(Review review,VoidListener listener) throws JsonProcessingException {
         reviewListLoadingState.setValue(ReviewListLoadingState.loading);
         modelFireBase.addReview(review,listener);
     }
-
-
-    public interface GetReviewsListListener {
-        void onComplete(List<Review> reviewList);
-    }
-    public void getAllReviews(GetReviewsListListener listener) {
-        modelFireBase.getAllReviews(listener);
+    //Update
+    public void updateReview(Review review, VoidListener listener) throws JsonProcessingException {
+        modelFireBase.updateReview(review,listener);
     }
 
+    /**
+     *User & Review Combined Methods
+     */
+    public void getUserReviews(String userId, ReviewsListListener listener) {
+        modelFireBase.getUserReviews(userId,listener);
+    }
+    public void changeUserNameToReviews(User user, String userNewName, VoidListener listener) {
+        modelFireBase.changeUserNameToReviews(user,userNewName,listener);
+    }
+
+    /**
+     * Rating Methods
+     */
     public void setStarByRating(String ratingVal, ImageView star1, ImageView star2, ImageView star3, ImageView star4, ImageView star5, TextView rateTv){
 
         if(!ratingVal.equals("No rating yet")){
@@ -192,24 +215,4 @@ public class Model {
             star5.setVisibility(View.INVISIBLE);
         }
     }
-
-    public interface GetAllUsersListener {
-        void onComplete(List<User> userList);
-    }
-    public void getAllUsers(GetAllUsersListener listener){
-        modelFireBase.getAllUsers(listener);
-    }
-
-    public interface GetReviewByIdListener{
-        void onComplete(Review review);
-    }
-    public void getReviewById(String id,GetReviewByIdListener listener){
-        modelFireBase.getReviewById(id,listener);
-    }
-
-
-    public void getMyReviews(GetReviewsListListener listener) {
-        modelFireBase.getMyReviews(listener);
-    }
-
 }

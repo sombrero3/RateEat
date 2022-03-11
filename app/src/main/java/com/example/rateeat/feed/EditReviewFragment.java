@@ -22,7 +22,6 @@ import com.example.rateeat.R;
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.firebase.Timestamp;
 
 public class EditReviewFragment extends Fragment {
     EditText restaurantEt, dishEt, descriptionEt;
@@ -90,7 +89,7 @@ public class EditReviewFragment extends Fragment {
             review.setRating(rating);
             prog.setVisibility(View.VISIBLE);
             disableButtons();
-            Model.instance.updateReview(review, new Model.AddReviewListener() {
+            Model.instance.updateReview(review, new Model.VoidListener() {
                 @Override
                 public void onComplete() {
                     prog.setVisibility(View.GONE);
@@ -101,7 +100,7 @@ public class EditReviewFragment extends Fragment {
     }
 
     private void setReview() {
-        Model.instance.getReviewById(reviewId, new Model.GetReviewByIdListener() {
+        Model.instance.getReviewById(reviewId, new Model.ReviewListener() {
             @Override
             public void onComplete(Review rev) {
                 restaurantEt.setText(rev.getRestaurantName());

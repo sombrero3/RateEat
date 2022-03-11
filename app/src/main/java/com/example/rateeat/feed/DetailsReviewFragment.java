@@ -69,7 +69,7 @@ public class DetailsReviewFragment extends Fragment {
 
     private void setReview() {
 
-        Model.instance.getReviewById(reviewId, new Model.GetReviewByIdListener() {
+        Model.instance.getReviewById(reviewId, new Model.ReviewListener() {
             @Override
             public void onComplete(Review rev) {
                 review = new Review(rev);
@@ -91,7 +91,7 @@ public class DetailsReviewFragment extends Fragment {
 
     private void deleteReview() throws JsonProcessingException {
         review.setDeleted(true);
-        Model.instance.updateReview(review, new Model.AddReviewListener() {
+        Model.instance.updateReview(review, new Model.VoidListener() {
             @Override
             public void onComplete() {
                 Navigation.findNavController(restaurantTv).navigateUp();
