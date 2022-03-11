@@ -1,11 +1,17 @@
 package com.example.rateeat.feed;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,10 +32,13 @@ import com.example.rateeat.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 public class AddReviewFragment extends Fragment {
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    Bitmap imageBitmap;
+    ImageButton cameraBtn,galleryBtn;
     EditText restaurantEt, dishEt, descriptionEt;
     Button postReviewBtn, uploadImgBtn;
     TextView locationTv, ratingTv;
-    ImageView locationIv, image, star1, star2, star3, star4, star5;
+    ImageView locationIv, image, star1, star2, star3, star4, star5,addImage;
     ProgressBar prog;
     boolean flagStar1, flagStar2, flagStar3, flagStar4, flagStar5;
     @Override
@@ -44,12 +54,15 @@ public class AddReviewFragment extends Fragment {
         locationTv = view.findViewById(R.id.new_review_location_tv);
         ratingTv = view.findViewById(R.id.add_review_rating_tv);
         prog = view.findViewById(R.id.add_review_prog);
-        image = view.findViewById(R.id.add_review_img_iv);
+        image = view.findViewById(R.id.add_review_add_img_iv);
         star1 = view.findViewById(R.id.add_review_star1_iv);
         star2 = view.findViewById(R.id.add_review_star2_iv);
         star3 = view.findViewById(R.id.add_review_star3_iv);
         star4 = view.findViewById(R.id.add_review_star4_iv);
         star5 = view.findViewById(R.id.add_review_star5_iv);
+        cameraBtn = view.findViewById(R.id.add_review_camera_btn);
+        galleryBtn = view.findViewById(R.id.add_review_gallery_btn);
+        addImage =view.findViewById(R.id.add_review_add_img_iv);
         prog.setVisibility(View.GONE);
 
 
@@ -67,7 +80,38 @@ public class AddReviewFragment extends Fragment {
 
         setStarsOnClick();
         setHasOptionsMenu(true);
+
+      cameraBtn.setOnClickListener(v -> {
+          openCamera();
+      });
+
+      galleryBtn.setOnClickListener(v -> {
+          openGallery();
+      });
+
+
         return view;
+    }
+
+    private void openGallery() {
+    }
+
+    private void openCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+         if(requestCode==REQUEST_IMAGE_CAPTURE){            //came back from the camera
+             if(resultCode==RESULT_OK){
+                 Bundle extras = data.getExtras();
+                  imageBitmap = (Bitmap) extras.get("data");
+                  addImage.setImageBitmap(imageBitmap);
+
+             }
+         }
     }
 
     private void addReview() throws JsonProcessingException {
@@ -80,13 +124,27 @@ public class AddReviewFragment extends Fragment {
             disableButtons();
             User user = Model.instance.getSignedUser();
             Review review = new Review(user.getId(), user.getFirstName()+ " " + user.getLastName(), restaurant, dish, rating, description );
-            Model.instance.addReview(review, new Model.AddReviewListener() {
-                @Override
-                public void onComplete() {
-                    prog.setVisibility(View.GONE);
-                    Navigation.findNavController(prog).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToMyListFragment(user.getId()));
-                }
-            });
+            if(imageBitmap!=null){
+                Model.instance.saveImage(imageBitmap, dish + ".jpg", url -> {
+                   review.setDishUrl(url);
+              //     Model.instance.addReview(review,()->{                  //Save in storage
+                //       Navigation.findNavController(nameEt).navigateUp();
+                //   });
+
+
+                });
+            }
+            else {
+
+
+                Model.instance.addReview(review, new Model.AddReviewListener() {
+                    @Override
+                    public void onComplete() {
+                        prog.setVisibility(View.GONE);
+                        Navigation.findNavController(prog).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToMyListFragment(user.getId()));
+                    }
+                });
+            }
         }
     }
 

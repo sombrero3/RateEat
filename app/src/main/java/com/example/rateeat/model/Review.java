@@ -162,4 +162,8 @@ public class Review {
 
 
     }
+
+    public void setDishUrl(String url) {
+
+    }
 }

@@ -44,16 +44,11 @@ public class Model {
         modelFireBase.changeUserNameToReviews(user,userNewName,listener);
     }
 
-
-    public interface SaveImageListener{
-                 void onComplete(String url);
-    }
-
-    public void saveImage(Bitmap imageBitmap, String imageName,SaveImageListener listener) {
-
-        modelFireBase.saveImage(imageBitmap,imageName,listener);
-
-
+     public interface saveImageListener{
+     void onComplete(String url);
+     }
+    public void saveImage(Bitmap imageBitmap, String imageName,saveImageListener Listener) {
+        modelFireBase.saveImage(imageBitmap,Listener);
     }
 
 
