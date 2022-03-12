@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,7 +33,7 @@ import java.util.List;
 public class GeneralListFragment extends Fragment {
     GeneralListViewModel viewModel;
     ReviewAdapter adapter;
-    ProgressBar prog;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -45,17 +46,12 @@ public class GeneralListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_general_list, container, false);
-
-
-        prog = view.findViewById(R.id.general_list_prog);
-
+        swipeRefreshLayout = view.findViewById(R.id.general_list_swipe_refresh);
         RecyclerView list = view.findViewById(R.id.general_rv);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ReviewAdapter(viewModel.getReviewList());
         list.setAdapter(adapter);
-
-        setReviewList();
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -66,18 +62,21 @@ public class GeneralListFragment extends Fragment {
 
             }
         });
+
+        swipeRefreshLayout.setOnRefreshListener(()->refreshList());
+        refreshList();
         setHasOptionsMenu(true);
         return view;
     }
-    private void setReviewList() {
-        prog.setVisibility(View.VISIBLE);
+    private void refreshList() {
+        swipeRefreshLayout.setRefreshing(true);
         Model.instance.getAllReviews(new Model.ReviewsListListener() {
             @Override
             public void onComplete(List<Review> reviews) {
                 viewModel.getReviewList().clear();
                 viewModel.getReviewList().addAll(reviews);
                 adapter.notifyDataSetChanged();
-                prog.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

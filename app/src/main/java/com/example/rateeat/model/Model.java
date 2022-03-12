@@ -60,6 +60,7 @@ public class Model {
      */
     public interface VoidListener {
         void onComplete() throws JsonProcessingException;
+//                throws JsonProcessingException;
     }
     public interface UserListener {
         void onComplete(User user);

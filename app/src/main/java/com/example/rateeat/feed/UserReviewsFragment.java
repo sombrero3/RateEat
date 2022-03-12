@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.rateeat.R;
@@ -34,15 +34,15 @@ public class UserReviewsFragment extends Fragment {
     UserReviewAdapter adapter;
     TextView nameTv, emailTv;
     ImageView image;
-    User user;
-    ProgressBar prog;
+    SwipeRefreshLayout swipeRefreshLayout;
     String userId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_user_list, container, false);
-        prog = view.findViewById(R.id.user_list_prog);
+        swipeRefreshLayout = view.findViewById(R.id.user_list_swipe_refresh);
+
         userId="";
         userId = UserReviewsFragmentArgs.fromBundle(getArguments()).getUserId();
 
@@ -56,8 +56,8 @@ public class UserReviewsFragment extends Fragment {
         emailTv = view.findViewById(R.id.user_list_email_tv);
         image = view.findViewById(R.id.my_list_row_img);
 
-
-        setUI(userId);
+        swipeRefreshLayout.setOnRefreshListener(()->refreshUI(userId));
+        refreshUI(userId);
 
         nameTv.setOnClickListener((v)->{
             Navigation.findNavController(v).navigate(UserReviewsFragmentDirections.actionGlobalProfileFragment(userId));
@@ -74,41 +74,32 @@ public class UserReviewsFragment extends Fragment {
         return view;
     }
 
+    public void refreshUI(String userId){
+        swipeRefreshLayout.setRefreshing(true);
+        Model.instance.getUserById(userId, new Model.UserListener() {
+            @Override
+            public void onComplete(User user) {
+                setUserUi(user);
+            }
+        });
+    }
+    private void setUserUi(User user) {
+        nameTv.setText(user.getFirstName() + " " + user.getLastName());
+        emailTv.setText(user.getEmail());
+        setReviewList(user.getId());
+    }
     private void setReviewList(String userId) {
-        prog.setVisibility(View.VISIBLE);
+
         Model.instance.getUserReviews(userId,new Model.ReviewsListListener() {
             @Override
             public void onComplete(List<Review> reviews) {
                 reviewList.clear();
                 reviewList.addAll(reviews);
                 adapter.notifyDataSetChanged();
-                prog.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-    }
-
-    public void setUI(String userId){
-
-        String signedUserId = Model.instance.getSignedUser().getId();
-        if(userId.equals(signedUserId)){
-            user = Model.instance.getSignedUser();
-            setUserUi(user);
-        }else{
-            Model.instance.getUserById(userId, new Model.UserListener() {
-                @Override
-                public void onComplete(User u) {
-                    user = new User(u);
-                    setUserUi(user);
-                }
-            });
-        }
-    }
-
-    private void setUserUi(User user) {
-        nameTv.setText(user.getFirstName() + " " + user.getLastName());
-        emailTv.setText(user.getEmail());
-        setReviewList(user.getId());
     }
 
     public void onPrepareOptionsMenu (Menu menu) {

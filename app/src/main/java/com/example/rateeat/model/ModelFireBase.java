@@ -336,18 +336,11 @@ public class ModelFireBase {
                                 }
                             }else{
                                 try {
-                                    updateReview(list.get(i), new Model.VoidListener() {
-                                        @Override
-                                        public void onComplete() {
-
-                                        }
-                                    });
+                                    updateReview(list.get(i), () -> {});
                                 } catch (JsonProcessingException e) {
                                     e.printStackTrace();
                                 }
                             }
                         }
-
-
     }
 }
