@@ -44,11 +44,14 @@ public class Model {
         modelFireBase.changeUserNameToReviews(user,userNewName,listener);
     }
 
-     public interface saveImageListener{
-     void onComplete(String url);
-     }
-    public void saveImage(Bitmap imageBitmap, String imageName,saveImageListener Listener) {
-        modelFireBase.saveImage(imageBitmap,Listener);
+
+      public interface  SaveImageListener{
+         void onComplete(String url) throws JsonProcessingException;
+      }
+    public void saveImage(Bitmap imageBitmap, String imageName,SaveImageListener Listener) {
+
+        modelFireBase.saveImage(imageBitmap,imageName,Listener);
+
     }
 
 
@@ -58,7 +61,7 @@ public class Model {
     }
 
 
-    private Model() {
+    private void refresh() {
         reviewListLoadingState.setValue(ReviewListLoadingState.loaded);
     }
 
@@ -104,7 +107,15 @@ public class Model {
     }
     public void addReview(Review review,AddReviewListener listener) throws JsonProcessingException {
         reviewListLoadingState.setValue(ReviewListLoadingState.loading);
-        modelFireBase.addReview(review,listener);
+        modelFireBase.addReview(review, new AddReviewListener() {
+            @Override
+            public void onComplete() throws JsonProcessingException {
+                refresh();
+                listener.onComplete();
+            }
+        });
+
+
     }
 
 

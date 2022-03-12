@@ -17,6 +17,7 @@ public class Review {
     String imageUrl;
     boolean isDeleted = false;
     Long updateDate = new Long(0);
+    private String avatarUrl;
 
     public Review(String userId,String userName, String restaurantName, String dishName, String rating, String description) {
         this.userId = userId;
@@ -135,6 +136,7 @@ public class Review {
         result.put("imageUrl", imageUrl);
         result.put("deleted", isDeleted);
         result.put("updateDate", FieldValue.serverTimestamp());
+        result.put("avatarUrl",avatarUrl);         //i added
 
         return result;
     }
@@ -150,7 +152,10 @@ public class Review {
         imageUrl = (String)map.get("imageUrl");
         isDeleted = (Boolean) map.get("deleted");
         updateDate = (Long)map.get("updateDate");
-        //----------------
+        String url =(String)map.get("avatarUrl");             //i add
+
+        //student.setAvatarUrl(url);                          //i add
+        //------------
         //Timestamp ts = (Timestamp)map.get("lastUpdated");
         //lastUpdated = ts.getSeconds();
         //--------
@@ -160,10 +165,11 @@ public class Review {
 
     public void setAvatarUrl(String url) {
 
+       this.avatarUrl=url;
 
     }
-
-    public void setDishUrl(String url) {
-
+    public String getAvatarUrl(){
+        return avatarUrl;
     }
+
 }

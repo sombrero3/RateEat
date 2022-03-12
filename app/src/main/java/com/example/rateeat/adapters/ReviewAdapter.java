@@ -44,3 +44,15 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder>{
         return reviewList.size();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
