@@ -44,7 +44,7 @@ public class AddReviewFragment extends Fragment {
     Bitmap imageBitmap;
     ImageButton cameraBtn,galleryBtn;
     EditText restaurantEt, dishEt, descriptionEt;
-    Button postReviewBtn, uploadImgBtn;
+    Button postReviewBtn;
     TextView locationTv, ratingTv;
     ImageView locationIv, image, star1, star2, star3, star4, star5,addImage;
     ProgressBar prog;
@@ -70,6 +70,7 @@ public class AddReviewFragment extends Fragment {
         star5 = view.findViewById(R.id.add_review_star5_iv);
         cameraBtn = view.findViewById(R.id.add_review_camera_btn);
         galleryBtn = view.findViewById(R.id.add_review_gallery_btn);
+        addImage = view.findViewById(R.id.add_review_add_imgAG_iv);
         prog.setVisibility(View.GONE);
 
         postReviewBtn.setOnClickListener((v)->{
@@ -110,7 +111,7 @@ public class AddReviewFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==REQUEST_IMAGE_CAPTURE){         //Back from the camera
-           if(requestCode==RESULT_OK){                   //It worked
+           if(resultCode==RESULT_OK){                   //It worked
                Bundle extras = data.getExtras();
                imageBitmap = (Bitmap) extras.get("data");
                addImage.setImageBitmap(imageBitmap);
@@ -169,11 +170,9 @@ public class AddReviewFragment extends Fragment {
 
     private void disableButtons() {
         postReviewBtn.setEnabled(false);
-        uploadImgBtn.setEnabled(false);
     }
     public void enableButtons(){
         postReviewBtn.setEnabled(true);
-        uploadImgBtn.setEnabled(true);
     }
 
     private boolean validation(String restaurantName,String dishName,String description) {
