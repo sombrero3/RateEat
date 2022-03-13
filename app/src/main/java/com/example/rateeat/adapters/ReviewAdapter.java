@@ -50,3 +50,15 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder>{
         return reviewsList.getValue().size();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+

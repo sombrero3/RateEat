@@ -1,6 +1,8 @@
 package com.example.rateeat.model;
 
+
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -38,6 +40,16 @@ public class Model {
 
     public MutableLiveData<ReviewListLoadingState> reviewListLoadingState = new MutableLiveData<>();
     public User signedUser;
+
+      public interface  SaveImageListener{
+         void onComplete(String url) throws JsonProcessingException;
+      }
+    public void saveImage(Bitmap imageBitmap, String imageName,SaveImageListener Listener) {
+
+        modelFireBase.saveImage(imageBitmap,imageName,Listener);
+
+    }
+
 
     public enum ReviewListLoadingState {
         loading,
@@ -183,6 +195,7 @@ public class Model {
     //Create
     public void addReview(Review review,VoidListener listener) throws JsonProcessingException {
         reviewListLoadingState.setValue(ReviewListLoadingState.loading);
+
         modelFireBase.addReview(review, new VoidListener() {
             @Override
             public void onComplete() throws JsonProcessingException {

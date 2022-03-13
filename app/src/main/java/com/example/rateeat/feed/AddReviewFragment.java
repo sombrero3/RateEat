@@ -38,10 +38,15 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class AddReviewFragment extends Fragment {
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_IMAGE_PICK = 2;
+
+    Bitmap imageBitmap;
+    ImageButton cameraBtn,galleryBtn;
     EditText restaurantEt, dishEt, descriptionEt;
     Button postReviewBtn, uploadImgBtn;
     TextView locationTv, ratingTv;
-    ImageView locationIv, image, star1, star2, star3, star4, star5,addImage;
+    ImageView locationIv, star1, star2, star3, star4, star5,addImage;
     ProgressBar prog;
     boolean flagStar1, flagStar2, flagStar3, flagStar4, flagStar5;
     static final int REQUEST_IMAGE_CAPTURE = 1,REQUEST_GALLERY =2;
@@ -53,7 +58,7 @@ public class AddReviewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_add_review, container, false);
         postReviewBtn = view.findViewById(R.id.add_review_postReview_btn);
-        uploadImgBtn = view.findViewById(R.id.add_review_uploadImg_btn);
+       // uploadImgBtn = view.findViewById(R.id.add_review_uploadImg_btn);
         restaurantEt = view.findViewById(R.id.add_review_restaurant_et);
         dishEt = view.findViewById(R.id.add_review_dish_et);
         descriptionEt = view.findViewById(R.id.add_review_description_et);
@@ -62,13 +67,13 @@ public class AddReviewFragment extends Fragment {
         ratingTv = view.findViewById(R.id.add_review_rating_tv);
 //        cameraBtn = view.findViewById(R.id.add_review_uploadImg_btn);
         prog = view.findViewById(R.id.add_review_prog);
-        //image = view.findViewById(R.id.add_review_img_iv);
         star1 = view.findViewById(R.id.add_review_star1_iv);
         star2 = view.findViewById(R.id.add_review_star2_iv);
         star3 = view.findViewById(R.id.add_review_star3_iv);
         star4 = view.findViewById(R.id.add_review_star4_iv);
         star5 = view.findViewById(R.id.add_review_star5_iv);
-        addImage = view.findViewById(R.id.add_review_img_iv);
+        cameraBtn = view.findViewById(R.id.add_review_camera_btn);
+        galleryBtn = view.findViewById(R.id.add_review_gallery_btn);
         prog.setVisibility(View.GONE);
 
         postReviewBtn.setOnClickListener((v)->{
@@ -82,12 +87,59 @@ public class AddReviewFragment extends Fragment {
             //openCamera();
         });
 
-//        galleryBtn.setOnClickListener(v -> {
-//            openGallery();
-//        });
+        
+
+        cameraBtn.setOnClickListener(v -> {
+            openCamera();
+        });
+
+        galleryBtn.setOnClickListener(v -> {
+            openGallery();
+        });
+
         setStarsOnClick();
         setHasOptionsMenu(true);
         return view;
+    }
+
+    private void openGallery() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent,REQUEST_IMAGE_PICK);
+    }
+
+    private void openCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_IMAGE_CAPTURE){         //Back from the camera
+           if(requestCode==RESULT_OK){                   //It worked
+               Bundle extras = data.getExtras();
+               imageBitmap = (Bitmap) extras.get("data");
+               addImage.setImageBitmap(imageBitmap);
+
+           }
+        }
+        else if(requestCode==REQUEST_IMAGE_PICK){
+            if(resultCode==RESULT_OK){
+                try {
+                    final Uri imageUri = data.getData();
+                    final InputStream imageStream =getContext().getContentResolver().openInputStream(imageUri);
+                   imageBitmap = BitmapFactory.decodeStream(imageStream);
+                    addImage.setImageBitmap(imageBitmap);
+
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(getContext(),"Failed to select image from gallery",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }
     }
 
     private void addReview() throws JsonProcessingException {
@@ -95,55 +147,33 @@ public class AddReviewFragment extends Fragment {
         String dish = dishEt.getText().toString().trim();
         String description = descriptionEt.getText().toString().trim();
         String rating = ratingTv.getText().toString().trim();
-        if(validation(restaurant,dish,description)){
+        if(validation(restaurant,dish,description)) {
             prog.setVisibility(View.VISIBLE);
             disableButtons();
             User user = Model.instance.getSignedUser();
-            Review review = new Review(user.getId(), user.getFirstName()+ " " + user.getLastName(), restaurant, dish, rating, description );
-            Model.instance.addReview(review, new Model.VoidListener() {
-                @Override
-                public void onComplete() {
+
+            Review review = new Review(user.getId(), user.getFirstName() + " " + user.getLastName(), restaurant, dish, rating, description);
+            if (imageBitmap != null) {
+                Model.instance.addReview(review,()->{
+                    Model.instance.saveImage(imageBitmap,  review.getId()+ ".jpg", url -> {
+                        review.setAvatarUrl(url);
+                        Model.instance.updateReview(review, new Model.AddReviewListener() {
+                            @Override
+                            public void onComplete() throws JsonProcessingException {
+                                Navigation.findNavController(restaurantEt).navigateUp();
+                            }
+                        });
+                 });
+
+              });
+            } else {
+                Model.instance.addReview(review, () -> {
                     prog.setVisibility(View.GONE);
                     Navigation.findNavController(prog).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToMyListFragment(user.getId()));
-                }
-            });
+                });
+            }
         }
     }
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode==REQUEST_IMAGE_CAPTURE){         //Back from the camera
-//            if(resultCode==RESULT_OK){                   //It worked
-//                Bundle extras = data.getExtras();
-//                imageBitmap = (Bitmap) extras.get("data");
-//                addImage.setImageBitmap(imageBitmap);
-//
-//            }
-//        }else if(requestCode == REQUEST_GALLERY){
-//            if(resultCode == RESULT_OK){
-//                try{
-//                    final Uri imageUri = data.getData();
-//                    final InputStream imageStream = getContext().getContentResolver().openInputStream(imageUri);
-//                    imageBitmap = BitmapFactory.decodeStream(imageStream);
-//                    addImage.setImageBitmap(imageBitmap);
-//                }catch(FileNotFoundException e){
-//                    e.printStackTrace();
-//                    Toast.makeText(getContext(),"Failed to select image from gallery", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        }
-//    }
-//    private void openGallery() {
-//        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-//        photoPickerIntent.setType("image/*");
-//        startActivityForResult(photoPickerIntent,REQUEST_GALLERY);
-//    }
-//
-//
-//    private void openCamera() {
-//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
-//    }
 
     private void disableButtons() {
         postReviewBtn.setEnabled(false);

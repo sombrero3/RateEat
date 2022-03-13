@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,7 +124,10 @@ public class SignUpFragment extends Fragment {
                                     e.printStackTrace();
                                 }
                             } else {
+
                                 Toast.makeText(getActivity(), "Failed To Registered", Toast.LENGTH_LONG).show();
+
+
                                 progressBar.setVisibility(View.GONE);
                             }
                         }
