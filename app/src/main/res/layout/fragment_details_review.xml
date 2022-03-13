@@ -1,234 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/details_review_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
-        tools:context=".feed.DetailsReviewFragment">
-        <ImageView
-            android:id="@+id/review_details_dish_img"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/black">
 
-        <TextView
-            android:id="@+id/review_details_restaurant_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:text="Restaurant Name"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/review_details_dish_img" />
-
-        <TextView
-            android:id="@+id/review_details_dish_name_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:text="dish name"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/review_details_restaurant_name_tv" />
-
-        <TextView
-            android:id="@+id/review_details_description_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:text="my review content will be applied here in this space"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView17"
-            app:layout_constraintTop_toBottomOf="@+id/textView17" />
-
-        <TextView
-            android:id="@+id/review_details_user_name_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:text="User name"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView17"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Review :"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/textView7"
-            app:layout_constraintTop_toBottomOf="@+id/review_details_user_name_tv" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Review  by:"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/review_details_rating_tv"
-            app:layout_constraintTop_toBottomOf="@+id/review_details_star1_iv" />
-
-        <TextView
-            android:id="@+id/textView25"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:text="Friends who also posted reviews about that dish ;"
-            android:textColor="@color/grey_1"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView17"
-            app:layout_constraintTop_toBottomOf="@+id/review_details_description_tv" />
-        <View
-            android:id="@+id/home_restaurant_line"
-            style="@style/line"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView25"
-            tools:layout_editor_absoluteX="0dp" />
-        <TextView
-            android:id="@+id/review_details_rating_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No rating yet"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/review_details_star1_iv"
-            app:layout_constraintStart_toStartOf="@+id/review_details_star1_iv"
-            app:layout_constraintTop_toTopOf="@+id/review_details_star1_iv" />
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            tools:context=".feed.DetailsReviewFragment">
 
-        <ImageView
-            android:id="@+id/review_details_star1_iv"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/star"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/review_details_dish_name_tv"
-            app:srcCompat="@drawable/star" />
+            <ImageView
+                android:id="@+id/review_details_dish_img"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/review_details_star2_iv"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/star"
-            app:layout_constraintBottom_toBottomOf="@+id/review_details_star1_iv"
-            app:layout_constraintStart_toEndOf="@+id/review_details_star1_iv"
-            app:layout_constraintTop_toTopOf="@+id/review_details_star1_iv"
-            app:srcCompat="@drawable/star" />
+            <TextView
+                android:id="@+id/review_details_restaurant_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:text="Restaurant Name"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/review_details_dish_img" />
 
-        <ImageView
-            android:id="@+id/review_details_star3_iv"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/star"
-            app:layout_constraintBottom_toBottomOf="@+id/review_details_star2_iv"
-            app:layout_constraintStart_toEndOf="@+id/review_details_star2_iv"
-            app:layout_constraintTop_toTopOf="@+id/review_details_star2_iv"
-            app:srcCompat="@drawable/star" />
+            <TextView
+                android:id="@+id/review_details_dish_name_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:text="dish name"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/review_details_restaurant_name_tv" />
 
-        <ImageView
-            android:id="@+id/review_details_star4_iv"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/star"
-            app:layout_constraintBottom_toBottomOf="@+id/review_details_star3_iv"
-            app:layout_constraintStart_toEndOf="@+id/review_details_star3_iv"
-            app:layout_constraintTop_toTopOf="@+id/review_details_star3_iv"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/star" />
+            <TextView
+                android:id="@+id/review_details_description_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="my review content will be applied here in this space"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView17"
+                app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
-        <ImageView
-            android:id="@+id/review_details_star5_iv"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/star"
-            app:layout_constraintBottom_toBottomOf="@+id/review_details_star4_iv"
-            app:layout_constraintStart_toEndOf="@+id/review_details_star4_iv"
-            app:layout_constraintTop_toTopOf="@+id/review_details_star4_iv"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/star" />
+            <TextView
+                android:id="@+id/review_details_user_name_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="User name"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView17"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/review_rv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_restaurant_line" />
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Review :"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/textView7"
+                app:layout_constraintTop_toBottomOf="@+id/review_details_user_name_tv" />
 
-        <View
-            android:id="@+id/home_restaurant_line2"
-            style="@style/line"
-            android:layout_width="match_parent"
-            android:layout_marginTop="2dp"
-            android:background="#3C2E05"
-            app:layout_constraintTop_toBottomOf="@+id/review_rv"
-            tools:layout_editor_absoluteX="0dp" />
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Review  by:"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/review_details_rating_tv"
+                app:layout_constraintTop_toBottomOf="@+id/review_details_star1_iv" />
 
-        <ProgressBar
-            android:id="@+id/review_details_prog"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            app:layout_constraintBottom_toTopOf="@+id/review_details_user_name_tv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:text="Friends who also posted reviews about that dish ;"
+                android:textColor="@color/grey_1"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView17"
+                app:layout_constraintTop_toBottomOf="@+id/review_details_description_tv" />
 
-        <ImageView
-            android:id="@+id/review_details_edit_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/review_details_delete_iv"
-            app:layout_constraintTop_toTopOf="@+id/textView17"
-            app:srcCompat="@drawable/edit" />
+            <View
+                android:id="@+id/home_restaurant_line"
+                style="@style/line"
+                android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView25"
+                tools:layout_editor_absoluteX="0dp" />
 
-        <ImageView
-            android:id="@+id/review_details_delete_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/review_details_edit_iv"
-            app:srcCompat="@drawable/delete" />
+            <TextView
+                android:id="@+id/review_details_rating_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No rating yet"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/review_details_star1_iv"
+                app:layout_constraintStart_toStartOf="@+id/review_details_star1_iv"
+                app:layout_constraintTop_toTopOf="@+id/review_details_star1_iv" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            <ImageView
+                android:id="@+id/review_details_star1_iv"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/star"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/review_details_dish_name_tv"
+                app:srcCompat="@drawable/star" />
+
+            <ImageView
+                android:id="@+id/review_details_star2_iv"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/star"
+                app:layout_constraintBottom_toBottomOf="@+id/review_details_star1_iv"
+                app:layout_constraintStart_toEndOf="@+id/review_details_star1_iv"
+                app:layout_constraintTop_toTopOf="@+id/review_details_star1_iv"
+                app:srcCompat="@drawable/star" />
+
+            <ImageView
+                android:id="@+id/review_details_star3_iv"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/star"
+                app:layout_constraintBottom_toBottomOf="@+id/review_details_star2_iv"
+                app:layout_constraintStart_toEndOf="@+id/review_details_star2_iv"
+                app:layout_constraintTop_toTopOf="@+id/review_details_star2_iv"
+                app:srcCompat="@drawable/star" />
+
+            <ImageView
+                android:id="@+id/review_details_star4_iv"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/star"
+                app:layout_constraintBottom_toBottomOf="@+id/review_details_star3_iv"
+                app:layout_constraintStart_toEndOf="@+id/review_details_star3_iv"
+                app:layout_constraintTop_toTopOf="@+id/review_details_star3_iv"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/star" />
+
+            <ImageView
+                android:id="@+id/review_details_star5_iv"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/star"
+                app:layout_constraintBottom_toBottomOf="@+id/review_details_star4_iv"
+                app:layout_constraintStart_toEndOf="@+id/review_details_star4_iv"
+                app:layout_constraintTop_toTopOf="@+id/review_details_star4_iv"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/star" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/review_rv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_restaurant_line" />
+
+            <View
+                android:id="@+id/home_restaurant_line2"
+                style="@style/line"
+                android:layout_width="match_parent"
+                android:layout_marginTop="2dp"
+                android:background="#3C2E05"
+                app:layout_constraintTop_toBottomOf="@+id/review_rv"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <ImageView
+                android:id="@+id/review_details_edit_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/review_details_delete_iv"
+                app:layout_constraintTop_toTopOf="@+id/textView17"
+                app:srcCompat="@drawable/edit" />
+
+            <ImageView
+                android:id="@+id/review_details_delete_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/review_details_edit_iv"
+                app:srcCompat="@drawable/delete" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

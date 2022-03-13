@@ -1,13 +1,21 @@
 package com.example.rateeat.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 
 import java.util.HashMap;
 import java.util.Map;
-//import com.google.firebase.firestore.FieldValue;
 
+@Entity
 public class Review {
+    @PrimaryKey
+    @NonNull
     String id;
+
     String userId;
     String userName;
     String restaurantName;
@@ -17,7 +25,6 @@ public class Review {
     String imageUrl;
     boolean isDeleted = false;
     Long updateDate = new Long(0);
-    private String avatarUrl;
 
     public Review(String userId,String userName, String restaurantName, String dishName, String rating, String description) {
         this.userId = userId;
@@ -135,9 +142,7 @@ public class Review {
         result.put("rating",rating);
         result.put("imageUrl", imageUrl);
         result.put("deleted", isDeleted);
-        result.put("updateDate", FieldValue.serverTimestamp());
-        result.put("avatarUrl",avatarUrl);         //i added
-
+        result.put("latsUpdateDate", FieldValue.serverTimestamp());
         return result;
     }
 
@@ -151,25 +156,8 @@ public class Review {
         rating= (String) map.get("rating");
         imageUrl = (String)map.get("imageUrl");
         isDeleted = (Boolean) map.get("deleted");
-        updateDate = (Long)map.get("updateDate");
-        String url =(String)map.get("avatarUrl");             //i add
-
-        //student.setAvatarUrl(url);                          //i add
-        //------------
-        //Timestamp ts = (Timestamp)map.get("lastUpdated");
-        //lastUpdated = ts.getSeconds();
-        //--------
-
-    }
-
-
-    public void setAvatarUrl(String url) {
-
-       this.avatarUrl=url;
-
-    }
-    public String getAvatarUrl(){
-        return avatarUrl;
+        Timestamp ts = (Timestamp) map.get("latsUpdateDate");
+        updateDate = ts.getSeconds();
     }
 
 }

@@ -1,15 +1,20 @@
 package com.example.rateeat.model;
 
+
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.os.HandlerCompat;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.rateeat.MyApplication;
 import com.example.rateeat.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -23,27 +28,18 @@ public class Model {
     public ModelFireBase modelFireBase = new ModelFireBase();
     public Executor executor = Executors.newFixedThreadPool(1);
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
-    public MutableLiveData<List<Review>> ReviewsList = new MutableLiveData<>();
+    public MutableLiveData<List<Review>> reviewsList = new MutableLiveData<>();
+
+    public MutableLiveData<ReviewListLoadingState> getReviewListLoadingState() {
+        return reviewListLoadingState;
+    }
+
+    public void setReviewListLoadingState(MutableLiveData<ReviewListLoadingState> reviewListLoadingState) {
+        this.reviewListLoadingState = reviewListLoadingState;
+    }
+
     public MutableLiveData<ReviewListLoadingState> reviewListLoadingState = new MutableLiveData<>();
     public User signedUser;
-
-    public void updateReview(Review review, AddReviewListener listener) throws JsonProcessingException {
-        modelFireBase.updateReview(review,listener);
-    }
-
-    public void getUserReviews(String userId, GetReviewsListListener listener) {
-        modelFireBase.getUserReviews(userId,listener);
-    }
-
-    public void updateUser(User user,AddUserListener listener) throws JsonProcessingException {
-        modelFireBase.updateUser(user,listener);
-    }
-
-
-    public void changeUserNameToReviews(User user,String userNewName,AddUserListener listener) {
-        modelFireBase.changeUserNameToReviews(user,userNewName,listener);
-    }
-
 
       public interface  SaveImageListener{
          void onComplete(String url) throws JsonProcessingException;
@@ -60,72 +56,184 @@ public class Model {
         loaded
     }
 
-
-    private void refresh() {
+    private Model() {
         reviewListLoadingState.setValue(ReviewListLoadingState.loaded);
     }
 
+    /**
+     * Authentication
+     */
     public boolean isSignedIn() {
         return modelFireBase.isSignedIn();
     }
     public User getSignedUser() {
-
         return signedUser;
     }
-
-
-
-    public interface SetCurrentUserListener {
-        void onComplete(User user);
-    }
-    public void setCurrentUser(SetCurrentUserListener listener) {
-        modelFireBase.setCurrentUser(new SetCurrentUserListener() {
-
-            @Override
-            public void onComplete(User user) {
-                signedUser = user;
-                listener.onComplete(user);
-            }
+    public void setCurrentUser(UserListener listener) {
+        modelFireBase.setCurrentUser(user -> {
+            signedUser = user;
+            listener.onComplete(user);
         });
     }
 
-    public interface getUserByIdListener{
+    /**
+     * Listeners Interfaces
+     */
+    public interface VoidListener {
+        void onComplete() throws JsonProcessingException;
+    }
+    public interface UserListener {
         void onComplete(User user);
     }
-    public void getUserById(String id,getUserByIdListener listener){
+    public interface UsersListListener {
+        void onComplete(List<User> userList);
+    }
+    public interface ReviewListener {
+        void onComplete(Review review);
+    }
+    public interface ReviewsListListener {
+        void onComplete(List<Review> reviewList);
+    }
+
+    /**
+     *User Methods
+     */
+    //Read
+    public void getAllUsers(UsersListListener listener){
+        modelFireBase.getAllUsers(listener);
+    }
+    public void getUserById(String id, UserListener listener){
         modelFireBase.getUserById(id,listener);
 
     }
-    public interface AddUserListener{
-        void onComplete() throws JsonProcessingException;
-    }
-    public void addUser(User user,AddUserListener listener) throws JsonProcessingException {
+    //Create
+    public void addUser(User user, VoidListener listener) throws JsonProcessingException {
         modelFireBase.addUser(user,listener);
     }
-    public interface AddReviewListener{
-        void onComplete() throws JsonProcessingException;
+    //Update
+    public void updateUser(User user, VoidListener listener) throws JsonProcessingException {
+        modelFireBase.updateUser(user,listener);
     }
-    public void addReview(Review review,AddReviewListener listener) throws JsonProcessingException {
+
+    /**
+     *Review Methods
+     */
+    //Read
+//    public void getAllReviews(ReviewsListListener listener) {
+//        modelFireBase.getAllReviews(listener);
+//    }
+    public LiveData<List<Review>> getAllReviewsLiveData(){
+        if(reviewsList.getValue()==null){
+            refreshReviewsList();
+        }
+        return reviewsList;
+    }
+    public void refreshReviewsList(){
         reviewListLoadingState.setValue(ReviewListLoadingState.loading);
-        modelFireBase.addReview(review, new AddReviewListener() {
+        //get last local update date
+        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("ReviewsLastUpdateDate",0);
+        //firebase get all updates since last local update date
+        modelFireBase.getAllReviews(lastUpdateDate,new ReviewsListListener() {
+            @Override
+            public void onComplete(List<Review> list) {
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("TAG","firebase returned "+list.size());
+                        Long lud = new Long(0);
+                        //add records to local db
+                        for(Review review:list) {
+                            if(review.isDeleted()==true) {
+                                AppLocalDb.db.reviewDao().delete(review);
+                            }else{
+                                AppLocalDb.db.reviewDao().insertAll(review);
+                            }
+                            if(lud<review.getUpdateDate()){
+                                lud=review.getUpdateDate();
+                            }
+                        }
+                        //update last local update of db
+                        MyApplication.getContext()
+                                .getSharedPreferences("TAG",Context.MODE_PRIVATE)
+                                .edit().putLong("ReviewsLastUpdateDate",lud)
+                                .commit();
+                        //return data
+                        List<Review> revList = AppLocalDb.db.reviewDao().getAll();
+                        for(Review rev:revList){
+                            if(rev.isDeleted==true){
+                                AppLocalDb.db.reviewDao().delete(rev);
+                                revList.remove(rev);
+                            }
+                        }
+                        reviewsList.postValue(revList);
+                        reviewListLoadingState.postValue(ReviewListLoadingState.loaded);
+                    }
+                });
+            }
+        });
+    }
+    public void deleteLeftoverReview(String reviewId,VoidListener listener) {
+        Review review1= AppLocalDb.db.reviewDao().getReviewById(reviewId);
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                AppLocalDb.db.reviewDao().delete(review1);
+                try {
+                    listener.onComplete();
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    public void getReviewById(String id, ReviewListener listener){
+        modelFireBase.getReviewById(id,listener);
+    }
+    public void getMyReviews(ReviewsListListener listener) {
+        modelFireBase.getMyReviews(listener);
+    }
+    //Create
+    public void addReview(Review review,VoidListener listener) throws JsonProcessingException {
+        reviewListLoadingState.setValue(ReviewListLoadingState.loading);
+
+        modelFireBase.addReview(review, new VoidListener() {
             @Override
             public void onComplete() throws JsonProcessingException {
-                refresh();
+                refreshReviewsList();
                 listener.onComplete();
             }
         });
-
-
+    }
+    //Update
+    public void updateReview(Review review, VoidListener listener) throws JsonProcessingException {
+        modelFireBase.updateReview(review, new VoidListener() {
+            @Override
+            public void onComplete() throws JsonProcessingException {
+                refreshReviewsList();
+                listener.onComplete();
+            }
+        });
     }
 
-
-    public interface GetReviewsListListener {
-        void onComplete(List<Review> reviewList);
+    /**
+     *User & Review Combined Methods
+     */
+    public void getUserReviews(String userId, ReviewsListListener listener) {
+        modelFireBase.getUserReviews(userId,listener);
     }
-    public void getAllReviews(GetReviewsListListener listener) {
-        modelFireBase.getAllReviews(listener);
+    public void changeUserNameToReviews(User user, String userNewName, VoidListener listener) {
+        modelFireBase.changeUserNameToReviews(user, userNewName, new VoidListener() {
+            @Override
+            public void onComplete() throws JsonProcessingException {
+                refreshReviewsList();
+                listener.onComplete();
+            }
+        });
     }
 
+    /**
+     * Rating Methods
+     */
     public void setStarByRating(String ratingVal, ImageView star1, ImageView star2, ImageView star3, ImageView star4, ImageView star5, TextView rateTv){
 
         if(!ratingVal.equals("No rating yet")){
@@ -211,24 +319,4 @@ public class Model {
             star5.setVisibility(View.INVISIBLE);
         }
     }
-
-    public interface GetAllUsersListener {
-        void onComplete(List<User> userList);
-    }
-    public void getAllUsers(GetAllUsersListener listener){
-        modelFireBase.getAllUsers(listener);
-    }
-
-    public interface GetReviewByIdListener{
-        void onComplete(Review review);
-    }
-    public void getReviewById(String id,GetReviewByIdListener listener){
-        modelFireBase.getReviewById(id,listener);
-    }
-
-
-    public void getMyReviews(GetReviewsListListener listener) {
-        modelFireBase.getMyReviews(listener);
-    }
-
 }

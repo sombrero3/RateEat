@@ -112,7 +112,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void toFeedActivity() {
-        Model.instance.setCurrentUser(new Model.SetCurrentUserListener() {
+        Model.instance.setCurrentUser(new Model.UserListener() {
             @Override
             public void onComplete(User user) {
                 progressBar.setVisibility(View.INVISIBLE);

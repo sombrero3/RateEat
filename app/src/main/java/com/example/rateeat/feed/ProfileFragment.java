@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.rateeat.R;
@@ -26,7 +26,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public class ProfileFragment extends Fragment {
     EditText nameEditEt;
     TextView nameTv,emailTv;
-    ProgressBar prog;
+    SwipeRefreshLayout swipeRefreshLayout;
     ImageView imageIv,editIv,uploadImageIv,confirmNameIv;
     String userId;
     Button reviewsBtn;
@@ -37,12 +37,13 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+
         userId = ProfileFragmentArgs.fromBundle(getArguments()).getUserId();
 
         nameEditEt = view.findViewById(R.id.user_profile_edit_name_et);
         nameTv = view.findViewById(R.id.user_profile_name_tv);
         emailTv = view.findViewById(R.id.user_profile_email_tv);
-        prog = view.findViewById(R.id.user_profile_prog);
+        swipeRefreshLayout = view.findViewById(R.id.profile_swipe_refresh);
         imageIv = view.findViewById(R.id.user_profile_imge_iv);
         editIv = view.findViewById(R.id.user_profile_edit_iv);
         reviewsBtn = view.findViewById(R.id.user_profile_all_reviews_btn);
@@ -54,9 +55,8 @@ public class ProfileFragment extends Fragment {
         nameEditEt.setEnabled(false);
         reviewsBtn.setEnabled(false);
 
-
         editIv.setOnClickListener((v)->{
-            editName();
+            editNameUI();
         });
 
         confirmNameIv.setOnClickListener((v)->{
@@ -72,7 +72,9 @@ public class ProfileFragment extends Fragment {
             args.putString("userId", userId);
             Navigation.findNavController(v).navigate(R.id.action_global_myListFragment,args);
         });
-        setUI(userId);
+
+        swipeRefreshLayout.setOnRefreshListener(()-> refreshUI(userId));
+        refreshUI(userId);
         setHasOptionsMenu(true);
         return view;
     }
@@ -83,28 +85,21 @@ public class ProfileFragment extends Fragment {
             String lastName = "";
             user.setFirstName(name[0]);
             for (int i = 1; i < name.length; i++) {
-                lastName += name[i];
+                if(i==1){
+                    lastName += name[i];
+                }else{
+                    lastName += " "+name[i];
+                }
             }
             user.setLastName(lastName);
 
-            Model.instance.changeUserNameToReviews(user,user.getFirstName()+ " "+ user.getLastName(), new Model.AddUserListener() {
+            Model.instance.changeUserNameToReviews(user,user.getFirstName()+ " "+ user.getLastName(), new Model.VoidListener() {
                 @Override
                 public void onComplete() throws JsonProcessingException {
-
-
-                    Model.instance.updateUser(user, new Model.AddUserListener() {
+                    Model.instance.updateUser(user, new Model.VoidListener() {
                         @Override
                         public void onComplete() {
-                            nameTv.setVisibility(View.VISIBLE);
-                            nameTv.setEnabled(true);
-                            nameTv.setText(user.getFirstName() + " " + user.getLastName());
-                            nameEditEt.setVisibility(View.GONE);
-                            nameEditEt.setEnabled(false);
-                            confirmNameIv.setVisibility(View.GONE);
-                            confirmNameIv.setEnabled(false);
-                            editIv.setVisibility(View.VISIBLE);
-                            editIv.setEnabled(true);
-                            reviewsBtn.setEnabled(true);
+                            defaultUI();
                         }
                     });
                 }
@@ -117,7 +112,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    private void editName() {
+    private void editNameUI() {
         nameTv.setVisibility(View.GONE);
         nameTv.setEnabled(false);
         nameEditEt.setVisibility(View.VISIBLE);
@@ -127,8 +122,23 @@ public class ProfileFragment extends Fragment {
         editIv.setVisibility(View.GONE);
         editIv.setEnabled(false);
     }
+    private void defaultUI(){
+        nameTv.setVisibility(View.VISIBLE);
+        nameTv.setEnabled(true);
+        nameTv.setText(user.getFirstName() + " " + user.getLastName());
+        nameEditEt.setVisibility(View.GONE);
+        nameEditEt.setEnabled(false);
+        confirmNameIv.setVisibility(View.GONE);
+        confirmNameIv.setEnabled(false);
+        editIv.setVisibility(View.VISIBLE);
+        editIv.setEnabled(true);
+        reviewsBtn.setText("To "+user.getFirstName()+"'s Reviews");
+        reviewsBtn.setEnabled(true);
+    }
 
-    private void setUI(String userId) {
+
+    private void refreshUI(String userId) {
+        swipeRefreshLayout.setRefreshing(true);
         if(!userId.equals(Model.instance.getSignedUser().getId())){
             editIv.setEnabled(false);
             editIv.setVisibility(View.GONE);
@@ -136,7 +146,7 @@ public class ProfileFragment extends Fragment {
             uploadImageIv.setVisibility(View.GONE);
         }
 
-        Model.instance.getUserById(userId, new Model.getUserByIdListener() {
+        Model.instance.getUserById(userId, new Model.UserListener() {
             @Override
             public void onComplete(User u) {
                 user = new User(u);
@@ -144,7 +154,7 @@ public class ProfileFragment extends Fragment {
                 emailTv.setText(user.getEmail());
                 reviewsBtn.setText("To "+user.getFirstName()+"'s Reviews");
                 reviewsBtn.setEnabled(true);
-                prog.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
