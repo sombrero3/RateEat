@@ -46,9 +46,12 @@ public class AddReviewFragment extends Fragment {
     EditText restaurantEt, dishEt, descriptionEt;
     Button postReviewBtn;
     TextView locationTv, ratingTv;
-    ImageView locationIv, image, star1, star2, star3, star4, star5,addImage;
+    ImageView locationIv, star1, star2, star3, star4, star5,addImage;
     ProgressBar prog;
     boolean flagStar1, flagStar2, flagStar3, flagStar4, flagStar5;
+    static final int REQUEST_IMAGE_CAPTURE = 1,REQUEST_GALLERY =2;
+    Bitmap imageBitmap;
+    ImageButton cameraBtn,galleryBtn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class AddReviewFragment extends Fragment {
         locationIv = view.findViewById(R.id.user_row_img);
         locationTv = view.findViewById(R.id.new_review_location_tv);
         ratingTv = view.findViewById(R.id.add_review_rating_tv);
+//        cameraBtn = view.findViewById(R.id.add_review_uploadImg_btn);
         prog = view.findViewById(R.id.add_review_prog);
         star1 = view.findViewById(R.id.add_review_star1_iv);
         star2 = view.findViewById(R.id.add_review_star2_iv);
@@ -80,9 +84,11 @@ public class AddReviewFragment extends Fragment {
                 e.printStackTrace();
             }
         });
+        uploadImgBtn.setOnClickListener(v -> {
+            //openCamera();
+        });
 
-        setStarsOnClick();
-        setHasOptionsMenu(true);
+        
 
         cameraBtn.setOnClickListener(v -> {
             openCamera();
@@ -92,7 +98,8 @@ public class AddReviewFragment extends Fragment {
             openGallery();
         });
 
-
+        setStarsOnClick();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -145,6 +152,7 @@ public class AddReviewFragment extends Fragment {
             prog.setVisibility(View.VISIBLE);
             disableButtons();
             User user = Model.instance.getSignedUser();
+
             Review review = new Review(user.getId(), user.getFirstName() + " " + user.getLastName(), restaurant, dish, rating, description);
             if (imageBitmap != null) {
                 Model.instance.addReview(review,()->{
