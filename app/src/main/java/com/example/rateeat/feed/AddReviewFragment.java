@@ -165,7 +165,7 @@ public class AddReviewFragment extends Fragment {
             } else {
                 Model.instance.addReview(review, () -> {
                     prog.setVisibility(View.GONE);
-                    Navigation.findNavController(prog).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToMyListFragment(user.getId()));
+                    Navigation.findNavController(prog).navigate(AddReviewFragmentDirections.actionGlobalMyListFragment(user.getId()));
                 });
             }
         }

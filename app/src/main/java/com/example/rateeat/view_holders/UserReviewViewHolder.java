@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rateeat.R;
@@ -12,9 +13,12 @@ import com.example.rateeat.adapters.OnItemClickListener;
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
 
+import java.util.List;
+
 public class UserReviewViewHolder extends RecyclerView.ViewHolder{
     TextView restaurantTv, dishTv,ratingTv;
     ImageView star1,star2,star3,star4,star5;
+
 
 
     public UserReviewViewHolder(@NonNull View itemView, OnItemClickListener listener) {

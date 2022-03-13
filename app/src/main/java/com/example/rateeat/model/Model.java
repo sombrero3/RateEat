@@ -18,6 +18,7 @@ import com.example.rateeat.MyApplication;
 import com.example.rateeat.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -41,7 +42,7 @@ public class Model {
     public MutableLiveData<ReviewListLoadingState> reviewListLoadingState = new MutableLiveData<>();
     public User signedUser;
 
-      public interface  SaveImageListener{
+    public interface  SaveImageListener{
          void onComplete(String url) throws JsonProcessingException;
       }
     public void saveImage(Bitmap imageBitmap, String imageName,SaveImageListener Listener) {
@@ -122,7 +123,21 @@ public class Model {
 //    public void getAllReviews(ReviewsListListener listener) {
 //        modelFireBase.getAllReviews(listener);
 //    }
-    public LiveData<List<Review>> getAllReviewsLiveData(){
+
+    public MutableLiveData<List<Review>> getUserReviewsLiveData(String userId) {
+        refreshReviewsList();
+        List<Review> list = new LinkedList<>();
+        for (Review rev: reviewsList.getValue()) {
+            if(rev.getUserId().equals(userId)){
+                list.add(rev);
+            }
+        }
+
+        MutableLiveData<List<Review>> res = new MutableLiveData<>();
+        res.setValue(list);
+        return res;
+    }
+    public MutableLiveData<List<Review>> getAllReviewsLiveData(){
         if(reviewsList.getValue()==null){
             refreshReviewsList();
         }
@@ -167,6 +182,7 @@ public class Model {
                         }
                         reviewsList.postValue(revList);
                         reviewListLoadingState.postValue(ReviewListLoadingState.loaded);
+
                     }
                 });
             }
@@ -186,11 +202,27 @@ public class Model {
             }
         });
     }
-    public void getReviewById(String id, ReviewListener listener){
-        modelFireBase.getReviewById(id,listener);
+    public Review getReviewById(String id){
+        //modelFireBase.getReviewById(id,listener);
+        refreshReviewsList();
+        Review res = new Review();
+        for (Review rev: reviewsList.getValue()) {
+            if(rev.getId().equals(id)){
+                res = rev;
+                break;
+            }
+        }
+        return res;
     }
-    public void getMyReviews(ReviewsListListener listener) {
+    public List<Review> getMyReviews(String userId,ReviewsListListener listener) {
         modelFireBase.getMyReviews(listener);
+        List<Review> res = new LinkedList<>();
+        for (Review rev: reviewsList.getValue()) {
+            if(rev.getUserId().equals(userId)){
+                res.add(rev);
+            }
+        }
+        return res;
     }
     //Create
     public void addReview(Review review,VoidListener listener) throws JsonProcessingException {
@@ -218,8 +250,17 @@ public class Model {
     /**
      *User & Review Combined Methods
      */
-    public void getUserReviews(String userId, ReviewsListListener listener) {
-        modelFireBase.getUserReviews(userId,listener);
+    public List<Review> getUserReviews(String userId) {
+        //modelFireBase.getUserReviews(userId,listener);
+        //modelFireBase.getMyReviews(listener);
+        refreshReviewsList();
+        List<Review> res = new LinkedList<>();
+        for (Review rev: reviewsList.getValue()) {
+            if(rev.getUserId().equals(userId)){
+                res.add(rev);
+            }
+        }
+        return res;
     }
     public void changeUserNameToReviews(User user, String userNewName, VoidListener listener) {
         modelFireBase.changeUserNameToReviews(user, userNewName, new VoidListener() {

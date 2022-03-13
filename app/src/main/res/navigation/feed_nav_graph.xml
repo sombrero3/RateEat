@@ -13,13 +13,7 @@
     <fragment
         android:id="@+id/addReviewFragment"
         android:name="com.example.rateeat.feed.AddReviewFragment"
-        android:label="AddReviewFragment" >
-        <action
-            android:id="@+id/action_addReviewFragment_to_myListFragment"
-            app:destination="@id/myListFragment"
-            app:popUpTo="@id/addReviewFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:label="AddReviewFragment" />
     <fragment
         android:id="@+id/detailsReviewFragment"
         android:name="com.example.rateeat.feed.DetailsReviewFragment"

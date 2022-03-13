@@ -100,18 +100,25 @@ public class EditReviewFragment extends Fragment {
     }
 
     private void setReview() {
-        Model.instance.getReviewById(reviewId, new Model.ReviewListener() {
-            @Override
-            public void onComplete(Review rev) {
-                restaurantEt.setText(rev.getRestaurantName());
-                dishEt.setText(rev.getDishName());
-                descriptionEt.setText(rev.getDescription());
-                ratingTv.setText(rev.getRating());
-                review = new Review(rev);
+//        Model.instance.getReviewById(reviewId, new Model.ReviewListener() {
+//            @Override
+//            public void onComplete(Review rev) {
+//                restaurantEt.setText(rev.getRestaurantName());
+//                dishEt.setText(rev.getDishName());
+//                descriptionEt.setText(rev.getDescription());
+//                ratingTv.setText(rev.getRating());
+//                review = new Review(rev);
+//                setStarsOnClick();
+//                prog.setVisibility(View.GONE);
+//            }
+//        });
+        review = Model.instance.getReviewById(reviewId);
+                restaurantEt.setText(review.getRestaurantName());
+                dishEt.setText(review.getDishName());
+                descriptionEt.setText(review.getDescription());
+                ratingTv.setText(review.getRating());
                 setStarsOnClick();
                 prog.setVisibility(View.GONE);
-            }
-        });
     }
     private boolean validation(String restaurantName,String dishName,String description) {
         if(restaurantName.isEmpty()){
