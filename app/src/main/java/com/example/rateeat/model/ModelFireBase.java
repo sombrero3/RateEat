@@ -1,5 +1,7 @@
 package com.example.rateeat.model;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -10,6 +12,8 @@ import androidx.annotation.NonNull;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
@@ -19,7 +23,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +36,8 @@ public class ModelFireBase {
 
     FirebaseAuth currentUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+
 
     public ModelFireBase() {
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
@@ -321,33 +331,64 @@ public class ModelFireBase {
     }
 
     private void updateAllUserReview(List<Review> list,Model.AddUserListener listener) {
-                        for (int i=0;i< list.size();i++) {
-                            if(i== list.size()-1) {
-                                try {
-                                    updateReview(list.get(i), new Model.AddReviewListener() {
-                                        @Override
-                                        public void onComplete() throws JsonProcessingException {
-                                            listener.onComplete();
-                                        }
-                                    });
-                                } catch (JsonProcessingException e) {
-                                    e.printStackTrace();
-                                }
-                            }else{
-                                try {
-                                    updateReview(list.get(i), new Model.AddReviewListener() {
-                                        @Override
-                                        public void onComplete() {
-
-                                        }
-                                    });
-                                } catch (JsonProcessingException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+        for (int i=0;i< list.size();i++) {
+            if(i== list.size()-1) {
+                try {
+                    updateReview(list.get(i), new Model.AddReviewListener() {
+                        @Override
+                        public void onComplete() throws JsonProcessingException {
+                            listener.onComplete();
                         }
+                    });
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                try {
+                    updateReview(list.get(i), new Model.AddReviewListener() {
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
 
     }
 
+
+
+    public void saveImage(Bitmap imageBitmap, String imageName, Model.SaveImageListener listener) {
+
+       StorageReference storageRef=storage.getReference();
+        StorageReference imgRef = storageRef.child("/uaer_avatars/" + imageName);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] data =baos.toByteArray();
+
+        UploadTask uploadTask =imgRef.putBytes(data);
+        uploadTask.addOnFailureListener(exception -> {
+            try {
+                listener.onComplete(null);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }).addOnSuccessListener(taskSnapshot -> {
+
+            imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                Uri downloadUrl = uri;
+                try {
+                    listener.onComplete(downloadUrl.toString());
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            });
+        });
+
+
+    }
 }

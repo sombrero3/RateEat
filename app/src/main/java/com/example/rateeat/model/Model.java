@@ -1,5 +1,6 @@
 package com.example.rateeat.model;
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -44,13 +45,23 @@ public class Model {
     }
 
 
+      public interface  SaveImageListener{
+         void onComplete(String url) throws JsonProcessingException;
+      }
+    public void saveImage(Bitmap imageBitmap, String imageName,SaveImageListener Listener) {
+
+        modelFireBase.saveImage(imageBitmap,imageName,Listener);
+
+    }
+
+
     public enum ReviewListLoadingState {
         loading,
         loaded
     }
 
 
-    private Model() {
+    private void refresh() {
         reviewListLoadingState.setValue(ReviewListLoadingState.loaded);
     }
 
@@ -96,7 +107,15 @@ public class Model {
     }
     public void addReview(Review review,AddReviewListener listener) throws JsonProcessingException {
         reviewListLoadingState.setValue(ReviewListLoadingState.loading);
-        modelFireBase.addReview(review,listener);
+        modelFireBase.addReview(review, new AddReviewListener() {
+            @Override
+            public void onComplete() throws JsonProcessingException {
+                refresh();
+                listener.onComplete();
+            }
+        });
+
+
     }
 
 
