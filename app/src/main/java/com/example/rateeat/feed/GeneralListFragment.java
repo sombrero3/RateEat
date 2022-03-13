@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,13 +19,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.rateeat.R;
 import com.example.rateeat.adapters.OnItemClickListener;
 import com.example.rateeat.adapters.ReviewAdapter;
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
+import com.example.rateeat.view_holders.ReviewViewHolder;
 import com.example.rateeat.view_models.GeneralListViewModel;
 
 import java.util.List;
@@ -39,6 +43,7 @@ public class GeneralListFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         viewModel = new ViewModelProvider(this).get(GeneralListViewModel.class);
+
     }
 
     @Override
@@ -56,29 +61,31 @@ public class GeneralListFragment extends Fragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                String reviewId = viewModel.getReviewList().get(position).getId();
+                String reviewId = viewModel.getReviewList().getValue().get(position).getId();
                 Log.d("TAG","review clicked id: " + reviewId);
                 Navigation.findNavController(v).navigate(GeneralListFragmentDirections.actionGlobalDetailsReviewFragment(reviewId));
 
             }
         });
 
-        swipeRefreshLayout.setOnRefreshListener(()->refreshList());
-        refreshList();
+        swipeRefreshLayout.setOnRefreshListener(()->Model.instance.refreshReviewsList());
+        viewModel.getReviewList().observe(getViewLifecycleOwner(), (Observer<List<Review>>) reviews -> {
+            refreshList();
+        });
+        swipeRefreshLayout.setRefreshing(Model.instance.getReviewListLoadingState().getValue()==Model.ReviewListLoadingState.loading);
+        Model.instance.getReviewListLoadingState().observe(getViewLifecycleOwner(), reviewListLoadingState -> {
+            if(reviewListLoadingState== Model.ReviewListLoadingState.loading){
+                swipeRefreshLayout.setRefreshing(true);
+            }else{
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         setHasOptionsMenu(true);
         return view;
     }
     private void refreshList() {
-        swipeRefreshLayout.setRefreshing(true);
-        Model.instance.getAllReviews(new Model.ReviewsListListener() {
-            @Override
-            public void onComplete(List<Review> reviews) {
-                viewModel.getReviewList().clear();
-                viewModel.getReviewList().addAll(reviews);
-                adapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+        adapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

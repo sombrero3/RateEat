@@ -1,11 +1,19 @@
 package com.example.rateeat.feed;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,9 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rateeat.R;
 import com.example.rateeat.model.Model;
@@ -24,13 +34,19 @@ import com.example.rateeat.model.Review;
 import com.example.rateeat.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class AddReviewFragment extends Fragment {
     EditText restaurantEt, dishEt, descriptionEt;
     Button postReviewBtn, uploadImgBtn;
     TextView locationTv, ratingTv;
-    ImageView locationIv, image, star1, star2, star3, star4, star5;
+    ImageView locationIv, image, star1, star2, star3, star4, star5,addImage;
     ProgressBar prog;
     boolean flagStar1, flagStar2, flagStar3, flagStar4, flagStar5;
+    static final int REQUEST_IMAGE_CAPTURE = 1,REQUEST_GALLERY =2;
+    Bitmap imageBitmap;
+    ImageButton cameraBtn,galleryBtn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,13 +60,15 @@ public class AddReviewFragment extends Fragment {
         locationIv = view.findViewById(R.id.user_row_img);
         locationTv = view.findViewById(R.id.new_review_location_tv);
         ratingTv = view.findViewById(R.id.add_review_rating_tv);
+//        cameraBtn = view.findViewById(R.id.add_review_uploadImg_btn);
         prog = view.findViewById(R.id.add_review_prog);
-        image = view.findViewById(R.id.add_review_img_iv);
+        //image = view.findViewById(R.id.add_review_img_iv);
         star1 = view.findViewById(R.id.add_review_star1_iv);
         star2 = view.findViewById(R.id.add_review_star2_iv);
         star3 = view.findViewById(R.id.add_review_star3_iv);
         star4 = view.findViewById(R.id.add_review_star4_iv);
         star5 = view.findViewById(R.id.add_review_star5_iv);
+        addImage = view.findViewById(R.id.add_review_img_iv);
         prog.setVisibility(View.GONE);
 
         postReviewBtn.setOnClickListener((v)->{
@@ -60,7 +78,13 @@ public class AddReviewFragment extends Fragment {
                 e.printStackTrace();
             }
         });
+        uploadImgBtn.setOnClickListener(v -> {
+            //openCamera();
+        });
 
+//        galleryBtn.setOnClickListener(v -> {
+//            openGallery();
+//        });
         setStarsOnClick();
         setHasOptionsMenu(true);
         return view;
@@ -85,6 +109,41 @@ public class AddReviewFragment extends Fragment {
             });
         }
     }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode==REQUEST_IMAGE_CAPTURE){         //Back from the camera
+//            if(resultCode==RESULT_OK){                   //It worked
+//                Bundle extras = data.getExtras();
+//                imageBitmap = (Bitmap) extras.get("data");
+//                addImage.setImageBitmap(imageBitmap);
+//
+//            }
+//        }else if(requestCode == REQUEST_GALLERY){
+//            if(resultCode == RESULT_OK){
+//                try{
+//                    final Uri imageUri = data.getData();
+//                    final InputStream imageStream = getContext().getContentResolver().openInputStream(imageUri);
+//                    imageBitmap = BitmapFactory.decodeStream(imageStream);
+//                    addImage.setImageBitmap(imageBitmap);
+//                }catch(FileNotFoundException e){
+//                    e.printStackTrace();
+//                    Toast.makeText(getContext(),"Failed to select image from gallery", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        }
+//    }
+//    private void openGallery() {
+//        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+//        photoPickerIntent.setType("image/*");
+//        startActivityForResult(photoPickerIntent,REQUEST_GALLERY);
+//    }
+//
+//
+//    private void openCamera() {
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+//    }
 
     private void disableButtons() {
         postReviewBtn.setEnabled(false);

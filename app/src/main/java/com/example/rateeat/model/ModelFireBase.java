@@ -16,6 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -74,6 +75,25 @@ public class ModelFireBase {
     }
     private String getSignedUserId() {
         return Model.instance.getSignedUser().getId();
+    }
+
+    /**
+     * Listeners Interfaces
+     */
+    public interface VoidListener {
+        void onComplete() throws JsonProcessingException;
+    }
+    public interface UserListener {
+        void onComplete(User user);
+    }
+    public interface UsersListListener {
+        void onComplete(List<User> userList);
+    }
+    public interface ReviewListener {
+        void onComplete(Review review);
+    }
+    public interface ReviewsListListener {
+        void onComplete(List<Review> reviewList);
     }
 
     /**
@@ -152,14 +172,15 @@ public class ModelFireBase {
      *Review Methods
      */
     //Read
-    public void getAllReviews(Model.ReviewsListListener listener) {
+    public void getAllReviews(Long lastUpdateDate,Model.ReviewsListListener listener) {
         db.collection("reviews")
-                .whereEqualTo("deleted",false)
-                //  .whereGreaterThanOrEqualTo("updateDate", new Timestamp(lastUpdateDate,0))
+                //.whereEqualTo("deleted",false)
+                .whereGreaterThanOrEqualTo("latsUpdateDate", new Timestamp(lastUpdateDate,0))
                 .get()
                 .addOnCompleteListener(task -> {
                     List<Review> list = new LinkedList<>();
                     if (task.isSuccessful()) {
+                        Log.d("TAG", "Task was successful");
                         for (QueryDocumentSnapshot doc : task.getResult()) {
                             Review review = new Review();
                             review.fromMap(doc.getData());
@@ -168,7 +189,7 @@ public class ModelFireBase {
                             }
                         }
                     }
-                    //       Log.d("TAG","Last update date = "+ lastUpdateDate);
+                    Log.d("TAG","Last update date = "+ lastUpdateDate);
                     listener.onComplete(list);
                 });
     }
@@ -210,19 +231,18 @@ public class ModelFireBase {
     }
     //Create
     public void addReview(Review review, Model.VoidListener listener) throws JsonProcessingException {
-        Long time = Long.valueOf(Timestamp.now().getSeconds());
-        review.setUpdateDate(time);
         DocumentReference key = db.collection("reviews").document();
         String id = key.getId();
         Log.d("TAG","review id = "+ id);
         review.setId(id);
-        Log.d("TAG","review.getId = "+ review.getId());
-        ObjectMapper objectMapper = new ObjectMapper();
-        String reviewString = objectMapper.writeValueAsString(review);
-        Map<String, Object> json = objectMapper.readValue(reviewString, Map.class);
+
+//        Log.d("TAG","review.getId = "+ review.getId());
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String reviewString = objectMapper.writeValueAsString(review);
+//        Map<String, Object> json = objectMapper.readValue(reviewString, Map.class);
         db.collection("reviews")
                 .document(review.getId())
-                .set(json)
+                .set(review.toMap())
                 .addOnSuccessListener(unused -> {
                     try {
                         listener.onComplete();
@@ -240,14 +260,9 @@ public class ModelFireBase {
     }
     //Update
     public void updateReview(Review review, Model.VoidListener listener) throws JsonProcessingException {
-        Long time = Long.valueOf(Timestamp.now().getSeconds());
-        review.setUpdateDate(time);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String reviewString = objectMapper.writeValueAsString(review);
-        Map<String, Object> json = objectMapper.readValue(reviewString, Map.class);
         db.collection("reviews")
                 .document(review.getId())
-                .set(json)
+                .set(review.toMap())
                 .addOnSuccessListener(unused -> {
                     try {
                         listener.onComplete();
@@ -290,12 +305,11 @@ public class ModelFireBase {
                     listener.onComplete(list);
                 });
     }
-    public void changeUserNameToReviews(User user,String userNewName, Model.VoidListener listener) {
+    public void changeUserNameToReviews( User user,String userNewName, Model.VoidListener listener) {
         String userId = user.getId();
         db.collection("reviews")
                 .whereEqualTo("deleted",false)
                 .whereEqualTo("userId",userId)
-                //  .whereGreaterThanOrEqualTo("updateDate", new Timestamp(lastUpdateDate,0))
                 .get()
                 .addOnCompleteListener(task -> {
                     List<Review> list = new LinkedList<>();
@@ -317,20 +331,13 @@ public class ModelFireBase {
                             listener.onComplete();
                         }
                     });
-
-
                 });
     }
     private void updateAllUserReviews(List<Review> list, Model.VoidListener listener) {
                         for (int i=0;i< list.size();i++) {
                             if(i== list.size()-1) {
                                 try {
-                                    updateReview(list.get(i), new Model.VoidListener() {
-                                        @Override
-                                        public void onComplete() throws JsonProcessingException {
-                                            listener.onComplete();
-                                        }
-                                    });
+                                    updateReview(list.get(i), () -> listener.onComplete());
                                 } catch (JsonProcessingException e) {
                                     e.printStackTrace();
                                 }

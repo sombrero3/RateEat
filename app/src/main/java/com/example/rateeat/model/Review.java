@@ -4,11 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 
 import java.util.HashMap;
 import java.util.Map;
-//import com.google.firebase.firestore.FieldValue;
+
 @Entity
 public class Review {
     @PrimaryKey
@@ -141,7 +142,7 @@ public class Review {
         result.put("rating",rating);
         result.put("imageUrl", imageUrl);
         result.put("deleted", isDeleted);
-        result.put("updateDate", FieldValue.serverTimestamp());
+        result.put("latsUpdateDate", FieldValue.serverTimestamp());
 
         return result;
     }
@@ -156,12 +157,9 @@ public class Review {
         rating= (String) map.get("rating");
         imageUrl = (String)map.get("imageUrl");
         isDeleted = (Boolean) map.get("deleted");
-
-//        ----------------
-//        Timestamp ts = (Timestamp)map.get("lastUpdated");
-//        lastUpdated = ts.getSeconds();
-//        --------
-        updateDate = (Long)map.get("updateDate");
+        //updateDate = (Long) map.get("latsUpdateDate");
+        Timestamp ts = (Timestamp) map.get("latsUpdateDate");
+        updateDate = ts.getSeconds();
     }
 
 

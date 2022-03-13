@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase;
 import com.example.rateeat.MyApplication;
 
 
-@Database(entities = {Review.class,}, version = 1)
+@Database(entities = {Review.class,}, version = 4)
 abstract class AppLocalDbRepository extends RoomDatabase {
     public abstract ReviewDao reviewDao();
 }
