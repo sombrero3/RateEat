@@ -38,11 +38,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class AddReviewFragment extends Fragment {
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int REQUEST_IMAGE_PICK = 2;
-
-    Bitmap imageBitmap;
-    ImageButton cameraBtn,galleryBtn;
     EditText restaurantEt, dishEt, descriptionEt;
     Button postReviewBtn;
     TextView locationTv, ratingTv;
@@ -84,7 +79,7 @@ public class AddReviewFragment extends Fragment {
                 e.printStackTrace();
             }
         });
-        uploadImgBtn.setOnClickListener(v -> {
+        addImage.setOnClickListener(v -> {
             //openCamera();
         });
 
@@ -106,7 +101,7 @@ public class AddReviewFragment extends Fragment {
     private void openGallery() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent,REQUEST_IMAGE_PICK);
+        startActivityForResult(photoPickerIntent,REQUEST_GALLERY);
     }
 
     private void openCamera() {
@@ -125,7 +120,7 @@ public class AddReviewFragment extends Fragment {
 
            }
         }
-        else if(requestCode==REQUEST_IMAGE_PICK){
+        else if(requestCode==REQUEST_GALLERY){
             if(resultCode==RESULT_OK){
                 try {
                     final Uri imageUri = data.getData();
@@ -157,8 +152,8 @@ public class AddReviewFragment extends Fragment {
             if (imageBitmap != null) {
                 Model.instance.addReview(review,()->{
                     Model.instance.saveImage(imageBitmap,  review.getId()+ ".jpg", url -> {
-                        review.setAvatarUrl(url);
-                        Model.instance.updateReview(review, new Model.AddReviewListener() {
+                        review.setImageUrl(url);
+                        Model.instance.updateReview(review, new Model.VoidListener() {
                             @Override
                             public void onComplete() throws JsonProcessingException {
                                 Navigation.findNavController(restaurantEt).navigateUp();
