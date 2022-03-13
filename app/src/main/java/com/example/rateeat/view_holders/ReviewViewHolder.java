@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ReviewViewHolder extends RecyclerView.ViewHolder{
     TextView restaurantTv, dishTv,userTv,ratingTv;
-    ImageView star1,star2,star3,star4,star5;
+    ImageView star1,star2,star3,star4,star5,image;
     LiveData<List<Review>> reviewsList;
 
     public ReviewViewHolder(@NonNull View itemView, OnItemClickListener listener,LiveData<List<Review>> reviewsList) {
@@ -35,6 +35,7 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder{
         star3 = itemView.findViewById(R.id.general_list_star3_iv);
         star4 = itemView.findViewById(R.id.general_list_star4_iv);
         star5 = itemView.findViewById(R.id.general_list_star5_iv);
+       // image =itemView.findViewById()
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
