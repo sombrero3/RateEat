@@ -354,10 +354,9 @@ public class ModelFireBase {
                             }
                         }
     }
-    public void saveImage(Bitmap imageBitmap, String imageName, Model.SaveImageListener listener) {
-
+    public void saveImage(Bitmap imageBitmap, String imageName,String collectionName, Model.SaveImageListener listener) {
        StorageReference storageRef=storage.getReference();
-        StorageReference imgRef = storageRef.child("/user_avatars/" + imageName);
+        StorageReference imgRef = storageRef.child(collectionName + imageName);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
         byte[] data =baos.toByteArray();

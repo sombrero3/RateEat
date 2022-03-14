@@ -29,6 +29,7 @@ import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
 import com.example.rateeat.model.User;
 import com.example.rateeat.view_models.UserReviewsViewModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class UserReviewsFragment extends Fragment {
         list.setAdapter(adapter);
         nameTv = view.findViewById(R.id.user_list_name_tv);
         emailTv = view.findViewById(R.id.user_list_email_tv);
-        image = view.findViewById(R.id.my_list_row_img);
+        image = view.findViewById(R.id.user_list_img_iv);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -122,6 +123,10 @@ public class UserReviewsFragment extends Fragment {
     private void setUserUi(User user) {
         nameTv.setText(user.getFirstName() + " " + user.getLastName());
         emailTv.setText(user.getEmail());
+        image.setImageResource(R.drawable.falafel);
+        if(user.getImageUrl()!=null) {
+            Picasso.get().load(user.getImageUrl()).into(image);
+        }
         setReviewList(user.getId());
     }
     private void setReviewList(String userId) {

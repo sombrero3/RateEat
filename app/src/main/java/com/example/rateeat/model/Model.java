@@ -32,6 +32,7 @@ public class Model {
     public Executor executor = Executors.newFixedThreadPool(1);
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
     public MutableLiveData<List<Review>> reviewsList = new MutableLiveData<>();
+    public static final String IMAGE_POST_COLLECTION = "/posts_images/",IMAGE_USER_COLLECTION ="/users_images/";
 
     public MutableLiveData<ReviewListLoadingState> getReviewListLoadingState() {
         return reviewListLoadingState;
@@ -47,9 +48,9 @@ public class Model {
     public interface  SaveImageListener{
          void onComplete(String url) throws JsonProcessingException;
       }
-    public void saveImage(Bitmap imageBitmap, String imageName,SaveImageListener Listener) {
+    public void saveImage(Bitmap imageBitmap, String imageName,String collectionName,SaveImageListener Listener) {
 
-        modelFireBase.saveImage(imageBitmap,imageName,Listener);
+        modelFireBase.saveImage(imageBitmap,imageName,collectionName,Listener);
 
     }
 
