@@ -19,7 +19,7 @@ public class UserReviewViewHolder extends RecyclerView.ViewHolder{
     TextView restaurantTv, dishTv,ratingTv;
     ImageView star1,star2,star3,star4,star5;
     ImageView image;
-    
+
     public UserReviewViewHolder(@NonNull View itemView, OnItemClickListener listener) {
         super(itemView);
         restaurantTv = itemView.findViewById(R.id.my_list_row_restaurant_name_tv);
@@ -44,7 +44,7 @@ public class UserReviewViewHolder extends RecyclerView.ViewHolder{
         restaurantTv.setText(review.getRestaurantName());
         dishTv.setText(review.getDishName());
         image.setImageResource(R.drawable.falafel);
-        if(review.getImageUrl()!=null && review.getImageUrl()!="") {
+        if(review.getImageUrl()!=null) {
             Picasso.get().load(review.getImageUrl()).into(image);
         }
 

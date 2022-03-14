@@ -20,6 +20,7 @@ import com.example.rateeat.R;
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.squareup.picasso.Picasso;
 
 public class DetailsReviewFragment extends Fragment {
     ImageView imageIv,editIv,deleteIv,star1,star2,star3,star4,star5;
@@ -82,6 +83,10 @@ public class DetailsReviewFragment extends Fragment {
         dishTv.setText(review.getDishName());
         userNameTv.setText(review.getUserName());
         descriptionTv.setText(review.getDescription());
+        imageIv.setImageResource(R.drawable.falafel);
+        if(review.getImageUrl()!=null) {
+            Picasso.get().load(review.getImageUrl()).into(imageIv);
+        }
         swipeRefreshLayout.setRefreshing(false);
     }
 

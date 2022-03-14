@@ -58,7 +58,7 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder{
         restaurantTv.setText(review.getRestaurantName());
         dishTv.setText(review.getDishName());
         image.setImageResource(R.drawable.falafel);
-        if(review.getImageUrl()!=null && review.getImageUrl()!="") {
+        if(review.getImageUrl()!=null) {
             Picasso.get().load(review.getImageUrl()).into(image);
         }
         Model.instance.setStarByRating(review.getRating(), star1,star2,star3,star4,star5,ratingTv);
