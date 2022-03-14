@@ -363,7 +363,7 @@ public class ModelFireBase {
     public void saveImage(Bitmap imageBitmap, String imageName, Model.SaveImageListener listener) {
 
        StorageReference storageRef=storage.getReference();
-        StorageReference imgRef = storageRef.child("/uaer_avatars/" + imageName);
+        StorageReference imgRef = storageRef.child("/user_avatars/" + imageName);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
         byte[] data =baos.toByteArray();

@@ -33,7 +33,6 @@ public class Review {
         this.dishName = dishName;
         this.rating = rating;
         this.description = description;
-        imageUrl="";
     }
 
     public Review(){}

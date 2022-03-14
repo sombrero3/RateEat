@@ -11,10 +11,11 @@ import com.example.rateeat.R;
 import com.example.rateeat.adapters.OnItemClickListener;
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
+import com.squareup.picasso.Picasso;
 
 public class UserReviewViewHolder extends RecyclerView.ViewHolder{
     TextView restaurantTv, dishTv,ratingTv;
-    ImageView star1,star2,star3,star4,star5;
+    ImageView star1,star2,star3,star4,star5,img;
 
 
     public UserReviewViewHolder(@NonNull View itemView, OnItemClickListener listener) {
@@ -27,6 +28,7 @@ public class UserReviewViewHolder extends RecyclerView.ViewHolder{
         star3 = itemView.findViewById(R.id.my_list_row_star3_iv);
         star4 = itemView.findViewById(R.id.my_list_row_star4_iv);
         star5 = itemView.findViewById(R.id.my_list_row_star5_iv);
+        img= itemView.findViewById(R.id.my_list_row_img);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +41,12 @@ public class UserReviewViewHolder extends RecyclerView.ViewHolder{
     public void bind(Review review) {
         restaurantTv.setText(review.getRestaurantName());
         dishTv.setText(review.getDishName());
+        img.setImageResource(R.drawable.falafel);
+        if(review.getImageUrl()!=null) {
+            Picasso.get().load(review.getImageUrl()).into(img);
+        }
         Model.instance.setStarByRating(review.getRating(), star1,star2,star3,star4,star5,ratingTv);
+
+
     }
 }
