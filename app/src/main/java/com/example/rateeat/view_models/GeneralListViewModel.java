@@ -13,7 +13,6 @@ import java.util.List;
 public class GeneralListViewModel extends ViewModel{
    LiveData<List<Review>> reviewList;
 
-    public static GeneralListViewModel instance = new GeneralListViewModel();
     public GeneralListViewModel() {
         reviewList = Model.instance.getAllReviewsLiveData();
     }
