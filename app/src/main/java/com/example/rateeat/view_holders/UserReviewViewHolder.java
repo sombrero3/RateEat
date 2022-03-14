@@ -1,11 +1,12 @@
 package com.example.rateeat.view_holders;
 
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
+import com.squareup.picasso.Picasso;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rateeat.R;
@@ -13,13 +14,11 @@ import com.example.rateeat.adapters.OnItemClickListener;
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
 
-import java.util.List;
 
 public class UserReviewViewHolder extends RecyclerView.ViewHolder{
     TextView restaurantTv, dishTv,ratingTv;
     ImageView star1,star2,star3,star4,star5;
-
-
+    ImageView image;
 
     public UserReviewViewHolder(@NonNull View itemView, OnItemClickListener listener) {
         super(itemView);
@@ -31,6 +30,7 @@ public class UserReviewViewHolder extends RecyclerView.ViewHolder{
         star3 = itemView.findViewById(R.id.my_list_row_star3_iv);
         star4 = itemView.findViewById(R.id.my_list_row_star4_iv);
         star5 = itemView.findViewById(R.id.my_list_row_star5_iv);
+        image = itemView.findViewById(R.id.my_list_row_img);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,6 +43,11 @@ public class UserReviewViewHolder extends RecyclerView.ViewHolder{
     public void bind(Review review) {
         restaurantTv.setText(review.getRestaurantName());
         dishTv.setText(review.getDishName());
+        image.setImageResource(R.drawable.falafel);
+        if(review.getImageUrl()!=null) {
+            Picasso.get().load(review.getImageUrl()).into(image);
+        }
+
         Model.instance.setStarByRating(review.getRating(), star1,star2,star3,star4,star5,ratingTv);
     }
 }
