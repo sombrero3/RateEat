@@ -47,6 +47,13 @@ public class GeneralListFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Model.instance.refreshReviewsList();
+        refreshList();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment

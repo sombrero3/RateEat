@@ -13,9 +13,11 @@ import android.widget.TextView;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.Navigation;
 
 import com.example.rateeat.MyApplication;
 import com.example.rateeat.R;
+import com.example.rateeat.feed.DetailsReviewFragmentDirections;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.LinkedList;
@@ -180,6 +182,13 @@ public class Model {
                                 revList.remove(rev);
                             }
                         }
+//                        List<Review> y = AppLocalDb.db.reviewDao().getAll();
+//                        if(reviewsList.getValue() == null || reviewsList.getValue().size()!=y.size()){
+//                            y = AppLocalDb.db.reviewDao().getAll();
+//                            for(Review rev:y){
+//                                AppLocalDb.db.reviewDao().delete(rev);
+//                            }
+//                        }
                         reviewsList.postValue(revList);
                         reviewListLoadingState.postValue(ReviewListLoadingState.loaded);
 

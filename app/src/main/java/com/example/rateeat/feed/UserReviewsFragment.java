@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rateeat.MyApplication;
 import com.example.rateeat.R;
 import com.example.rateeat.adapters.UserReviewAdapter;
 import com.example.rateeat.adapters.OnItemClickListener;
@@ -31,6 +32,7 @@ import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
 import com.example.rateeat.model.User;
 import com.example.rateeat.view_models.GeneralListViewModel;
+import com.example.rateeat.view_models.UserReviewViewModelFactory;
 import com.example.rateeat.view_models.UserReviewsViewModel;
 
 import java.util.LinkedList;
@@ -42,15 +44,13 @@ public class UserReviewsFragment extends Fragment {
     ImageView image;
     SwipeRefreshLayout swipeRefreshLayout;
     String userId;
-    MutableLiveData<List<Review>> reviewList;
-//    UserReviewsViewModel viewModel;
+    UserReviewsViewModel viewModel;
 
-//    @Override
-//    public void onAttach(@NonNull Context context) {
-//        super.onAttach(context);
-//        viewModel = new ViewModelProvider(this).get(UserReviewsViewModel.class);
-//
-//    }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(UserReviewsViewModel.class);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,11 +61,12 @@ public class UserReviewsFragment extends Fragment {
 
         userId="";
         userId = UserReviewsFragmentArgs.fromBundle(getArguments()).getUserId();
+        //viewModel = new ViewModelProvider(this, new UserReviewViewModelFactory(this.getActivity().getApplication(), userId)).get(UserReviewsViewModel.class);
 
         RecyclerView list = view.findViewById(R.id.user_list_rv);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new UserReviewAdapter(reviewList);
+        adapter = new UserReviewAdapter(viewModel.getUserReviewList());
         list.setAdapter(adapter);
         nameTv = view.findViewById(R.id.user_list_name_tv);
         emailTv = view.findViewById(R.id.user_list_email_tv);
@@ -74,18 +75,20 @@ public class UserReviewsFragment extends Fragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                String reviewId = reviewList.getValue().get(position).getId();
+                String reviewId = viewModel.getUserReviewList().getValue().get(position).getId();
                 Log.d("TAG","review clicked id: " + reviewId);
                 Navigation.findNavController(v).navigate(UserReviewsFragmentDirections.actionGlobalDetailsReviewFragment(reviewId));
             }
         });
 
-        setReviewList(userId);
-
-        swipeRefreshLayout.setOnRefreshListener(()->refreshUI(userId));
-        reviewList.observe(getViewLifecycleOwner(), (Observer<List<Review>>) reviews -> {
-            refreshUI(userId);
+        swipeRefreshLayout.setOnRefreshListener(()->{
+            reset(userId);
         });
+
+        viewModel.getUserReviewList().observe(getViewLifecycleOwner(), (Observer<List<Review>>) reviews -> {
+            adapter.notifyDataSetChanged();
+        });
+
         swipeRefreshLayout.setRefreshing(Model.instance.getReviewListLoadingState().getValue()==Model.ReviewListLoadingState.loading);
         Model.instance.getReviewListLoadingState().observe(getViewLifecycleOwner(), reviewListLoadingState -> {
             if(reviewListLoadingState== Model.ReviewListLoadingState.loading){
@@ -101,13 +104,17 @@ public class UserReviewsFragment extends Fragment {
         setHasOptionsMenu(true);
         return view;
     }
-    private void setReviewList(String userId) {
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        reset(userId);
+    }
 
-
-        reviewList=Model.instance.getUserReviewsLiveData(userId);
-        adapter.notifyDataSetChanged();
-        swipeRefreshLayout.setRefreshing(false);
+    public void reset(String userId){
+        viewModel.setReviewList(userId);
+        refreshUI(userId);
+         //adapter.notifyDataSetChanged();
     }
     public void refreshUI(String userId){
         swipeRefreshLayout.setRefreshing(true);
@@ -123,6 +130,11 @@ public class UserReviewsFragment extends Fragment {
         emailTv.setText(user.getEmail());
         setReviewList(user.getId());
     }
+    private void setReviewList(String userId) {
+        adapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
 
     public void onPrepareOptionsMenu (Menu menu) {
         if(userId.equals(Model.instance.getSignedUser().getId())) {

@@ -33,7 +33,6 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewViewHolder
         return holder;
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull UserReviewViewHolder holder, int position) {
         Review review = reviewList.getValue().get(position);

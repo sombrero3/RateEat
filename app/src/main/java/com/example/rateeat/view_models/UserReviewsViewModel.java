@@ -1,35 +1,39 @@
 package com.example.rateeat.view_models;
 
+import androidx.lifecycle.HasDefaultViewModelProviderFactory;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
 
+import java.net.HttpCookie;
 import java.util.LinkedList;
 import java.util.List;
 
 public class UserReviewsViewModel extends ViewModel {
     MutableLiveData<List<Review>> reviewList;
 
-    public UserReviewsViewModel(String id) {
+    public UserReviewsViewModel() {
+        reviewList = new MutableLiveData<>();
 
-        reviewList = Model.instance.getAllReviewsLiveData();
     }
-
 
     public LiveData<List<Review>> getUserReviewList() {
         return reviewList;
     }
 
     public void setReviewList(String id) {
-        List<Review> allreviews = new LinkedList<>();
-        for(Review review:Model.instance.getAllReviewsLiveData().getValue()){
+        MutableLiveData<List<Review>> all = Model.instance.getAllReviewsLiveData();
+        List<Review> userReviews = new LinkedList<>();
+        for(Review review:all.getValue()){
             if(review.getUserId().equals(id)){
-                allreviews.add(review);
+                userReviews.add(review);
             }
         }
-        this.reviewList.setValue(allreviews);
+        reviewList.setValue(userReviews);
     }
 }

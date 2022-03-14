@@ -70,7 +70,6 @@ public class DetailsReviewFragment extends Fragment {
 
     private void refreshReview() {
         swipeRefreshLayout.setRefreshing(true);
-
         review = Model.instance.getReviewById(reviewId);
         if(!review.getUserId().equals(Model.instance.getSignedUser().getId())){
             deleteIv.setEnabled(false);
@@ -78,26 +77,17 @@ public class DetailsReviewFragment extends Fragment {
             editIv.setEnabled(false);
             editIv.setVisibility(View.GONE);
         }
-//        Model.instance.getReviewById(reviewId, rev -> {
-//            review = new Review(rev);
-//            if(!review.getUserId().equals(Model.instance.getSignedUser().getId())){
-//                deleteIv.setEnabled(false);
-//                deleteIv.setVisibility(View.GONE);
-//                editIv.setEnabled(false);
-//                editIv.setVisibility(View.GONE);
-//            }
-            Model.instance.setStarByRating(review.getRating(),star1,star2,star3,star4,star5,ratingTv);
-            restaurantTv.setText(review.getRestaurantName());
-            dishTv.setText(review.getDishName());
-            userNameTv.setText(review.getUserName());
-            descriptionTv.setText(review.getDescription());
-            swipeRefreshLayout.setRefreshing(false);
-       // });
+        Model.instance.setStarByRating(review.getRating(),star1,star2,star3,star4,star5,ratingTv);
+        restaurantTv.setText(review.getRestaurantName());
+        dishTv.setText(review.getDishName());
+        userNameTv.setText(review.getUserName());
+        descriptionTv.setText(review.getDescription());
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private void deleteReview() throws JsonProcessingException {
         review.setDeleted(true);
-        Model.instance.updateReview(review, () -> Navigation.findNavController(restaurantTv).navigateUp());
+        Model.instance.updateReview(review, () -> Navigation.findNavController(restaurantTv).navigate(DetailsReviewFragmentDirections.actionDetailsReviewFragmentToGeneralListFragment()));
     }
 
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

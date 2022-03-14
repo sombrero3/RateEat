@@ -13,7 +13,13 @@
     <fragment
         android:id="@+id/addReviewFragment"
         android:name="com.example.rateeat.feed.AddReviewFragment"
-        android:label="AddReviewFragment" />
+        android:label="AddReviewFragment" >
+        <action
+            android:id="@+id/action_addReviewFragment_to_generalListFragment"
+            app:destination="@id/generalListFragment"
+            app:popUpTo="@id/addReviewFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/detailsReviewFragment"
         android:name="com.example.rateeat.feed.DetailsReviewFragment"
@@ -24,6 +30,11 @@
         <action
             android:id="@+id/action_detailsReviewFragment_to_editReviewFragment"
             app:destination="@id/editReviewFragment" />
+        <action
+            android:id="@+id/action_detailsReviewFragment_to_generalListFragment"
+            app:destination="@id/generalListFragment"
+            app:popUpTo="@id/detailsReviewFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <action android:id="@+id/action_global_addReviewFragment" app:destination="@id/addReviewFragment" />
     <action android:id="@+id/action_global_generalListFragment" app:destination="@id/generalListFragment" />
