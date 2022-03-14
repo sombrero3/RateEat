@@ -110,7 +110,7 @@ public class EditReviewFragment extends Fragment {
             prog.setVisibility(View.VISIBLE);
             disableButtons();
             if (imageBitmap != null) {
-                    Model.instance.saveImage(imageBitmap,  review.getId()+ ".jpg", url -> {
+                    Model.instance.saveImage(imageBitmap,  review.getId()+ ".jpg",Model.IMAGE_POST_COLLECTION, url -> {
                         review.setImageUrl(url);
                         Model.instance.updateReview(review, new Model.VoidListener() {
                             @Override

@@ -151,7 +151,7 @@ public class AddReviewFragment extends Fragment {
             Review review = new Review(user.getId(), user.getFirstName() + " " + user.getLastName(), restaurant, dish, rating, description);
             if (imageBitmap != null) {
                 Model.instance.addReview(review,()->{
-                    Model.instance.saveImage(imageBitmap,  review.getId()+ ".jpg", url -> {
+                    Model.instance.saveImage(imageBitmap,  review.getId()+ ".jpg",Model.IMAGE_POST_COLLECTION, url -> {
                         review.setImageUrl(url);
                         Model.instance.updateReview(review, new Model.VoidListener() {
                             @Override
