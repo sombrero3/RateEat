@@ -20,6 +20,7 @@ import com.example.rateeat.R;
 import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.squareup.picasso.Picasso;
 
 public class DetailsReviewFragment extends Fragment {
     ImageView imageIv,editIv,deleteIv,star1,star2,star3,star4,star5;
@@ -70,32 +71,28 @@ public class DetailsReviewFragment extends Fragment {
 
     private void refreshReview() {
         swipeRefreshLayout.setRefreshing(true);
-//        Model.instance.deleteLeftoverReview(reviewId, new Model.VoidListener() {
-//            @Override
-//            public void onComplete() {
-//                Navigation.findNavController(deleteIv).navigateUp();
-//            }
-//        });
-        Model.instance.getReviewById(reviewId, rev -> {
-            review = new Review(rev);
-            if(!review.getUserId().equals(Model.instance.getSignedUser().getId())){
-                deleteIv.setEnabled(false);
-                deleteIv.setVisibility(View.GONE);
-                editIv.setEnabled(false);
-                editIv.setVisibility(View.GONE);
-            }
-            Model.instance.setStarByRating(review.getRating(),star1,star2,star3,star4,star5,ratingTv);
-            restaurantTv.setText(review.getRestaurantName());
-            dishTv.setText(review.getDishName());
-            userNameTv.setText(review.getUserName());
-            descriptionTv.setText(review.getDescription());
-            swipeRefreshLayout.setRefreshing(false);
-        });
+        review = Model.instance.getReviewById(reviewId);
+        if(!review.getUserId().equals(Model.instance.getSignedUser().getId())){
+            deleteIv.setEnabled(false);
+            deleteIv.setVisibility(View.GONE);
+            editIv.setEnabled(false);
+            editIv.setVisibility(View.GONE);
+        }
+        Model.instance.setStarByRating(review.getRating(),star1,star2,star3,star4,star5,ratingTv);
+        restaurantTv.setText(review.getRestaurantName());
+        dishTv.setText(review.getDishName());
+        userNameTv.setText(review.getUserName());
+        descriptionTv.setText(review.getDescription());
+        imageIv.setImageResource(R.drawable.falafel);
+        if(review.getImageUrl()!=null) {
+            Picasso.get().load(review.getImageUrl()).into(imageIv);
+        }
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private void deleteReview() throws JsonProcessingException {
         review.setDeleted(true);
-        Model.instance.updateReview(review, () -> Navigation.findNavController(restaurantTv).navigateUp());
+        Model.instance.updateReview(review, () -> Navigation.findNavController(restaurantTv).navigate(DetailsReviewFragmentDirections.actionDetailsReviewFragmentToGeneralListFragment()));
     }
 
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

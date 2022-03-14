@@ -156,7 +156,7 @@ public class AddReviewFragment extends Fragment {
                         Model.instance.updateReview(review, new Model.VoidListener() {
                             @Override
                             public void onComplete() throws JsonProcessingException {
-                                Navigation.findNavController(restaurantEt).navigateUp();
+                                Navigation.findNavController(restaurantEt).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToGeneralListFragment());
                             }
                         });
                  });
@@ -165,7 +165,7 @@ public class AddReviewFragment extends Fragment {
             } else {
                 Model.instance.addReview(review, () -> {
                     prog.setVisibility(View.GONE);
-                    Navigation.findNavController(prog).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToMyListFragment(user.getId()));
+                    Navigation.findNavController(prog).navigateUp();
                 });
             }
         }

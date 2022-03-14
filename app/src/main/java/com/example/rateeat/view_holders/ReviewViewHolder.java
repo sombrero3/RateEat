@@ -36,7 +36,7 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder{
         star3 = itemView.findViewById(R.id.general_list_star3_iv);
         star4 = itemView.findViewById(R.id.general_list_star4_iv);
         star5 = itemView.findViewById(R.id.general_list_star5_iv);
-        image =itemView.findViewById(R.id.general_list_image);
+        image =itemView.findViewById(R.id.general_list_row_image);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,13 +47,10 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder{
         this.reviewsList = reviewsList;
         userTv.setOnClickListener((v)->{
             String userId = this.reviewsList.getValue().get(getAdapterPosition()).getUserId();
-           // itemView.bind(review);
             Bundle args = new Bundle();
             args.putString("userId", userId);
             Navigation.findNavController(v).navigate(R.id.action_global_myListFragment,args);
         });
-
-
     }
 
     public void bind(Review review) {
@@ -61,14 +58,14 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder{
         restaurantTv.setText(review.getRestaurantName());
         dishTv.setText(review.getDishName());
         image.setImageResource(R.drawable.falafel);
-        if(review.getImageUrl()!=null&&review.getImageUrl()!="") {
+        if(review.getImageUrl()!=null) {
             Picasso.get().load(review.getImageUrl()).into(image);
         }
-        Model.instance.setStarByRating(review.getRating(), star1, star2, star3, star4, star5, ratingTv);
-
-
+        Model.instance.setStarByRating(review.getRating(), star1,star2,star3,star4,star5,ratingTv);
     }
 }
+
+
 
 
 

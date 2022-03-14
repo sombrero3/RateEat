@@ -204,7 +204,6 @@ public class ModelFireBase {
     }
     public void getReviewById(String id, Model.ReviewListener listener) {
         db.collection("reviews")
-                //  .whereEqualTo("id",studentId)
                 .document(id)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -219,7 +218,7 @@ public class ModelFireBase {
     public void getMyReviews(Model.ReviewsListListener listener) {
         String userId = Model.instance.getSignedUser().getId();
         db.collection("reviews")
-                .whereEqualTo("deleted",false)
+               // .whereEqualTo("deleted",false)
                 .whereEqualTo("userId",userId)
                 //  .whereGreaterThanOrEqualTo("updateDate", new Timestamp(lastUpdateDate,0))
                 .get()
@@ -244,11 +243,6 @@ public class ModelFireBase {
         String id = key.getId();
         Log.d("TAG","review id = "+ id);
         review.setId(id);
-
-//        Log.d("TAG","review.getId = "+ review.getId());
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        String reviewString = objectMapper.writeValueAsString(review);
-//        Map<String, Object> json = objectMapper.readValue(reviewString, Map.class);
         db.collection("reviews")
                 .document(review.getId())
                 .set(review.toMap())
