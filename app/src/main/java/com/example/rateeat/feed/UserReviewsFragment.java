@@ -56,7 +56,6 @@ public class UserReviewsFragment extends Fragment {
 
         userId="";
         userId = UserReviewsFragmentArgs.fromBundle(getArguments()).getUserId();
-        //viewModel = new ViewModelProvider(this, new UserReviewViewModelFactory(this.getActivity().getApplication(), userId)).get(UserReviewsViewModel.class);
 
         RecyclerView list = view.findViewById(R.id.user_list_rv);
         list.setHasFixedSize(true);
@@ -67,6 +66,7 @@ public class UserReviewsFragment extends Fragment {
         emailTv = view.findViewById(R.id.user_list_email_tv);
         image = view.findViewById(R.id.user_list_img_iv);
         titleTv = view.findViewById(R.id.user_list_reviews_title_tv);
+
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -77,7 +77,7 @@ public class UserReviewsFragment extends Fragment {
         });
 
         swipeRefreshLayout.setOnRefreshListener(()->{
-            reset(userId);
+            refresh(userId);
         });
 
         viewModel.getUserReviewList().observe(getViewLifecycleOwner(), (Observer<List<Review>>) reviews -> {
@@ -103,10 +103,10 @@ public class UserReviewsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        reset(userId);
+        refresh(userId);
     }
 
-    public void reset(String userId){
+    public void refresh(String userId){
         viewModel.setReviewList(userId);
         refreshUI(userId);
          //adapter.notifyDataSetChanged();
