@@ -196,6 +196,7 @@ public class ProfileFragment extends Fragment {
         nameTv.setVisibility(View.GONE);
         nameTv.setEnabled(false);
         nameEditEt.setVisibility(View.VISIBLE);
+        nameEditEt.setText(user.getFirstName()+" "+user.getLastName());
         nameEditEt.setEnabled(true);
         confirmNameIv.setVisibility(View.VISIBLE);
         confirmNameIv.setEnabled(true);
