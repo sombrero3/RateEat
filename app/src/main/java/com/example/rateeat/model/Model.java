@@ -212,28 +212,11 @@ public class Model {
             }
         });
     }
-    public Review getReviewById(String id){
-        //modelFireBase.getReviewById(id,listener);
+    public void getReviewById(String id,ReviewListener listener){
+        modelFireBase.getReviewById(id,listener);
         refreshReviewsList();
-        Review res = new Review();
-        for (Review rev: reviewsList.getValue()) {
-            if(rev.getId().equals(id)){
-                res = rev;
-                break;
-            }
-        }
-        return res;
     }
-    public List<Review> getMyReviews(String userId,ReviewsListListener listener) {
-        modelFireBase.getMyReviews(listener);
-        List<Review> res = new LinkedList<>();
-        for (Review rev: reviewsList.getValue()) {
-            if(rev.getUserId().equals(userId)){
-                res.add(rev);
-            }
-        }
-        return res;
-    }
+
     //Create
     public void addReview(Review review,VoidListener listener) throws JsonProcessingException {
         reviewListLoadingState.setValue(ReviewListLoadingState.loading);

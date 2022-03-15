@@ -103,6 +103,7 @@ public class UserReviewsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Model.instance.refreshReviewsList();
         refresh(userId);
     }
 

@@ -131,6 +131,13 @@ public class EditReviewFragment extends Fragment {
             }
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Model.instance.refreshReviewsList();
+        setReview();
+    }
     private void openGallery() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
@@ -171,17 +178,28 @@ public class EditReviewFragment extends Fragment {
         }
     }
     private void setReview() {
-        review = Model.instance.getReviewById(reviewId);
-        restaurantEt.setText(review.getRestaurantName());
-        dishEt.setText(review.getDishName());
-        descriptionEt.setText(review.getDescription());
-        ratingTv.setText(review.getRating());
-        setStarsOnClick();
-        image.setImageResource(R.drawable.falafel);
-        if(review.getImageUrl()!=null) {
-            Picasso.get().load(review.getImageUrl()).into(image);
-        }
-        prog.setVisibility(View.GONE);
+        Model.instance.getReviewById(reviewId, new Model.ReviewListener() {
+            @Override
+            public void onComplete(Review rev) {
+                review = rev;
+                if(review==null){
+                    Toast.makeText(getActivity(),"This Post has been deleted moment ago!",Toast.LENGTH_SHORT).show();
+                    Navigation.findNavController(dishEt).navigate(EditReviewFragmentDirections.actionGlobalGeneralListFragment());
+                }else {
+                    restaurantEt.setText(review.getRestaurantName());
+                    dishEt.setText(review.getDishName());
+                    descriptionEt.setText(review.getDescription());
+                    ratingTv.setText(review.getRating());
+                    setStarsOnClick();
+                    image.setImageResource(R.drawable.falafel);
+                    if (review.getImageUrl() != null) {
+                        Picasso.get().load(review.getImageUrl()).into(image);
+                    }
+                    prog.setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
     private boolean validation(String restaurantName,String dishName,String description) {
         if(restaurantName.isEmpty()){
