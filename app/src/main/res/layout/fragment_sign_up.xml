@@ -91,6 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
             android:text="Add Image :"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -101,14 +102,17 @@
             android:id="@+id/signup_btn"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp"
             android:backgroundTint="@color/orange_1"
             android:text="confirm"
             android:textColor="@color/black"
             android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintTop_toBottomOf="@+id/signup_image_iv" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linearLayout"
@@ -196,6 +200,40 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/signup_image_iv"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView9"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:srcCompat="@drawable/friedchicken" />
+
+        <ImageButton
+            android:id="@+id/signup_camera_ibtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/brown_1"
+            app:layout_constraintBottom_toBottomOf="@+id/signup_gallery_ibtn"
+            app:layout_constraintEnd_toStartOf="@+id/signup_image_iv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/signup_gallery_ibtn"
+            app:layout_constraintTop_toTopOf="@+id/signup_gallery_ibtn"
+            app:srcCompat="@drawable/camera" />
+
+        <ImageButton
+            android:id="@+id/signup_gallery_ibtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/brown_1"
+            app:layout_constraintEnd_toStartOf="@+id/signup_camera_ibtn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView9"
+            app:srcCompat="@drawable/gallery_orange" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

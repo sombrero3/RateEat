@@ -66,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="@color/brown_transparent"
                 app:layout_constraintBottom_toBottomOf="@+id/user_profile_name_tv"
                 app:layout_constraintStart_toEndOf="@+id/user_profile_name_tv"
                 app:layout_constraintTop_toTopOf="@+id/user_profile_name_tv"
@@ -90,6 +91,7 @@
                 android:id="@+id/user_profile_confirm_name_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/brown_transparent"
                 app:layout_constraintBottom_toBottomOf="@+id/user_profile_edit_name_et"
                 app:layout_constraintStart_toEndOf="@+id/user_profile_edit_name_et"
                 app:layout_constraintTop_toTopOf="@+id/user_profile_name_tv"
@@ -114,6 +116,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:background="@color/brown_transparent"
+                android:backgroundTint="@color/brown_transparent"
                 app:layout_constraintBottom_toBottomOf="@+id/user_profile_imge_iv"
                 app:layout_constraintStart_toStartOf="@+id/user_profile_imge_iv"
                 app:srcCompat="@drawable/gallery_orange" />

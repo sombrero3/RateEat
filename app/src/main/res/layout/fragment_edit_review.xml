@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/NewReview_constrains"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/black"
         tools:context=".feed.EditReviewFragment">
 
@@ -143,6 +143,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="32dp"
             android:backgroundTint="@android:color/holo_orange_light"
             android:text="POST REVIEW"
             android:textColor="@color/black"
@@ -262,16 +263,20 @@
             android:id="@+id/review_edit_take_pic_ibtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/brown_1"
             app:layout_constraintBottom_toBottomOf="@+id/review_edit_img_iv"
-            app:layout_constraintEnd_toEndOf="@+id/review_edit_img_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/review_edit_img_iv"
             app:srcCompat="@drawable/camera" />
 
         <ImageButton
             android:id="@+id/review_edit_gallery_ibtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/brown_1"
             app:layout_constraintBottom_toBottomOf="@+id/review_edit_img_iv"
-            app:layout_constraintStart_toStartOf="@+id/review_edit_img_iv"
+            app:layout_constraintEnd_toStartOf="@+id/review_edit_img_iv"
+            app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/gallery_orange" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
