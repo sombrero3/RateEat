@@ -35,7 +35,7 @@ import java.util.List;
 
 public class UserReviewsFragment extends Fragment {
     UserReviewAdapter adapter;
-    TextView nameTv, emailTv;
+    TextView nameTv, emailTv,titleTv;
     ImageView image;
     SwipeRefreshLayout swipeRefreshLayout;
     String userId;
@@ -66,7 +66,7 @@ public class UserReviewsFragment extends Fragment {
         nameTv = view.findViewById(R.id.user_list_name_tv);
         emailTv = view.findViewById(R.id.user_list_email_tv);
         image = view.findViewById(R.id.user_list_img_iv);
-
+        titleTv = view.findViewById(R.id.user_list_reviews_title_tv);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -123,6 +123,7 @@ public class UserReviewsFragment extends Fragment {
     private void setUserUi(User user) {
         nameTv.setText(user.getFirstName() + " " + user.getLastName());
         emailTv.setText(user.getEmail());
+        titleTv.setText("All "+user.getFirstName()+"'s reviews :");
         image.setImageResource(R.drawable.falafel);
         if(user.getImageUrl()!=null) {
             Picasso.get().load(user.getImageUrl()).into(image);

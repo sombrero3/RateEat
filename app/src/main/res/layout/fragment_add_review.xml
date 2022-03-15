@@ -138,13 +138,17 @@
             android:id="@+id/add_review_postReview_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
             android:backgroundTint="@android:color/holo_orange_light"
             android:text="POST REVIEW"
             android:textColor="@color/black"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_review_add_imgAG_iv" />
+            app:layout_constraintStart_toEndOf="@+id/add_review_avatar_img_btn"
+            app:layout_constraintTop_toBottomOf="@+id/add_review_imgag_iv" />
 
         <ImageView
             android:id="@+id/user_row_img"
@@ -233,9 +237,9 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <ImageView
-            android:id="@+id/add_review_add_imgAG_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:id="@+id/add_review_imgag_iv"
+            android:layout_width="264dp"
+            android:layout_height="200dp"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -255,26 +259,23 @@
 
         <ImageButton
             android:id="@+id/add_review_camera_btn"
-            android:layout_width="0dp"
+            android:layout_width="48dp"
             android:layout_height="42dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toStartOf="@+id/add_review_postReview_btn"
-            app:layout_constraintStart_toEndOf="@+id/add_review_gallery_btn"
-            app:layout_constraintTop_toBottomOf="@+id/add_review_add_imgAG_iv"
+            android:backgroundTint="@color/brown_1"
+            app:layout_constraintBottom_toBottomOf="@+id/add_review_imgag_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/add_review_imgag_iv"
             app:srcCompat="@drawable/camera" />
 
         <ImageButton
             android:id="@+id/add_review_gallery_btn"
-            android:layout_width="0dp"
+            android:layout_width="56dp"
             android:layout_height="42dp"
-            android:layout_marginStart="60dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/add_review_camera_btn"
-            app:layout_constraintEnd_toStartOf="@+id/add_review_camera_btn"
+            android:backgroundTint="@color/brown_1"
+            app:layout_constraintBottom_toBottomOf="@+id/add_review_imgag_iv"
+            app:layout_constraintEnd_toStartOf="@+id/add_review_imgag_iv"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_review_add_imgAG_iv"
-            app:srcCompat="@android:drawable/ic_menu_gallery" />
+            app:srcCompat="@drawable/gallery_orange" />
 
         <ImageButton
             android:id="@+id/add_review_avatar_img_btn"
@@ -282,7 +283,7 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_review_add_imgAG_iv"
+            app:layout_constraintTop_toBottomOf="@+id/add_review_imgag_iv"
             tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,19 @@
 package com.example.rateeat.login;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -33,13 +39,19 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.InputStream;
+
 public class SignUpFragment extends Fragment {
-    ImageView upload;
+    ImageView imageIv;
     Button signUp;
     EditText firstNameEt,lastNameEt,passwordEt,emailEt;
     TextView signIn;
     ProgressBar progressBar;
     FirebaseAuth mAuth;
+    static final int REQUEST_IMAGE_CAPTURE = 1,REQUEST_GALLERY =2;
+    Bitmap imageBitmap;
+    ImageButton cameraBtn,galleryBtn;
+    User user;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,11 +59,13 @@ public class SignUpFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         signUp = view.findViewById(R.id.signup_btn);
         signIn = view.findViewById(R.id.signup_sign_in_tv);
-        //upload = view.findViewById(R.id.signup_upload_img_iv);
         firstNameEt = view.findViewById(R.id.signup_first_name_et);
         lastNameEt = view.findViewById(R.id.signup_last_name_et);
         passwordEt = view.findViewById(R.id.signup_password_et);
         emailEt = view.findViewById(R.id.signup_email_et);
+        imageIv = view.findViewById(R.id.signup_image_iv);
+        cameraBtn = view.findViewById(R.id.signup_camera_ibtn);
+        galleryBtn = view.findViewById(R.id.signup_gallery_ibtn);
         progressBar = view.findViewById(R.id.signup_prog);
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -63,9 +77,52 @@ public class SignUpFragment extends Fragment {
             Navigation.findNavController(v).navigate(SignUpFragmentDirections.actionSignUpFragmentToLoginFragment());
         });
 
+        cameraBtn.setOnClickListener(v -> {
+            openCamera();
+        });
+
+        galleryBtn.setOnClickListener(v -> {
+            openGallery();
+        });
         return view;
     }
+    private void openGallery() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent,REQUEST_GALLERY);
+    }
 
+    private void openCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_IMAGE_CAPTURE){         //Back from the camera
+            if(resultCode==RESULT_OK){                   //It worked
+                Bundle extras = data.getExtras();
+                imageBitmap = (Bitmap) extras.get("data");
+                imageIv.setImageBitmap(imageBitmap);
+            }
+        }
+        else if(requestCode==REQUEST_GALLERY){
+            if(resultCode==RESULT_OK){
+                try {
+                    final Uri imageUri = data.getData();
+                    final InputStream imageStream =getContext().getContentResolver().openInputStream(imageUri);
+                    imageBitmap = BitmapFactory.decodeStream(imageStream);
+                    imageIv.setImageBitmap(imageBitmap);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(getContext(),"Failed to select image from gallery",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }
+    }
     private boolean validation(String email, String password, String firstName, String lastName) {
         if(firstName.isEmpty()){
             firstNameEt.setError("First name is required");
@@ -110,12 +167,13 @@ public class SignUpFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             //  Model.instance.signUp(email,password,firstName,lastName,progressBar);
             mAuth = FirebaseAuth.getInstance();
+
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                User user = new User(email, firstName, lastName,password);
+                                user = new User(email, firstName, lastName,password);
                                 user.setId(FirebaseAuth.getInstance().getUid());
                                 user.setLastUpdated(Timestamp.now().getSeconds());
                                 //addUserToRealTimeDataBase(user);
@@ -137,13 +195,26 @@ public class SignUpFragment extends Fragment {
     }
 
     private void addUserToFireStore(User user) throws JsonProcessingException {
-        Model.instance.addUser(user, new Model.VoidListener() {
-            @Override
-            public void onComplete() {
-                Toast.makeText(getActivity(), "Successfully Registered.", Toast.LENGTH_LONG).show();
-                goToFeedActivity();
-            }
-        });
+        if(imageBitmap!=null){
+            Model.instance.saveImage(imageBitmap,  user.getId()+ ".jpg",Model.IMAGE_USER_COLLECTION, url -> {
+                user.setImageUrl(url);
+                Model.instance.addUser(user, new Model.VoidListener() {
+                    @Override
+                    public void onComplete() {
+                        Toast.makeText(getActivity(), "Successfully Registered.", Toast.LENGTH_LONG).show();
+                        goToFeedActivity();
+                    }
+                });
+            });
+        }else {
+            Model.instance.addUser(user, new Model.VoidListener() {
+                @Override
+                public void onComplete() {
+                    Toast.makeText(getActivity(), "Successfully Registered.", Toast.LENGTH_LONG).show();
+                    goToFeedActivity();
+                }
+            });
+        }
     }
     private void addUserToRealTimeDataBase(User user) {
         FirebaseDatabase.getInstance().getReference("Users")
