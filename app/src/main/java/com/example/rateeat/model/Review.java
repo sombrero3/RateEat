@@ -1,13 +1,21 @@
 package com.example.rateeat.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 
 import java.util.HashMap;
 import java.util.Map;
-//import com.google.firebase.firestore.FieldValue;
 
+@Entity
 public class Review {
+    @PrimaryKey
+    @NonNull
     String id;
+
     String userId;
     String userName;
     String restaurantName;
@@ -25,7 +33,6 @@ public class Review {
         this.dishName = dishName;
         this.rating = rating;
         this.description = description;
-        imageUrl="";
     }
 
     public Review(){}
@@ -134,8 +141,7 @@ public class Review {
         result.put("rating",rating);
         result.put("imageUrl", imageUrl);
         result.put("deleted", isDeleted);
-        result.put("updateDate", FieldValue.serverTimestamp());
-
+        result.put("latsUpdateDate", FieldValue.serverTimestamp());
         return result;
     }
 
@@ -149,13 +155,8 @@ public class Review {
         rating= (String) map.get("rating");
         imageUrl = (String)map.get("imageUrl");
         isDeleted = (Boolean) map.get("deleted");
-        updateDate = (Long)map.get("updateDate");
-        //----------------
-        //Timestamp ts = (Timestamp)map.get("lastUpdated");
-        //lastUpdated = ts.getSeconds();
-        //--------
-
+        Timestamp ts = (Timestamp) map.get("latsUpdateDate");
+        updateDate = ts.getSeconds();
     }
-
 
 }

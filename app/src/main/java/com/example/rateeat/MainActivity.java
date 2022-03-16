@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().hide();
         FirebaseApp.initializeApp(this);
 
         Model.instance.executor.execute(()->{
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if(Model.instance.isSignedIn()){
                 Model.instance.mainThread.post(()->{
-                    Model.instance.setCurrentUser(new Model.SetCurrentUserListener() {
+                    Model.instance.setCurrentUser(new Model.UserListener() {
                         @Override
                         public void onComplete(User user) {
                             toFeedActivity();

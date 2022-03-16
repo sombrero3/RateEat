@@ -8,15 +8,15 @@
     <fragment
         android:id="@+id/generalListFragment"
         android:name="com.example.rateeat.feed.GeneralListFragment"
-        android:label="fragment_general_list"
+        android:label="HOME all reviews"
         tools:layout="@layout/fragment_general_list" />
     <fragment
         android:id="@+id/addReviewFragment"
         android:name="com.example.rateeat.feed.AddReviewFragment"
         android:label="AddReviewFragment" >
         <action
-            android:id="@+id/action_addReviewFragment_to_myListFragment"
-            app:destination="@id/myListFragment"
+            android:id="@+id/action_addReviewFragment_to_generalListFragment"
+            app:destination="@id/generalListFragment"
             app:popUpTo="@id/addReviewFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -30,6 +30,11 @@
         <action
             android:id="@+id/action_detailsReviewFragment_to_editReviewFragment"
             app:destination="@id/editReviewFragment" />
+        <action
+            android:id="@+id/action_detailsReviewFragment_to_generalListFragment"
+            app:destination="@id/generalListFragment"
+            app:popUpTo="@id/detailsReviewFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <action android:id="@+id/action_global_addReviewFragment" app:destination="@id/addReviewFragment" />
     <action android:id="@+id/action_global_generalListFragment" app:destination="@id/generalListFragment" />
@@ -49,7 +54,7 @@
         android:id="@+id/myListFragment"
         android:name="com.example.rateeat.feed.UserReviewsFragment"
         android:label="fragment_my_list"
-        tools:layout="@layout/fragment_my_list" >
+        tools:layout="@layout/fragment_user_list" >
         <argument
             android:name="userId"
             app:argType="string" />
