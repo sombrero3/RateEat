@@ -24,6 +24,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/general_list_star1_iv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/general_list_dish_tv"
             app:srcCompat="@drawable/pizza" />
@@ -33,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="Restaurant Name"
             android:textColor="@color/white"

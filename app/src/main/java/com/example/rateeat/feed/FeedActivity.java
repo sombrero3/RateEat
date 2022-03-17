@@ -16,13 +16,25 @@ import com.example.rateeat.R;
 import com.example.rateeat.login.LoginActivity;
 import com.example.rateeat.model.Model;
 import com.google.firebase.auth.FirebaseAuth;
-
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.InflateException;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.LayoutInflater.Factory;
 public class FeedActivity extends AppCompatActivity {
     NavController navCtl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+
 
         NavHost navHost = (NavHost) getSupportFragmentManager().findFragmentById(R.id.feed_navhost);
         navCtl = navHost.getNavController();
@@ -55,7 +67,7 @@ public class FeedActivity extends AppCompatActivity {
                     return true;
                 case R.id.feed_menu_add_review:
                     Toast.makeText(this,"New Review",Toast.LENGTH_SHORT).show();
-//                    args.putString("edit_space_reviewId", "");
+//                  args.putString("", "");
                     navCtl.navigate(R.id.action_global_addReviewFragment);
                     return true;
                 case R.id.feed_menu_my_reviews:

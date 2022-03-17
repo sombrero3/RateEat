@@ -8,12 +8,12 @@
     <fragment
         android:id="@+id/generalListFragment"
         android:name="com.example.rateeat.feed.GeneralListFragment"
-        android:label="HOME all reviews"
+        android:label="RateEat"
         tools:layout="@layout/fragment_general_list" />
     <fragment
         android:id="@+id/addReviewFragment"
         android:name="com.example.rateeat.feed.AddReviewFragment"
-        android:label="AddReviewFragment" >
+        android:label="RateEat">
         <action
             android:id="@+id/action_addReviewFragment_to_generalListFragment"
             app:destination="@id/generalListFragment"
@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/detailsReviewFragment"
         android:name="com.example.rateeat.feed.DetailsReviewFragment"
-        android:label="DetailsReviewFragment" >
+        android:label="RateEat">
         <argument
             android:name="reviewId"
             app:argType="string" />
@@ -41,7 +41,7 @@
     <fragment
         android:id="@+id/editReviewFragment"
         android:name="com.example.rateeat.feed.EditReviewFragment"
-        android:label="EditReviewFragment" >
+        android:label="RateEat">
         <argument
             android:name="reviewId"
             app:argType="string" />
@@ -53,8 +53,8 @@
     <fragment
         android:id="@+id/myListFragment"
         android:name="com.example.rateeat.feed.UserReviewsFragment"
-        android:label="fragment_my_list"
-        tools:layout="@layout/fragment_user_list" >
+        android:label="RateEat"
+        tools:layout="@layout/fragment_user_list">
         <argument
             android:name="userId"
             app:argType="string" />
@@ -63,7 +63,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.rateeat.feed.ProfileFragment"
-        android:label="ProfileFragment" >
+        android:label="RateEat">
         <argument
             android:name="userId"
             app:argType="string" />

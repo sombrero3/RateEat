@@ -72,7 +72,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:text="All reviews :"
-                android:textColor="@color/white"
+                android:textColor="@color/orange_1"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/user_list_img_iv"
                 app:layout_constraintStart_toStartOf="@+id/user_list_img_iv"
