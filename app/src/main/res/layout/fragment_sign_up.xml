@@ -201,15 +201,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/signup_image_iv"
             android:layout_width="200dp"
             android:layout_height="150dp"
             android:layout_marginTop="16dp"
+            app:srcCompat="@drawable/friedchicken"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView9"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            app:srcCompat="@drawable/friedchicken" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
+
 
         <ImageButton
             android:id="@+id/signup_camera_ibtn"
