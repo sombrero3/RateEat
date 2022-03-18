@@ -34,7 +34,6 @@ import com.example.rateeat.model.Review;
 import com.example.rateeat.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class AddReviewFragment extends Fragment {
@@ -69,7 +68,7 @@ public class AddReviewFragment extends Fragment {
         star5 = view.findViewById(R.id.add_review_star5_iv);
         cameraBtn = view.findViewById(R.id.add_review_camera_btn);
         galleryBtn = view.findViewById(R.id.add_review_gallery_btn);
-        addImage = view.findViewById(R.id.add_review_add_imgAG_iv);
+        addImage = view.findViewById(R.id.add_review_imgag_iv);
         prog.setVisibility(View.GONE);
 
         postReviewBtn.setOnClickListener((v)->{
@@ -151,7 +150,7 @@ public class AddReviewFragment extends Fragment {
             Review review = new Review(user.getId(), user.getFirstName() + " " + user.getLastName(), restaurant, dish, rating, description);
             if (imageBitmap != null) {
                 Model.instance.addReview(review,()->{
-                    Model.instance.saveImage(imageBitmap,  review.getId()+ ".jpg", url -> {
+                    Model.instance.saveImage(imageBitmap,  review.getId()+ ".jpg",Model.IMAGE_POST_COLLECTION, url -> {
                         review.setImageUrl(url);
                         Model.instance.updateReview(review, new Model.VoidListener() {
                             @Override

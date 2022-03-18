@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/NewReview_constrains"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/black"
         tools:context=".feed.EditReviewFragment">
 
@@ -69,10 +69,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="71dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="56dp"
             android:layout_marginEnd="71dp"
             android:text="EDIT REVIEW"
-            android:textColor="@color/white"
+            android:textColor="@color/orange_1"
             android:textSize="28sp"
             app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -85,21 +85,20 @@
             android:id="@+id/textView11"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="Click on a star :"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView12"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
         <TextView
             android:id="@+id/textView12"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="32dp"
             android:text="Let's rate that dish !! Click on  the stars below to set your rating to the dish, another click on a star wil consider as half star :"
             android:textColor="@color/orange_1"
             android:textSize="15sp"
@@ -126,7 +125,6 @@
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="4dp"
             android:text="Your rating for that dish is :"
@@ -134,7 +132,7 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/review_edit_rating_tv"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView11"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
         <Button
@@ -142,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="32dp"
             android:backgroundTint="@android:color/holo_orange_light"
             android:text="POST REVIEW"
             android:textColor="@color/black"
@@ -166,7 +164,8 @@
             android:id="@+id/review_edit_location_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
             android:text="Find restaurant by location:"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -178,11 +177,11 @@
             android:id="@+id/linearLayoutCompat2"
             android:layout_width="411dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="124dp"
+            android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/review_edit_location_tv">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -262,16 +261,20 @@
             android:id="@+id/review_edit_take_pic_ibtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/brown_1"
             app:layout_constraintBottom_toBottomOf="@+id/review_edit_img_iv"
-            app:layout_constraintEnd_toEndOf="@+id/review_edit_img_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/review_edit_img_iv"
             app:srcCompat="@drawable/camera" />
 
         <ImageButton
             android:id="@+id/review_edit_gallery_ibtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/brown_1"
             app:layout_constraintBottom_toBottomOf="@+id/review_edit_img_iv"
-            app:layout_constraintStart_toStartOf="@+id/review_edit_img_iv"
+            app:layout_constraintEnd_toStartOf="@+id/review_edit_img_iv"
+            app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/gallery_orange" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

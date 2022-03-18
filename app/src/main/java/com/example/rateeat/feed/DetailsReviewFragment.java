@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rateeat.R;
 import com.example.rateeat.model.Model;
@@ -71,23 +72,31 @@ public class DetailsReviewFragment extends Fragment {
 
     private void refreshReview() {
         swipeRefreshLayout.setRefreshing(true);
-        review = Model.instance.getReviewById(reviewId);
-        if(!review.getUserId().equals(Model.instance.getSignedUser().getId())){
-            deleteIv.setEnabled(false);
-            deleteIv.setVisibility(View.GONE);
-            editIv.setEnabled(false);
-            editIv.setVisibility(View.GONE);
-        }
-        Model.instance.setStarByRating(review.getRating(),star1,star2,star3,star4,star5,ratingTv);
-        restaurantTv.setText(review.getRestaurantName());
-        dishTv.setText(review.getDishName());
-        userNameTv.setText(review.getUserName());
-        descriptionTv.setText(review.getDescription());
-        imageIv.setImageResource(R.drawable.falafel);
-        if(review.getImageUrl()!=null) {
-            Picasso.get().load(review.getImageUrl()).into(imageIv);
-        }
-        swipeRefreshLayout.setRefreshing(false);
+        Model.instance.getReviewById(reviewId, rev -> {
+            review = rev;
+            if(review==null){
+                Toast.makeText(this.getActivity(),"This Post has been deleted moment ago!",Toast.LENGTH_SHORT).show();
+                Navigation.findNavController(editIv).navigateUp();
+            }else {
+                if (!review.getUserId().equals(Model.instance.getSignedUser().getId())) {
+                    deleteIv.setEnabled(false);
+                    deleteIv.setVisibility(View.GONE);
+                    editIv.setEnabled(false);
+                    editIv.setVisibility(View.GONE);
+                }
+                Model.instance.setStarByRating(review.getRating(), star1, star2, star3, star4, star5, ratingTv);
+                restaurantTv.setText(review.getRestaurantName());
+                dishTv.setText(review.getDishName());
+                userNameTv.setText(review.getUserName());
+                descriptionTv.setText(review.getDescription());
+                imageIv.setImageResource(R.drawable.falafel);
+                if (review.getImageUrl() != null) {
+                    Picasso.get().load(review.getImageUrl()).into(imageIv);
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
     }
 
     private void deleteReview() throws JsonProcessingException {

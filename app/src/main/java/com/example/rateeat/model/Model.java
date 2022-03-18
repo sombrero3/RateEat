@@ -32,6 +32,7 @@ public class Model {
     public Executor executor = Executors.newFixedThreadPool(1);
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
     public MutableLiveData<List<Review>> reviewsList = new MutableLiveData<>();
+    public static final String IMAGE_POST_COLLECTION = "/posts_images/",IMAGE_USER_COLLECTION ="/users_images/";
 
     public MutableLiveData<ReviewListLoadingState> getReviewListLoadingState() {
         return reviewListLoadingState;
@@ -47,9 +48,9 @@ public class Model {
     public interface  SaveImageListener{
          void onComplete(String url) throws JsonProcessingException;
       }
-    public void saveImage(Bitmap imageBitmap, String imageName,SaveImageListener Listener) {
+    public void saveImage(Bitmap imageBitmap, String imageName,String collectionName,SaveImageListener Listener) {
 
-        modelFireBase.saveImage(imageBitmap,imageName,Listener);
+        modelFireBase.saveImage(imageBitmap,imageName,collectionName,Listener);
 
     }
 
@@ -211,28 +212,11 @@ public class Model {
             }
         });
     }
-    public Review getReviewById(String id){
-        //modelFireBase.getReviewById(id,listener);
+    public void getReviewById(String id,ReviewListener listener){
+        modelFireBase.getReviewById(id,listener);
         refreshReviewsList();
-        Review res = new Review();
-        for (Review rev: reviewsList.getValue()) {
-            if(rev.getId().equals(id)){
-                res = rev;
-                break;
-            }
-        }
-        return res;
     }
-    public List<Review> getMyReviews(String userId,ReviewsListListener listener) {
-        modelFireBase.getMyReviews(listener);
-        List<Review> res = new LinkedList<>();
-        for (Review rev: reviewsList.getValue()) {
-            if(rev.getUserId().equals(userId)){
-                res.add(rev);
-            }
-        }
-        return res;
-    }
+
     //Create
     public void addReview(Review review,VoidListener listener) throws JsonProcessingException {
         reviewListLoadingState.setValue(ReviewListLoadingState.loading);

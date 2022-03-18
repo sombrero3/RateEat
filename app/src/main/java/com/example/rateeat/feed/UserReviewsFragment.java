@@ -29,12 +29,13 @@ import com.example.rateeat.model.Model;
 import com.example.rateeat.model.Review;
 import com.example.rateeat.model.User;
 import com.example.rateeat.view_models.UserReviewsViewModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class UserReviewsFragment extends Fragment {
     UserReviewAdapter adapter;
-    TextView nameTv, emailTv;
+    TextView nameTv, emailTv,titleTv;
     ImageView image;
     SwipeRefreshLayout swipeRefreshLayout;
     String userId;
@@ -55,7 +56,6 @@ public class UserReviewsFragment extends Fragment {
 
         userId="";
         userId = UserReviewsFragmentArgs.fromBundle(getArguments()).getUserId();
-        //viewModel = new ViewModelProvider(this, new UserReviewViewModelFactory(this.getActivity().getApplication(), userId)).get(UserReviewsViewModel.class);
 
         RecyclerView list = view.findViewById(R.id.user_list_rv);
         list.setHasFixedSize(true);
@@ -64,7 +64,8 @@ public class UserReviewsFragment extends Fragment {
         list.setAdapter(adapter);
         nameTv = view.findViewById(R.id.user_list_name_tv);
         emailTv = view.findViewById(R.id.user_list_email_tv);
-        image = view.findViewById(R.id.my_list_row_img);
+        image = view.findViewById(R.id.user_list_img_iv);
+        titleTv = view.findViewById(R.id.user_list_reviews_title_tv);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -76,7 +77,7 @@ public class UserReviewsFragment extends Fragment {
         });
 
         swipeRefreshLayout.setOnRefreshListener(()->{
-            reset(userId);
+            refresh(userId);
         });
 
         viewModel.getUserReviewList().observe(getViewLifecycleOwner(), (Observer<List<Review>>) reviews -> {
@@ -102,10 +103,11 @@ public class UserReviewsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        reset(userId);
+        Model.instance.refreshReviewsList();
+        refresh(userId);
     }
 
-    public void reset(String userId){
+    public void refresh(String userId){
         viewModel.setReviewList(userId);
         refreshUI(userId);
          //adapter.notifyDataSetChanged();
@@ -122,6 +124,11 @@ public class UserReviewsFragment extends Fragment {
     private void setUserUi(User user) {
         nameTv.setText(user.getFirstName() + " " + user.getLastName());
         emailTv.setText(user.getEmail());
+        titleTv.setText("All "+user.getFirstName()+"'s reviews :");
+        image.setImageResource(R.drawable.falafel);
+        if(user.getImageUrl()!=null) {
+            Picasso.get().load(user.getImageUrl()).into(image);
+        }
         setReviewList(user.getId());
     }
     private void setReviewList(String userId) {
