@@ -71,6 +71,15 @@ public class AddReviewFragment extends Fragment {
         addImage = view.findViewById(R.id.add_review_imgag_iv);
         prog.setVisibility(View.GONE);
 
+        locationIv.setOnClickListener((v)->Navigation.findNavController(v).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToMapFragment()));
+
+        String address = AddReviewFragmentArgs.fromBundle(getArguments()).getLocation();
+        TextView tv=view.findViewById(R.id.new_review_location_tv);
+        tv.setText(address);
+        String resName=AddReviewFragmentArgs.fromBundle(getArguments()).getRestaurantName();
+        if(!resName.equals("")){
+            restaurantEt.setText(resName);
+        }
         postReviewBtn.setOnClickListener((v)->{
             try {
                 addReview();
