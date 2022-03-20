@@ -6,23 +6,4 @@
         android:icon="@drawable/home"
         android:title="Home"
         app:showAsAction="always" />
-
-<!--    <item-->
-<!--        android:id="@+id/feed_menu_profile"-->
-<!--        android:title="My profile" />-->
-<!--    &lt;!&ndash;        android:icon="@drawable/ic_baseline_person_24"&ndash;&gt;-->
-
-<!--    <item-->
-<!--        android:id="@+id/feed_menu_add_review"-->
-<!--        android:title="Post new review" />-->
-<!--    &lt;!&ndash;    android:icon="@drawable/ic_baseline_post_add_24"&ndash;&gt;-->
-<!--    <item-->
-<!--        android:id="@+id/feed_menu_my_reviews"-->
-<!--        android:title="My reviews" />-->
-<!--    &lt;!&ndash;    android:icon="@drawable/ic_baseline_reviews_24"&ndash;&gt;-->
-
-<!--    <item-->
-<!--        android:id="@+id/feed_menu_logout"-->
-<!--        android:title="Logout" />-->
-<!--    &lt;!&ndash;    android:icon="@drawable/ic_baseline_run_circle_24"&ndash;&gt;-->
 </menu>
