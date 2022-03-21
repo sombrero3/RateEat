@@ -25,7 +25,7 @@ import com.squareup.picasso.Picasso;
 
 public class DetailsReviewFragment extends Fragment {
     ImageView imageIv,editIv,deleteIv,star1,star2,star3,star4,star5;
-    TextView dishTv,userNameTv,descriptionTv,restaurantTv,ratingTv;
+    TextView dishTv,userNameTv,descriptionTv,restaurantTv,ratingTv,locationTv;
     String reviewId;
     SwipeRefreshLayout swipeRefreshLayout;
     Review review;
@@ -37,7 +37,7 @@ public class DetailsReviewFragment extends Fragment {
 
         reviewId = DetailsReviewFragmentArgs.fromBundle(getArguments()).getReviewId();
 
-        swipeRefreshLayout=view.findViewById(R.id.details_review_swipe_refresh);
+        swipeRefreshLayout=view.findViewById(R.id.details_location);
         editIv = view.findViewById(R.id.review_details_edit_iv);
         deleteIv = view.findViewById(R.id.review_details_delete_iv);
         restaurantTv = view.findViewById(R.id.review_details_restaurant_name_tv);
@@ -46,6 +46,7 @@ public class DetailsReviewFragment extends Fragment {
         descriptionTv = view.findViewById(R.id.review_details_description_tv);
         ratingTv = view.findViewById(R.id.review_details_rating_tv);
         imageIv = view.findViewById(R.id.review_details_dish_img);
+        locationTv = view.findViewById(R.id.details_review_location_tv);
         star1 = view.findViewById(R.id.review_details_star1_iv);
         star2 = view.findViewById(R.id.review_details_star2_iv);
         star3 = view.findViewById(R.id.review_details_star3_iv);
@@ -89,6 +90,7 @@ public class DetailsReviewFragment extends Fragment {
                 dishTv.setText(review.getDishName());
                 userNameTv.setText(review.getUserName());
                 descriptionTv.setText(review.getDescription());
+                locationTv.setText(review.getRestaurantAddress());
                 imageIv.setImageResource(R.drawable.falafel);
                 if (review.getImageUrl() != null) {
                     Picasso.get().load(review.getImageUrl()).into(imageIv);

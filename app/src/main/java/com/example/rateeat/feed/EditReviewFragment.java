@@ -46,6 +46,7 @@ public class EditReviewFragment extends Fragment {
     String reviewId;
     Review review;
     Bitmap imageBitmap;
+    String address;
     boolean flagStar1, flagStar2, flagStar3, flagStar4, flagStar5;
     static final int REQUEST_IMAGE_CAPTURE = 1,REQUEST_GALLERY =2;
     @Override
@@ -190,6 +191,9 @@ public class EditReviewFragment extends Fragment {
                     dishEt.setText(review.getDishName());
                     descriptionEt.setText(review.getDescription());
                     ratingTv.setText(review.getRating());
+                    if(review.getRestaurantAddress()!=null && !review.getRestaurantAddress().equals("")) {
+                        locationTv.setText(review.getRestaurantAddress());
+                    }
                     setStarsOnClick();
                     image.setImageResource(R.drawable.falafel);
                     if (review.getImageUrl() != null) {
