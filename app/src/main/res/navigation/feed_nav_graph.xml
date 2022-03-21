@@ -19,6 +19,15 @@
             app:destination="@id/generalListFragment"
             app:popUpTo="@id/addReviewFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addReviewFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <argument
+            android:name="Location"
+            app:argType="string" />
+        <argument
+            android:name="RestaurantName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/detailsReviewFragment"
@@ -69,4 +78,13 @@
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_profileFragment" app:destination="@id/profileFragment" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.rateeat.feed.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_addReviewFragment"
+            app:destination="@id/addReviewFragment" />
+    </fragment>
 </navigation>

@@ -22,7 +22,6 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        imageUrl = "";
         numOfReview = "0";
     }
 

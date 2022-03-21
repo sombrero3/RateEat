@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rateeat">
 
+
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -10,6 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RateEat">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB-0xiD_N6wISudbggo5e9ANR3KnoLxhGY" />
         <activity
             android:name=".login.LoginActivity"
             android:exported="false" />
