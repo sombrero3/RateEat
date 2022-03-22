@@ -57,7 +57,7 @@ public class DetailsReviewFragment extends Fragment {
         refreshReview();
 
         editIv.setOnClickListener((v)->{
-            Navigation.findNavController(v).navigate(DetailsReviewFragmentDirections.actionDetailsReviewFragmentToEditReviewFragment(reviewId));
+            Navigation.findNavController(v).navigate(DetailsReviewFragmentDirections.actionDetailsReviewFragmentToEditReviewFragment(reviewId,"",""));
         });
         deleteIv.setOnClickListener((v)->{
             try {

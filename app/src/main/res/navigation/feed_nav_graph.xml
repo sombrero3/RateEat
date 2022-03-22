@@ -57,6 +57,14 @@
         <action
             android:id="@+id/action_editReviewFragment_to_generalListFragment"
             app:destination="@id/generalListFragment" />
+        <action
+            android:id="@+id/action_editReviewFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <argument android:name="location"
+            app:argType="string" />
+        <argument
+            android:name="restaurantName"
+            app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_detailsReviewFragment" app:destination="@id/detailsReviewFragment" />
     <fragment
@@ -86,5 +94,11 @@
         <action
             android:id="@+id/action_mapFragment_to_addReviewFragment"
             app:destination="@id/addReviewFragment" />
+        <argument
+            android:name="source"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_mapFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment" />
     </fragment>
 </navigation>

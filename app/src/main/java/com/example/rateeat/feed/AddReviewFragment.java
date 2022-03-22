@@ -70,7 +70,7 @@ public class AddReviewFragment extends Fragment {
         imageIv = view.findViewById(R.id.add_review_image_iv);
         prog.setVisibility(View.GONE);
 
-        locationIv.setOnClickListener((v)->Navigation.findNavController(v).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToMapFragment()));
+        locationIv.setOnClickListener((v)->Navigation.findNavController(v).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToMapFragment("add")));
 
         address = AddReviewFragmentArgs.fromBundle(getArguments()).getLocation();
         TextView tv=view.findViewById(R.id.new_review_location_tv);
