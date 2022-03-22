@@ -40,26 +40,25 @@ public class AddReviewFragment extends Fragment {
     EditText restaurantEt, dishEt, descriptionEt;
     Button postReviewBtn;
     TextView locationTv, ratingTv;
-    ImageView locationIv, star1, star2, star3, star4, star5,addImage;
+    ImageView locationIv, star1, star2, star3, star4, star5, imageIv;
     ProgressBar prog;
     boolean flagStar1, flagStar2, flagStar3, flagStar4, flagStar5;
     static final int REQUEST_IMAGE_CAPTURE = 1,REQUEST_GALLERY =2;
     Bitmap imageBitmap;
     ImageButton cameraBtn,galleryBtn;
+    String address;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_add_review, container, false);
         postReviewBtn = view.findViewById(R.id.add_review_postReview_btn);
-       // uploadImgBtn = view.findViewById(R.id.add_review_uploadImg_btn);
         restaurantEt = view.findViewById(R.id.add_review_restaurant_et);
         dishEt = view.findViewById(R.id.add_review_dish_et);
         descriptionEt = view.findViewById(R.id.add_review_description_et);
         locationIv = view.findViewById(R.id.user_row_img);
         locationTv = view.findViewById(R.id.new_review_location_tv);
         ratingTv = view.findViewById(R.id.add_review_rating_tv);
-//        cameraBtn = view.findViewById(R.id.add_review_uploadImg_btn);
         prog = view.findViewById(R.id.add_review_prog);
         star1 = view.findViewById(R.id.add_review_star1_iv);
         star2 = view.findViewById(R.id.add_review_star2_iv);
@@ -68,18 +67,20 @@ public class AddReviewFragment extends Fragment {
         star5 = view.findViewById(R.id.add_review_star5_iv);
         cameraBtn = view.findViewById(R.id.add_review_camera_btn);
         galleryBtn = view.findViewById(R.id.add_review_gallery_btn);
-        addImage = view.findViewById(R.id.add_review_imgag_iv);
+        imageIv = view.findViewById(R.id.add_review_image_iv);
         prog.setVisibility(View.GONE);
 
-        locationIv.setOnClickListener((v)->Navigation.findNavController(v).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToMapFragment()));
+        locationIv.setOnClickListener((v)->Navigation.findNavController(v).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToMapFragment("add")));
 
-        String address = AddReviewFragmentArgs.fromBundle(getArguments()).getLocation();
+        address = AddReviewFragmentArgs.fromBundle(getArguments()).getLocation();
         TextView tv=view.findViewById(R.id.new_review_location_tv);
         tv.setText(address);
         String resName=AddReviewFragmentArgs.fromBundle(getArguments()).getRestaurantName();
+
         if(!resName.equals("")){
             restaurantEt.setText(resName);
         }
+
         postReviewBtn.setOnClickListener((v)->{
             try {
                 addReview();
@@ -87,11 +88,6 @@ public class AddReviewFragment extends Fragment {
                 e.printStackTrace();
             }
         });
-        addImage.setOnClickListener(v -> {
-            //openCamera();
-        });
-
-        
 
         cameraBtn.setOnClickListener(v -> {
             openCamera();
@@ -104,6 +100,42 @@ public class AddReviewFragment extends Fragment {
         setStarsOnClick();
         setHasOptionsMenu(true);
         return view;
+    }
+
+    private void addReview() throws JsonProcessingException {
+        String restaurant = restaurantEt.getText().toString().trim();
+        String dish = dishEt.getText().toString().trim();
+        String description = descriptionEt.getText().toString().trim();
+        String rating = ratingTv.getText().toString().trim();
+        if(validation(restaurant,dish,description)) {
+            prog.setVisibility(View.VISIBLE);
+            disableButtons();
+            User user = Model.instance.getSignedUser();
+
+            Review review = new Review(user.getId(), user.getFirstName() + " " + user.getLastName(), restaurant, dish, rating, description);
+            if(address!="") {
+                review.setRestaurantAddress(address);
+            }
+            if (imageBitmap != null) {
+                Model.instance.addReview(review,()->{
+                    Model.instance.saveImage(imageBitmap,  review.getId()+ ".jpg",Model.IMAGE_POST_COLLECTION, url -> {
+                        review.setImageUrl(url);
+                        Model.instance.updateReview(review, new Model.VoidListener() {
+                            @Override
+                            public void onComplete() throws JsonProcessingException {
+                                Navigation.findNavController(restaurantEt).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToGeneralListFragment());
+                            }
+                        });
+                    });
+
+                });
+            } else {
+                Model.instance.addReview(review, () -> {
+                    prog.setVisibility(View.GONE);
+                    Navigation.findNavController(prog).navigateUp();
+                });
+            }
+        }
     }
 
     private void openGallery() {
@@ -124,7 +156,7 @@ public class AddReviewFragment extends Fragment {
            if(resultCode==RESULT_OK){                   //It worked
                Bundle extras = data.getExtras();
                imageBitmap = (Bitmap) extras.get("data");
-               addImage.setImageBitmap(imageBitmap);
+               imageIv.setImageBitmap(imageBitmap);
 
            }
         }
@@ -134,7 +166,7 @@ public class AddReviewFragment extends Fragment {
                     final Uri imageUri = data.getData();
                     final InputStream imageStream =getContext().getContentResolver().openInputStream(imageUri);
                    imageBitmap = BitmapFactory.decodeStream(imageStream);
-                    addImage.setImageBitmap(imageBitmap);
+                    imageIv.setImageBitmap(imageBitmap);
 
                 }
                 catch (Exception e){
@@ -142,39 +174,6 @@ public class AddReviewFragment extends Fragment {
                     Toast.makeText(getContext(),"Failed to select image from gallery",Toast.LENGTH_LONG).show();
                 }
 
-            }
-        }
-    }
-
-    private void addReview() throws JsonProcessingException {
-        String restaurant = restaurantEt.getText().toString().trim();
-        String dish = dishEt.getText().toString().trim();
-        String description = descriptionEt.getText().toString().trim();
-        String rating = ratingTv.getText().toString().trim();
-        if(validation(restaurant,dish,description)) {
-            prog.setVisibility(View.VISIBLE);
-            disableButtons();
-            User user = Model.instance.getSignedUser();
-
-            Review review = new Review(user.getId(), user.getFirstName() + " " + user.getLastName(), restaurant, dish, rating, description);
-            if (imageBitmap != null) {
-                Model.instance.addReview(review,()->{
-                    Model.instance.saveImage(imageBitmap,  review.getId()+ ".jpg",Model.IMAGE_POST_COLLECTION, url -> {
-                        review.setImageUrl(url);
-                        Model.instance.updateReview(review, new Model.VoidListener() {
-                            @Override
-                            public void onComplete() throws JsonProcessingException {
-                                Navigation.findNavController(restaurantEt).navigate(AddReviewFragmentDirections.actionAddReviewFragmentToGeneralListFragment());
-                            }
-                        });
-                 });
-
-              });
-            } else {
-                Model.instance.addReview(review, () -> {
-                    prog.setVisibility(View.GONE);
-                    Navigation.findNavController(prog).navigateUp();
-                });
             }
         }
     }
@@ -262,8 +261,6 @@ public class AddReviewFragment extends Fragment {
             }
         });
     }
-
-
 
     @Override
     public void onPrepareOptionsMenu (Menu menu) {
