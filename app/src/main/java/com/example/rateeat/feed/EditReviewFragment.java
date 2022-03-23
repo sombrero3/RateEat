@@ -139,24 +139,21 @@ public class EditReviewFragment extends Fragment {
             }
         }
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Model.instance.refreshReviewsList();
-        setReview();
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        Model.instance.refreshReviewsList();
+//        setReview();
+//    }
     private void openGallery() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent,REQUEST_GALLERY);
     }
-
     private void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -165,7 +162,6 @@ public class EditReviewFragment extends Fragment {
                 Bundle extras = data.getExtras();
                 imageBitmap = (Bitmap) extras.get("data");
                 image.setImageBitmap(imageBitmap);
-
             }
         }
         else if(requestCode==REQUEST_GALLERY){
@@ -175,7 +171,6 @@ public class EditReviewFragment extends Fragment {
                     final InputStream imageStream =getContext().getContentResolver().openInputStream(imageUri);
                     imageBitmap = BitmapFactory.decodeStream(imageStream);
                     image.setImageBitmap(imageBitmap);
-
                 }
                 catch (Exception e){
                     e.printStackTrace();
