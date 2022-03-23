@@ -96,6 +96,7 @@ public class UserReviewsFragment extends Fragment {
         nameTv.setOnClickListener((v)->{
             Navigation.findNavController(v).navigate(UserReviewsFragmentDirections.actionGlobalProfileFragment(userId));
         });
+
         setHasOptionsMenu(true);
         return view;
     }
