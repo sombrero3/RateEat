@@ -41,11 +41,12 @@ public class EditReviewFragment extends Fragment {
     Button postReviewBtn;
     ImageButton cameraBtn,galleryBtn;
     TextView locationTv, ratingTv;
-    ImageView image, star1, star2, star3, star4, star5;
+    ImageView image, star1, star2, star3, star4, star5,locationIv;
     ProgressBar prog;
     String reviewId;
     Review review;
     Bitmap imageBitmap;
+    String address,restaurantName;
     boolean flagStar1, flagStar2, flagStar3, flagStar4, flagStar5;
     static final int REQUEST_IMAGE_CAPTURE = 1,REQUEST_GALLERY =2;
     @Override
@@ -54,7 +55,8 @@ public class EditReviewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_edit_review, container, false);
         reviewId = EditReviewFragmentArgs.fromBundle(getArguments()).getReviewId();
-
+        address = EditReviewFragmentArgs.fromBundle(getArguments()).getLocation();
+        restaurantName = EditReviewFragmentArgs.fromBundle(getArguments()).getRestaurantName();
         prog = view.findViewById(R.id.review_edit_prog);
         prog.setVisibility(View.VISIBLE);
         postReviewBtn = view.findViewById(R.id.review_edit_postReview_btn);
@@ -63,6 +65,7 @@ public class EditReviewFragment extends Fragment {
         descriptionEt = view.findViewById(R.id.review_edit_description_et);
         image = view.findViewById(R.id.review_edit_img_iv);
         locationTv = view.findViewById(R.id.review_edit_location_tv);
+        locationIv = view.findViewById(R.id.review_edit_location_iv);
         ratingTv = view.findViewById(R.id.review_edit_rating_tv);
         cameraBtn = view.findViewById(R.id.review_edit_take_pic_ibtn);
         galleryBtn = view.findViewById(R.id.review_edit_gallery_ibtn);
@@ -81,6 +84,11 @@ public class EditReviewFragment extends Fragment {
 
             //Model.instance.updateReview()
         });
+
+        locationIv.setOnClickListener((v)->{
+            Navigation.findNavController(v).navigate(EditReviewFragmentDirections.actionEditReviewFragmentToMapFragment("edit "+reviewId));
+        });
+
         cameraBtn.setOnClickListener(v -> {
             openCamera();
         });
@@ -190,6 +198,14 @@ public class EditReviewFragment extends Fragment {
                     dishEt.setText(review.getDishName());
                     descriptionEt.setText(review.getDescription());
                     ratingTv.setText(review.getRating());
+                    if(!address.isEmpty()){
+                        locationTv.setText(address);
+                    }else if(review.getRestaurantAddress()!=null && !review.getRestaurantAddress().equals("")) {
+                        locationTv.setText(review.getRestaurantAddress());
+                    }
+                    if(!restaurantName.isEmpty()){
+                        restaurantEt.setText(restaurantName);
+                    }
                     setStarsOnClick();
                     image.setImageResource(R.drawable.falafel);
                     if (review.getImageUrl() != null) {

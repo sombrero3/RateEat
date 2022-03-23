@@ -23,6 +23,7 @@ public class Review {
     String description;
     String rating;
     String imageUrl;
+    String restaurantAddress;
     boolean isDeleted = false;
     Long updateDate = new Long(0);
 
@@ -130,6 +131,14 @@ public class Review {
         this.updateDate = updateDate;
     }
 
+    public String getRestaurantAddress() {
+        return restaurantAddress;
+    }
+
+    public void setRestaurantAddress(String restaurantAddress) {
+        this.restaurantAddress = restaurantAddress;
+    }
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
@@ -142,6 +151,7 @@ public class Review {
         result.put("imageUrl", imageUrl);
         result.put("deleted", isDeleted);
         result.put("latsUpdateDate", FieldValue.serverTimestamp());
+        result.put("restaurantAddress", restaurantAddress);
         return result;
     }
 
@@ -157,6 +167,7 @@ public class Review {
         isDeleted = (Boolean) map.get("deleted");
         Timestamp ts = (Timestamp) map.get("latsUpdateDate");
         updateDate = ts.getSeconds();
+        restaurantAddress = (String)map.get("restaurantAddress");
     }
 
 }

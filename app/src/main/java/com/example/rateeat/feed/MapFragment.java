@@ -32,7 +32,7 @@ public class MapFragment extends Fragment {
     List<Address> addressList=null;
     SearchView sv;
     Button btn;
-    String addressString;
+    String addressString,source;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class MapFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_map, container, false);
         //init map fragment
         SupportMapFragment supportMapFragment=(SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.google_map);
+        source = MapFragmentArgs.fromBundle(getArguments()).getSource();
         btn=view.findViewById(R.id.button);
         btn.setVisibility(View.INVISIBLE);
         addressString="";
@@ -63,7 +64,7 @@ public class MapFragment extends Fragment {
                             e.printStackTrace();
                         }
 
-                        if(addressList.isEmpty()){
+                        if(addressList==null || addressList.isEmpty()){
                             Toast.makeText(getContext(),"No location was found",Toast.LENGTH_LONG).show();
                         }else{
                         Address address=addressList.get(0);
@@ -80,7 +81,12 @@ public class MapFragment extends Fragment {
                         btn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Navigation.findNavController(v).navigate(MapFragmentDirections.actionMapFragmentToAddReviewFragment(addressString, query));
+                                if(source.equals("add")) {
+                                    Navigation.findNavController(v).navigate(MapFragmentDirections.actionMapFragmentToAddReviewFragment(addressString, query));
+                                }else{
+                                    String args[] = source.split(" ");
+                                    Navigation.findNavController(v).navigate(MapFragmentDirections.actionMapFragmentToEditReviewFragment(args[1],addressString,query));
+                                }
                             }
                         });
                         return false;
